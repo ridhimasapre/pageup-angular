@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+  <button class="btn btn-primary" routerLink="add" >Add Department</button></div>
+  <div class="col-md-6">
+    <input  type="text" placeholder="Search" [(ngModel)]="filterObj.search">
+    <button class="btn btn-primary ms-2 btn-sm" (click)="onSearch()">SEARCH</button>
+  </div>
+</div>
+</div>
+<div class="container mt-5 border">
+  <div class="row ">
+      <div class="d-flex justify-content-between bg-primary text-white fw-semibold ">
+        <div class="py-2 px-2 font-semibold col-md-2 ">ID</div>
+        <div class="py-2 px-2 font-semibold col-md-4"> NAME</div>
+        <div class="py-2 px-2 font-semibold col-md-2">ACTION</div>
+      </div>
+  </div>
+      <div *ngFor="let item of departmentList; let i = index" class="row">
+        <div class="d-flex justify-content-between border-bottom ">
+        <div class="px-2 font-semibold text-center col-md-1 text-start col-md-1">{{i+1}}</div>
+        <div class="px-2 font-semibold pt-2 col-md-3 ">{{item.name}}</div> 
+    <div class="col-md-3 text-center my-2">
+       <button class=" btn btn-danger btn-sm" (click)="delete(item.id)">DELETE</button>
+      </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="container mt-5 ">
+      <div class="row text-start">
+        <div class="col-md-6 ">
+      <label class="fs-6">Department per page:</label>
+        <!-- <select [(ngModel)]="filterObj.pagedItemsCount" (ngModelChange)="changePageSize(filterObj.pagedItemsCount)"> -->
+        <select [(ngModel)]="filterObj.pagedItemsCount" >
+        <option [value]="3">3</option>
+        <option [value]="20">20</option>
+        <option [value]="30">30</option>
+      </select>
+    </div>
+    <div class="col-md-6 text-end">
+      <div class="col-pagination">
+        <div class="btn-group" >
+          <a class="btn btn-primary btn-sm" (click)="onPrev()" [class.disabled]="filterObj.pageIndex <= 1">Prev</a>
+          <a class="btn btn-primary btn-sm ">{{filterObj.pageIndex}}</a>
+          <a class="btn btn-primary btn-sm notActive" (click)="onNext()">Next</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  

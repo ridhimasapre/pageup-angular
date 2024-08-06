@@ -1,0 +1,15 @@
+.container{
+    margin-left: 23rem;
+    margin-top: 10rem;
+}
+.todo-heading{
+    margin-left: 10rem;
+}
+.input-box{
+    display: flex;
+    flex-direction: row;
+
+}
+.table-heading{
+    margin-left: 3rem;
+}

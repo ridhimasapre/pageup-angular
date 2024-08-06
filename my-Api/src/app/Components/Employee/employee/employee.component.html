@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+    <button class="btn btn-primary" routerLink="/employee/add" >Add EMPLOYEE</button></div>
+    <div class="col-md-6">
+      <!-- <input  type="text" placeholder="Search" [(ngModel)]="searchQuery" (input)="findemployee()"> -->
+      <button class="btn btn-primary ms-2 btn-sm">SEARCH</button>
+    </div>
+  </div>
+  </div>
+  <div class="container mt-5 border">
+    <div class="row ">
+        <div class="d-flex justify-content-between bg-primary text-white fw-semibold ">
+          <div class="py-2 px-2 font-semibold col-md-1 ">ID</div>
+          <div class="py-2 px-2 font-semibold col-md-2 ">EMPLOYEE NAME</div>
+          <div class="py-2 px-2 font-semibold col-md-2">ROLE</div>
+          <div class="py-2 px-2 font-semibold col-md-2">ACTION</div>
+        </div>
+    </div>
+        <div *ngFor="let item of employeeList; let i = index" class="row">
+          <div class="d-flex justify-content-between border-bottom ">
+          <div class="px-2 font-semibold text-center  text-start col-md-1">{{i+1}}</div>
+          <div class="px-2 font-semibold pt-2 col-md-2 ">{{item.name}}</div> 
+          <div class="px-2 font-semibold pt-2 col-md-2 ">{{item.role}}</div> 
+      <div class="col-md-3 text-center my-2">
+         <button class=" btn btn-danger btn-sm" (click)="delete(item.id)">DELETE</button>
+         <button class=" btn btn-info btn-sm ms-2" [routerLink]="['/employee/edit']">UPDATE</button>
+        </div>
+        </div>
+      </div>
+      </div>
+      <!-- <div class="container">
+        <div class="row">
+          <mat-paginator pageSize="10" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
+      <ng-container matColumnDef="name">
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+      </ng-container> -->

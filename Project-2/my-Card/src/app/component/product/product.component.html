@@ -1,0 +1,28 @@
+
+<div class="container mt-5 border">
+  
+  <div class="row ">
+      <div class="d-flex justify-content-between bg-primary text-white fw-semibold ">
+        <div class="py-2 px-2 font-semibold col-md-2 ">ID</div>
+        <div class="py-2 px-2 font-semibold col-md-4">PRODUCT NAME</div>
+        <div class="py-2 px-2 font-semibold col-md-4">Brand NAME</div>
+        <div class="py-2 px-2 font-semibold col-md-2">ACTION</div>
+      </div>
+  </div>
+      <div *ngFor="let item of userlist; let i = index" class="row">
+        <div class="d-flex justify-content-between border-bottom ">
+        <div class="px-2 font-semibold text-center col-md-1 text-start col-md-1">{{i+1}}</div>
+        <div class="px-2 font-semibold pt-2 col-md-3 ">{{item.productname}}</div> 
+        <div class="px-2 font-semibold pt-2 col-md-2  ">{{item.brandname}}</div> 
+    <div class="col-md-3 text-center my-2">
+       <button class=" btn btn-danger btn-sm" (click)="deleteProduct(item.id)">DELETE</button>
+        <button class=" btn btn-outline-info btn-sm ms-3" [routerLink]="['/edit', item.id]">EDIT</button>
+      </div>
+      </div>
+    </div>
+    </div>
+    
+  <div class="container mt-5">
+    <button class="btn btn-primary" routerLink="edit">Add Product</button>
+  </div>
+  

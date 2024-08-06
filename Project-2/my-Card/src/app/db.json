@@ -1,0 +1,68 @@
+{
+  "category": [
+    {
+      "id": "8168",
+      "name": "phone",
+      "subCategory": [
+        {
+          "id": 0,
+          "name": "vivo"
+        }
+      ]
+    },
+    {
+      "id": "977d",
+      "name": "bottle",
+      "subCategory": [
+        {
+          "id": 0,
+          "name": "sipperthe"
+        }
+      ]
+    },
+    {
+      "id": "9999",
+      "name": "pen",
+      "subCategory": [
+        {
+          "id": 0,
+          "name": "dot"
+        }
+      ]
+    }
+  ],
+  "product": [
+    {
+      "productname": "Earbuds",
+      "cid": "1",
+      "brandname": "Boat",
+      "sellingprice": "2000",
+      "actualprice": "4000",
+      "id": "4a23"
+    },
+    {
+      "id": "1e19",
+      "productname": "hadphone",
+      "cid": "1",
+      "brandname": "noise",
+      "sellingprice": "2000",
+      "actualprice": "9000"
+    },
+    {
+      "id": "c8c9",
+      "productname": "phone",
+      "cid": "8168",
+      "brandname": "vivo",
+      "sellingprice": 2000,
+      "actualprice": 5000
+    },
+    {
+      "id": "67c0",
+      "productname": "laptop",
+      "cid": "8168",
+      "brandname": "vbvc",
+      "sellingprice": 676,
+      "actualprice": 576767
+    }
+  ]
+}

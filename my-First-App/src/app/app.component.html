@@ -1,0 +1,16 @@
+<!-- <p>hello everyone my name is {{name}}</p>
+<input type="text" [value] = age>
+<button (click)="onClick()">{{name}}</button> -->
+<div class="container">
+<h1 class="h">{{title}}</h1>
+<div class="box">
+    <input type="text" placeholder="Write todo" #todo> 
+    <button class="enter" (click)="addTask(todo.value)">Enter</button>
+    <ul *ngFor="let data of list">
+        <li>{{data.name}}<button (click)="removeTodo(data.id)">Remove</button></li>
+        <!-- <input type="text" > -->
+        <input type="radio">
+    </ul>
+</div>
+<!-- <app-first-component></app-first-component> -->
+</div>

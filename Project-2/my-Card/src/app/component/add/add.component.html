@@ -1,0 +1,27 @@
+
+<div class="container">
+    <form [formGroup]="myCategory">   
+        <div class="ms-4 pt-4 row"> 
+            <div class="col-6">
+             <input class="input-field"  type="text "  placeholder="Enter name" formControlName="name">    
+           <div formArrayName="subCategory">
+             <div *ngFor="let control of myCategory.controls.subCategory.controls; let i=index" [formGroup]="control">
+                 <input class="mt-3 ms-1" type="text" placeholder="subCategory" formControlName="name"><span>
+
+                 <button class="btn btn-danger ms-3 btn-sm" (click)="remove(i)">-</button></span>
+              
+             </div>
+          </div>
+          <button class="btn btn-success mt-3 btn-sm" (click)="addDetail()">Add</button>
+        </div>
+        <!-- data is {{isEdit}} -->
+        <div *ngIf="!isEdit">
+            <button class="btn btn-primary mt-3" (click)="addCategory()">Save</button>
+        </div>
+        <div *ngIf="isEdit">
+            <button class="btn btn-primary mt-3" (click)="update()">Update</button>
+        </div>
+        
+</div>
+    </form>
+    </div>

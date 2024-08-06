@@ -1,0 +1,18 @@
+
+<div class="container">
+    <form [formGroup]="myDepartmentForm" >   
+        <div class="ms-4 pt-4 row"> 
+            <div class="col-6">
+             <input class="input-field"  type="text "  placeholder="Enter name" formControlName="name">    
+             <!-- <div *ngIf="nameAlreadyExistsd" class="error-message">    Name already exists!</div> -->
+             <!-- <div class="text-danger fw-semibold" *ngIf="myDepartmentForm.get('name')?.invalid && myDepartmentForm.get('name')?.touched && myDepartmentForm.get('name')?.errors">Name is already exist</div> -->
+             <!-- <div *ngIf="myDepartmentForm.get('name')?.errors?.['required']">Name is required.</div> -->
+             <!-- <div class="text-danger fw-semibold" *ngIf="myDepartmentForm.get('name')?.errors?.['nameExist']">Name already exists.</div> -->
+
+        </div>
+        <div >
+            <button class="btn btn-primary mt-3" (click)="adddepartment()">Save</button>
+        </div>
+</div>
+    </form>
+    </div>

@@ -1,0 +1,36 @@
+<!-- <nav style="display: flex; flex-direction: row; justify-content: space-evenly; text-align: center;">
+  <a routerLink="">HOME</a>   
+   routerLink me jo path jiya hai humne app-routing me bo likhte hai
+  <a routerLink="about">ABOUT</a>
+  <a routerLink="service">SERVICE</a>
+</nav> -->
+<!-- <a routerLink="about/20">About Abc</a>
+<a routerLink="about/40">About xyz</a>
+<a routerLink="about/60">about pqr</a> -->
+
+<!-- <router-outlet></router-outlet> -->
+ <!-- router outlet se hum jo perticular page ke info dhikhti hai -->
+  
+  <div class="container">
+    <h3 class="head1">To Do List</h3>
+    <input type="text" [(ngModel)]="newTodo" placeholder="Enter todo">
+    <button class="add" (click)="addTodo()">Add</button>
+    <h3>To Do </h3>
+    <ul>
+      <li  *ngFor="let todo of todos; let i=index">
+        {{ todo.text }}
+        <div class="btn-1">
+        <button class="btn"  (click)="Done(i)">Done</button>
+        <button class="btn"  (click)="deleteTodo(i)">Delete</button>
+    </div>
+      </li>
+    </ul>
+    
+    <h3>Finished List</h3>
+    <ul>
+      <li *ngFor="let doneTodo of doneTodos; let i=index">
+        {{ doneTodo.text }}
+        <button class="btn-2" (click)="movebackTodo(i)" >Not Done</button>
+      </li>
+    </ul>
+  </div>

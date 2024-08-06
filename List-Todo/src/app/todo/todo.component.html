@@ -1,0 +1,39 @@
+<div class="container">
+    <div>
+        <h3 class="todo-heading">TODO LIST</h3>
+        <div class="input-box">
+        
+          <label>Title </label>
+          <input type="text" [(ngModel)]="newtodoData.title">
+          <label>Description </label>
+          <input type="text" [(ngModel)]="newtodoData.desciption">
+        <button (click)="add()"> Add</button>
+    </div>
+      </div>
+      
+      <h3>ToDo List</h3>
+      <div>
+      </div>
+      <table>
+        <thead>
+          <tr >
+            <th >Select</th>
+            <th class="table-heading">ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>  <button (click)="selectAll()">Select All</button></th>
+            <th> <button (click)="deleteAll()">Delete</button></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let todos of todo; let i = index">
+            <td><input type="checkbox" (click)="checked(todos.getId())" [(ngModel)]="todos.checked"></td>
+            <td (change)="(todos.setId(i+1))">{{ i+1 }}</td>
+            <td >{{ todos.getTitle() }}</td>
+            <td>{{ todos.getDesciption() }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <a routerLink="/todoselected">Selected</a>
+</div>
+

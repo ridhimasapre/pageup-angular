@@ -1,0 +1,65 @@
+ <!-- <nav style="display: flex; flex-direction: row; justify-content: space-evenly; text-align: center;"> -->
+    <!-- <a routerLink="todo">ToDO LIST</a>    -->
+     <!-- routerLink me jo path jiya hai humne app-routing me bo likhte hai -->
+    <!-- <a routerLink="about">ABOUT</a> -->
+    <!-- <a routerLink="todoSelected">SELECTED</a> -->
+     <!-- <a routerLink="login">LOGIN</a> -->
+      <!-- <a [routerLink]="['login']">login</a> -->
+    <!-- <a routerLink="register">REGISTER</a> -->
+  <!-- </nav>  -->
+
+
+  <nav class="navbar  bg-white fixed-top border border-dark" style="height: 5rem; ">
+    <a style="font-weight: 600; font-size: 25px; color:black; margin-left: 2rem; font-weight: 600; font-weight: 20px;">NAVBAR</a>
+     <!-- <img style="width: 4rem; height: 4rem;" src="/icons/logo.png" alt=""> -->
+    <!-- search bar -->
+    
+   <ul class="nav navbar-dark  " style="font-weight: 600; font-size: 17px;left: 1rem;">
+       <li class="nav-item ">
+         <!-- <a class="nav-link text-black nav-hover " aria-current="page" href="index.html">HOME</a> -->
+         <a class="nav-link text-black nav-hover " routerLink="todo">ToDO LIST</a>   
+
+       </li>
+       <li class="nav-item">
+         <!-- <a class="nav-link text-black nav-hover" href="/Pages/about.html">ABOUT US</a> -->
+         <a class="nav-link text-black nav-hover " aria-current="page" routerLink="register">REGISTER</a>
+
+       </li>
+       <li class="nav-item ">
+        <a class="nav-link text-black nav-hover"  routerLink="registered-data-info">USER</a>
+
+       </li>
+       <!-- <li class="nav-item">
+         <a class="nav-link text-black nav-hover" href="/Pages/service.html">SERVICE</a>
+       </li> -->
+       <li class="nav-item">
+        <a class="nav-link text-black nav-hover" routerLink="login">LOGIN</a>
+      </li>
+     </ul>
+     <nav class="navbar " >
+        <div class="container-fluid">
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+</nav>
+  <!-- <h4>list</h4>
+  <ul>
+  <li *ngFor="let user of userData"> {{user.id}} {{user.name}}</li>
+  </ul> -->
+
+
+
+  <!-- <h4>title and description</h4>
+  <div *ngfor="let item of todoItems">
+    <input type="checkbox" [checked]="item.completed" >
+    <span [ngClass]="{'completed': item.completed}">{{ item.title }}</span> 
+</div>  -->
+  
+  <!-- <router-outlet></router-outlet> -->
+   <router-outlet></router-outlet>
+   <!-- <app-registered-data-info></app-registered-data-info> -->
+   <!-- router outlet se hum jo perticular page ke info dhikhti hai --> 
+  

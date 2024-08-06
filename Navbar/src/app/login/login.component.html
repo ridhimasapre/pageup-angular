@@ -1,0 +1,17 @@
+<div style="margin-top: 7rem;">
+<h3>LOGIN</h3>
+
+<!-- {{userlist|json}} -->
+<ul>
+    <li *ngFor="let user of userlist">
+        {{user.name}} {{user.surname}}  
+        <button style="margin-left: 1rem;" (click)="deleteName(user.id)">Delete</button>
+        <button style="margin-left: 2rem;" (click)="upDateName(user.id)">EDIT</button>
+    </li>
+</ul>
+
+<h4>Post method</h4>
+<button (click)="addName()">add</button>
+<!-- <button (click)="deleteName('35d3')">Delete</button> -->
+<!-- <button (click)="upDateName('sristi')">Update</button> -->
+</div>
