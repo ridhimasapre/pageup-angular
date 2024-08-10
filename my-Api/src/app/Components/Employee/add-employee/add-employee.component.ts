@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Employee ,EmployeeRole} from '../../../Interface/Employee';
+import { Employee ,EmployeeResponse,EmployeeRole} from '../../../Interface/Employee';
 import { EmployeeService } from '../../../Service/employee/employee.service';
 import { DepartmentServiceService } from '../../../Service/department-service.service';
 import { department,departmentResponse } from '../../../Interface/Department';
-import { EmployeeDeleteResponse,EmployeeForm,AddEmployeeRequest,AddEmployeeResponse} from '../../../Interface/Employee';
+import { EmployeeDeleteResponse,EmployeeForm,AddEmployeeRequest,EmployeeResponseById,AddEmployeeResponse} from '../../../Interface/Employee';
 import { Router ,ActivatedRoute} from '@angular/router';
 import { FormGroup,FormControl,Validators,AbstractControl,ValidationErrors } from '@angular/forms';
 
@@ -14,110 +14,173 @@ import { FormGroup,FormControl,Validators,AbstractControl,ValidationErrors } fro
 })
 
 export class AddEmployeeComponent implements OnInit{
-  public EmployeeData:Employee[]=[];
-  // public DepartmentData:department[]=[];
-  public departmentList: department[]=[]; //list for dropdown
-  public adminNameList: department[]=[];
+  public departmentList: department[]=[]; 
   public employeeList:Employee[]=[];
+  public filterdEmployeeList:Employee[]=[];
   public isEdit=  false;
   public paramId!:number;
   public myEmployeeForm: FormGroup<EmployeeForm> = this.createForm();
-// public employeeuser:AddEmployeeRequest={
-//   name: '',
-//   salary: 0,
-//   departmentId:0,
-//   managerId: 0,
-//   role: 0
 
-// }
 
 constructor(private employeeService:EmployeeService,private router:Router,private activatedRoute:ActivatedRoute,private deparmentService:DepartmentServiceService){}
 ngOnInit(): void {
-  this.activatedRoute.paramMap.subscribe(paramMap => {
-    console.log(paramMap);
-    this.paramId = Number(paramMap.get('id'));
+  // this.activatedRoute.paramMap.subscribe(paramMap => {
+  //   console.log(paramMap);
+  //   this.paramId = Number(paramMap.get('id'));
+  //   if(this.paramId){
+  //     this.isEdit = true;
+  //     // this.getId();
+  //     this.getEmployeeById(this.paramId);
+  //   }
+  // });
+  this.getParamId();
+  this.getDepartment();
+  // this.getEmployeeById(this.paramId)
+
+}
+public getParamId():void{
+  this.activatedRoute.paramMap.subscribe(param=>{
+    this.paramId=Number(param.get('id'))??'';
     if(this.paramId){
-      this.isEdit = true;
-      // this.getId();
+      this.isEdit=true;
+      this.getEmployeeById()
+      // this.getEmployeeById(this.paramId)
+      // this.getEmployeeByDepartment()
     }
-  });
+  })
 }
 
 public createForm() {
   return new FormGroup<EmployeeForm>({
-    name: new FormControl('', [Validators.required]),
-    salary: new FormControl(null, [Validators.required]),
-    departmentId: new FormControl(null),
-    departmentName:new FormControl(null),
-    managerName:new FormControl(null),
-    managerId: new FormControl(null),
-    role: new FormControl(null),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl(null, [Validators.required]),
+    name: new FormControl('',[Validators.required]),
+    salary:new FormControl(null,[Validators.required]),
+    departmentId:new FormControl(null,[Validators.required]),
+    adminId: new FormControl(null,[Validators.required]),
+    role: new FormControl(null,[Validators.required]),
   });
 }
 
-// public addEmployee():void {
-  
-//   // const {name}=this.myEmployeeForm.value
-//     const productExists = this.employeeList.some(employee => 
-//       (employee.name ?? '').toLowerCase() === (this.myEmployeeForm.value.name??'').toLowerCase()
-//     );
+public addEmployee(): void {
+  console.log(this.myEmployeeForm.value)
+  if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.myEmployeeForm.value.username
+    && this.myEmployeeForm.value.password)
+  {
+     const body = {
+      username: this.myEmployeeForm.value.username,
+      password: this.myEmployeeForm.value.password,
+      name: this.myEmployeeForm.value.name,
+      salary: this.myEmployeeForm.value.salary,
+      departmentId: this.myEmployeeForm.value.departmentId,
+      adminId: this.myEmployeeForm.value.adminId,
+      role: this.myEmployeeForm.value.role
+    };
+
+    const EmployeeExists = this.employeeList.some(employee => (employee.name ?? ''));
+  if (EmployeeExists) {
+    alert("Name already exists.");
+    this.myEmployeeForm.reset();
+    return;
+  }
+    if (this.myEmployeeForm.valid) {
+      this.employeeService.AddEmployee(body).subscribe({
+        next: (data: AddEmployeeResponse) => {
+          this.router.navigateByUrl("/employee");
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          alert("Failed to add employee.");
+        }
+      });
+    } 
+  }
+}
+
+public getDepartment():void{
+  this.deparmentService.getDepartmentList().subscribe((res=>{
+    this.departmentList=res.data
+    console.log("department",res);
     
-//     if (productExists) {
-//       alert("Product name already exists.");
-//       return; // duplicate is found api is not called
-//     }
+  }))
+}
+public getEmployeeByDepartment(id: number): void {
+  this.employeeService.getEmployeesByDepartment(id).subscribe((data=>{
+    this.employeeList=data.data
+    console.log("admin ka data",data);
+  }))
+}
+public onDepartmentChange(): void {
+  const departmentId = this.myEmployeeForm.get('departmentId')?.value;
+  if (departmentId) {
+    this.getEmployeeByDepartment(departmentId);
+  } else {
+    this.filterdEmployeeList = [];
+  }
+}
 
-//   if(this.myEmployeeForm.valid){
-//     console.log(this.myEmployeeForm.value);
-//     this.employeeService.AddEmployee().subscribe({
-//       next:(data)=>{
-//         this.router.navigateByUrl("/employee")
-//       }
-//   })
-    
-// public addEmployee(): void {
-//   const employeeExists = this.employeeList.some(employee => 
-//     (employee.name ?? '').toLowerCase() === (this.myEmployeeForm.value.name ?? '').toLowerCase()
-//   );
-  
-//   if (employeeExists) {
-//     alert("Employee name already exists.");
-//     return; 
-//   }
-
-//   if (this.myEmployeeForm.valid) {
-//     console.log(this.myEmployeeForm.value);
-
-//     this.employeeService.AddEmployee(this.EmployeeData.value).subscribe({
-//       next: (data: AddEmployeeResponse) => {
-//         console.log(data);
-//         this.router.navigateByUrl("/employee");
-//       },
-//       error: (err) => {
-//         console.error('Error adding employee:', err);
-//         alert("Failed to add employee.");
-//       }
+public updateEmployee(): void {
+  if (this.myEmployeeForm.valid) {
+    this.employeeService.updatedEmployee(this.myEmployeeForm.value, this.paramId).subscribe({
+      next: () => {
+        // alert("Employee is updated successfully.");
+        this.router.navigateByUrl('/employee');
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        alert("Failed to update employee.");
+      }
+    });
+  } else {
+    alert("Form is not valid.");
+  }
+}
+public getEmployeeById(): void {
+  this.employeeService.EmployeeById((this.paramId)).subscribe((res: EmployeeResponseById) => {
+    const employeeData = res.data;
+    if (employeeData.departmentId) {
+      this.employeeService.getEmployeesByDepartment(employeeData.departmentId).subscribe((res: EmployeeResponse) => {
+        this.employeeList = res.data;
+        this.myEmployeeForm.patchValue({
+          username: null,
+          password: null,
+          name: employeeData.name,
+          salary: employeeData.salary,
+          departmentId: employeeData.departmentId,
+          adminId: employeeData.adminId,
+          role: employeeData.role
+        });
+      });      
+    }
+  });
+}
+}
+// public getEmployeeById(id: number): void {
+//   this.employeeService.EmployeeById(this.paramId).subscribe((data:EmployeeResponseById )=>{
+//     this.employeeList=data.data
+//     this.myEmployeeForm.patchValue({
+//       username: null,
+//       password: null,
+//       name: data.name,
+//       salary: data.salary,
+//       departmentId: data.departmentId,
+//       adminId: data.adminId,
+//       role: data.role,
 //     });
-//   } else {
-//     alert("Form is not valid.");
-//   }
-// }
-    // this.employeeService.AddEmployee(this.myEmployeeForm).subscribe({
-    //   next: (data) => {
-    //     console.log(data)
-    //     this.router.navigateByUrl("/employee");
-    //   }
-    // })
-  
+// console.log("data is",data);
 
- public updateEmployee():void{
-  this.employeeService.updatedEmployee(this.myEmployeeForm.value,this.paramId).subscribe(()=>{
+//   })
+// }
+
+
+//  public updateEmployee():void{
+//   this.employeeService.updatedEmployee(this.myEmployeeForm.value,this.paramId).subscribe(()=>{
     
-    alert("Your Product is Updated");
-    // this.myProduct.reset();
-  });
-  this.router.navigateByUrl('/product');
-}
+//     alert("Your Product is Updated");
+//     // this.myProduct.reset();
+//   });
+//   this.router.navigateByUrl('/product');
+//  }
 // public getId( id:string | null):void{
 //   this.employeeService.EmployeeById(this.paramId).subscribe((data =>{
 //     this.employeeuser=data;
@@ -137,5 +200,4 @@ public createForm() {
 
 
 
-}
 

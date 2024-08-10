@@ -1,53 +1,61 @@
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-6">
-  <button class="btn btn-primary" routerLink="add" >Add Department</button></div>
-  <div class="col-md-6">
-    <input  type="text" placeholder="Search" [(ngModel)]="filterObj.search">
-    <button class="btn btn-primary ms-2 btn-sm" (click)="onSearch()">SEARCH</button>
-  </div>
-</div>
-</div>
-<div class="container mt-5 border">
-  <div class="row ">
-      <div class="d-flex justify-content-between bg-primary text-white fw-semibold ">
-        <div class="py-2 px-2 font-semibold col-md-2 ">ID</div>
-        <div class="py-2 px-2 font-semibold col-md-4"> NAME</div>
-        <div class="py-2 px-2 font-semibold col-md-2">ACTION</div>
-      </div>
-  </div>
-      <div *ngFor="let item of departmentList; let i = index" class="row">
-        <div class="d-flex justify-content-between border-bottom ">
-        <div class="px-2 font-semibold text-center col-md-1 text-start col-md-1">{{i+1}}</div>
-        <div class="px-2 font-semibold pt-2 col-md-3 ">{{item.name}}</div> 
-    <div class="col-md-3 text-center my-2">
-       <button class=" btn btn-danger btn-sm" (click)="delete(item.id)">DELETE</button>
-      </div>
-      </div>
-    </div>
-    </div>
 
-    <div class="container mt-5 ">
-      <div class="row text-start">
-        <div class="col-md-6 ">
-      <label class="fs-6">Department per page:</label>
-        <!-- <select [(ngModel)]="filterObj.pagedItemsCount" (ngModelChange)="changePageSize(filterObj.pagedItemsCount)"> -->
-        <select [(ngModel)]="filterObj.pagedItemsCount" >
-        <option [value]="3">3</option>
-        <option [value]="20">20</option>
-        <option [value]="30">30</option>
-      </select>
-    </div>
-    <div class="col-md-6 text-end">
-      <div class="col-pagination">
-        <div class="btn-group" >
-          <a class="btn btn-primary btn-sm" (click)="onPrev()" [class.disabled]="filterObj.pageIndex <= 1">Prev</a>
-          <a class="btn btn-primary btn-sm ">{{filterObj.pageIndex}}</a>
-          <a class="btn btn-primary btn-sm notActive" (click)="onNext()">Next</a>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <button class="btn btn-primary" routerLink="add">Add Department</button>
+        </div>
+        <div class="col-md-6">
+          <input type="text" placeholder="Search" [(ngModel)]="filterObj.filterQuery">
+          <button class="btn btn-primary ms-2 btn-sm" (click)="onSearch()">SEARCH</button>
         </div>
       </div>
     </div>
-  </div>
-  </div>
-  
-  
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12">
+          <table   class="table table-bordered">
+            <thead class="bg-primary text-white fw-semibold">
+              <tr>
+                <th class="col-md-2">ID</th>
+                <th class="col-md-4 "  (click)="sortDep('name')">NAME <i class="mdi mdi-menu-up"></i></th>
+                <th class="col-md-4" (click)="sortDep('createdOn')">CREATED ON <i class=" mdi mdi-menu-up"></i></th>
+                <th class="col-md-2">ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of departmentList; let i = index">
+                <td class="text-center">{{ getGlobalIndex(i) }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.createdOn }}</td>
+                <td class="text-center">
+                  
+                  <button class="btn btn-danger btn-sm" (click)="delete(item.id)">DELETE</button>
+                  <button class="btn btn-primary btn-sm ms-2" [routerLink]="['/add', item.id]">UPDATE</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-6">
+          <mat-paginator [length]="totalEntriesCount" [pageSize]="filterObj.pageSize"
+                         [pageSizeOptions]="[5, 10, 15, 20]" aria-label="Select page" 
+                         (page)="onPageEvent($event)">
+          </mat-paginator>
+        </div>
+        <div class="col-md-6 text-end mb-5">
+          <input type="number" min="1" [max]="getMaxPage()" [(ngModel)]="pageInput" placeholder="page" class="form-control d-inline-block  w-auto me-2">
+          <button class="btn btn-primary " (click)="goToPage()">GO</button>
+          <div *ngIf="errorMsg" class="error-message text-danger">
+            {{ errorMsg }}
+          </div>
+        </div>
+        
+      </div>
+      </div>
+    <!-- </div> -->
+    

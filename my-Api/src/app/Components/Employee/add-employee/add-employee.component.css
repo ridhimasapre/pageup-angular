@@ -1,0 +1,16 @@
+.form-div{
+    width: 30rem;
+    height: 30rem;
+    background: whitesmoke;
+    margin-left: 30rem;
+    border-radius: 20px;
+}
+.username{
+    padding-top: 2rem;
+
+}
+.form-div input{
+    width: 10rem;
+    height: 33px;
+    border-radius: 5px;
+}

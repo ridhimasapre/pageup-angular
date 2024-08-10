@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DepartmentServiceService } from '../../../Service/department-service.service';
 import { FormGroup,FormControl,Validators,AbstractControl,ValidationErrors } from '@angular/forms';
-import { department, departmentForm, DepartmentRequest } from '../../../Interface/Department';
-import { Router } from '@angular/router';
+import { department, departmentForm, DepartmentRequest, departmentResponse } from '../../../Interface/Department';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Employee, EmployeeResponse } from '../../../Interface/Employee';
 
 @Component({
   selector: 'app-add',
@@ -11,92 +12,103 @@ import { Router } from '@angular/router';
 })
 export class AddComponent implements OnInit {
   public myDepartmentForm: FormGroup<departmentForm> = this.createForm();
-  public UserData: department[] = [];
+  public UserData: Employee[] = [];
+  public isEdit=  false;
+  public paramId!:number;
+  public  updatedData:department={
+    id:0,
+    name:'',
+    createdBy:0,
+    updatedBy:0,
+    createdOn:'',
+    updatedOn:'',
+    isActive:true,
+    totalEntriesCount:0,
+   }
+  constructor(private departmentService: DepartmentServiceService,private router:Router,private activatedroute:ActivatedRoute) {}
 
-  constructor(private departmentService: DepartmentServiceService,private router:Router) {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getParamId()
+    // this.getId(this.paramId);
+  }
 
   public createForm(): FormGroup<departmentForm> {
     return new FormGroup<departmentForm>({
       name: new FormControl(null, [Validators.required]),
     });
   }
-  // public adddepart(): void {
-
-  //   const depratmentReq: DepartmentRequest = {
-  //     name: this.myDepartmentForm.controls.name.value as string
-  //   }
-  //   this.departmentService.AddDepartment(depratmentReq).subscribe({
-  //     next: () => this.router.navigateByUrl("/department"),
-  //     error: (err) => console.error(err)
-  //   });
-  // }
-  // public adddepat():void {
-  //   if (this.myDepartmentForm.valid) {
-  
-  //     // Check if the product name already exists
-  //     const productExists = this.UserData.some(employee => 
-  //       (employee.name ?? '').toLowerCase() === (this.myDepartmentForm.value.name??'').toLowerCase()
-  //     );
-      
-  //     if (productExists) {
-  //       alert("Product name already exists");
-  //       return; // duplicate is found api is not called
-  //     }
-  
-  //   if(this.myDepartmentForm.valid){
-  //     this.departmentService.AddDepartment(this.UserData.values).subscribe({
-  //       next: (data) => {
-  //         console.log(data)
-  //         this.router.navigateByUrl("/department");
-  //       }
-  //     })
-  //   }
-  // }
-  
-  //  }
+  private getParamId(): void {
+    this.activatedroute.paramMap.subscribe(paramMap => {
+      this.paramId = Number(paramMap.get('id'));
+      if (this.paramId) {
+        this.isEdit = true;
+        this.getId(this.paramId);
+      }
+    });
+  }
   public adddepartment(): void {
     const { name } = this.myDepartmentForm.value;
   
     if (!name) {
-      alert("Category name is required.");
+      alert(" name is required.");
       return;
     }
   
-    const departmentExists = this.UserData.some(category => (category.name ?? '').toLowerCase() === name.toLowerCase());
+    const departmentExists = this.UserData.some(category => (category.name ?? ''));
+    console.log(this.UserData)
   
     if (departmentExists) {
       alert("Department name already exists.");
       this.myDepartmentForm.reset();
+    console.log(this.UserData)
       return;
     }
     this.departmentService.AddDepartment({ name}).subscribe({
       next: (data) => {
         console.log(data);
         this.router.navigateByUrl("/department");
+        // if(){
+        //   alert("already exist")
+        //   this.myDepartmentForm.reset();
+        // }
       }
     });
   }
-  
-  // public adddepart(): void {
-  //   const { name } = this.myDepartment.value;
-  
-  //   if (!name) {
-  //     alert("Category name is required.");
-  //     return;
-  //   }
-  //   if (name) {
-  //     alert("Category name already exists.");
-  //     this.myDepartment.reset();
-  //     return;
-  //   }
-  
-  //   this.departmentService.adddepartment({ name}).subscribe({
-  //     next: (data) => {
-  //       console.log(data);
-  //       this.router.navigateByUrl("/department");
-  //     },
-  //   });
-  // }
+  public updateDepartment(): void {
+    if (this.myDepartmentForm.valid) {
+      // const { name } = this.myDepartmentForm.value;
+
+      this.departmentService.updateDepartment(this.paramId,this.UserData).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.router.navigateByUrl("/department");
+        },
+        error: (err) => {
+          console.error('Error:', err);
+          alert("Failed to update department.");
+        }
+      });
+    } else {
+      alert("Form is not valid.");
+    }
+  }
+  // public getDepartmentById(id:number):void{
+  //   this.departmentService.getDepartmentById(id).subscribe((data =>{
+  //     // this.UserData=this.UserData;
+  //     this.myDepartmentForm.patchValue({
+  //       name:this.myDepartmentForm.name,
+  //     })
+  //     console.log("data is",data)
+  //     // console.log("data is",this.UserData)
+  //   }))
+  //  }
+  public getId(id:number ):void{
+    this.departmentService.getDepartmentById(id).subscribe((data =>{
+      this.myDepartmentForm.patchValue({
+        name:this.updatedData.name,
+      })
+      console.log("data is",data)
+      console.log("data is",this.updatedData)
+    }))
+   }
 }

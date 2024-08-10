@@ -8,6 +8,7 @@ export interface department{
     createdOn:string,
     updatedOn:string | null,
     isActive:boolean
+    totalEntriesCount:number,
 }
 export interface departmentResponse{
     success:boolean,
@@ -43,35 +44,37 @@ export interface departmentForm{
       message: string |null,
       data: boolean,
     }
-    // export interface DepartmentPagenatorRequest{
-    //     sortBy : string,
-    //     isAscending: boolean,
-    //     pageNumber: number,
-    //     pageSize: number,
+    export interface DepartmentPagenatorRequest{
+      filterOn:string,
+      filterQuery:string,
+        sortBy : string,
+        isAscending: boolean,
+        pageNumber: number,
+        pageSize: number,
     
-    // }
-    // export interface DepartmentPagenatorResponse{
-    //   success:boolean,
-    //   message:string,
-    //   totalEntriesCount:number,
-    //   data:department[];
-    // }
+    }
+    export interface DepartmentPagenatorResponse{
+      success:boolean,
+      message:string,
+      totalEntriesCount:number,
+      data:department[];
+    }
 
- export interface DepartmentPagenatorRequest{
-  pageIndex: number,
-  pagedItemsCount: number,
-  orderKey: string,
-  sortedOrder: number,
-  search: string,
- }
- export interface DepartmentPagenatorResponse{
-    success:boolean,
-    message:string,
-    status:number
-    data:pages;
-  }
-export interface pages{
-  data:department[];
-  totalPages: number,
-  totalItems: number
-}
+//  export interface DepartmentPagenatorRequest{
+//   pageIndex: number,
+//   pagedItemsCount: number,
+//   orderKey: string,
+//   sortedOrder: number,
+//   search: string,
+//  }
+//  export interface DepartmentPagenatorResponse{
+//     success:boolean,
+//     message:string,
+//     status:number
+//     data:pages;
+//   }
+// export interface pages{
+//   data:department[];
+//   totalPages: number,
+//   totalItems: number
+// }

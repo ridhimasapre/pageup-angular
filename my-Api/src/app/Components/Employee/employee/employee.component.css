@@ -1,0 +1,18 @@
+body{
+    margin: 0px;
+    padding: 0px;
+}
+.magnify{
+    font-size: 20px;
+    /* color: red; */
+}
+.search-btn{
+    width: 4rem;
+    border-radius: 10px;
+}
+.input-field {
+    width: 13rem;
+    height: 35px;
+    border-radius: 5px;
+    border: 2px solid skyblue;
+}

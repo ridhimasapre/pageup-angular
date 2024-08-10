@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, input, OnInit, viewChild} from '@angular/core';
 import { department, DepartmentPagenatorRequest, DepartmentPagenatorResponse, DepartmentRequest,departmentResponse } from '../../../Interface/Department';
 import { DepartmentServiceService } from '../../../Service/department-service.service';
 import { HttpClient } from '@angular/common/http';
@@ -8,36 +8,47 @@ import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
+import { MatSort,MatSortable } from '@angular/material/sort';
 import { HttpHeaders } from '@angular/common/http';
 import { AddComponent } from '../add/add.component';
-
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+// import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-department',
   templateUrl: './department.component.html',
   styleUrl: './department.component.css'
 })
 export class DepartmentComponent implements OnInit{
+  // @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!:MatPaginator;
   constructor(private departmentservice:DepartmentServiceService,private httpclient:HttpClient,private deleteservice:DeleteServiceService){}
 
   public departmentList:department[]=[];
   public departmentNotFound:string='';
-  public searchQuery:string=''
+  public pageInput: number=1;
+  public errorMsg:string='';
+ 
+  // public updatedData:department={}
+  // public searchQuery:string=''
 
-  // filterObj ={
-  //   'sortBy' : '',
-  //   'isAscending': true,
-  //   'pageNumber': 1,
-  //   'pageSize': 10
-  // }
-  filterObj ={
-    
-  "pageIndex": 1,
-  "pagedItemsCount": 3,
-  "orderKey": "",
-  "sortedOrder": 0,
-  "search": ""
+  public filterObj ={
+    filterOn:'',
+    filterQuery:'',
+    sortBy : '',
+    isAscending: true,
+    pageNumber: 1,
+    pageSize: 10
   }
+ public  totalEntriesCount:number=11;
+  // filterObj ={
+    
+  // "pageIndex": 1,
+  // "pagedItemsCount": 3,
+  // "orderKey": "",
+  // "sortedOrder": 0,
+  // "search": ""
+  // }
 ngOnInit(): void {
   // this. getDepartments();
   this.getPagenation();
@@ -64,6 +75,7 @@ ngOnInit(): void {
           if (id !== null && id !== undefined) {
             this.departmentservice.deleteDepartment(id).subscribe(() => {
               console.log("deleted");
+              this.totalEntriesCount--;
               this.getPagenation();
             });
           } else {
@@ -72,15 +84,21 @@ ngOnInit(): void {
         }
       });
     }
-
     public getPagenation():void{
    
       this.departmentservice.PaginationDepartment(this.filterObj).subscribe({
         next:(res:DepartmentPagenatorResponse)=>{
-          this.departmentList = res.data.data;
+          this.departmentList = res.data;
+          // this.totalEntriesCount=res.totalEntriesCount;
+          this.paginator.length=this.totalEntriesCount;
+            if (this.paginator) {
+          this.paginator.length = this.totalEntriesCount;
+        }
           if (this.departmentList.length === 0) {
             this.departmentNotFound = 'department is not found'; 
             alert(this.departmentNotFound); 
+            this.filterObj.filterQuery=''
+            this.getPagenation();
           } 
           console.log(res.data);
         }
@@ -89,24 +107,58 @@ ngOnInit(): void {
     
    
     public changePageSize(newSize: number): void {
-      this.filterObj.pagedItemsCount = newSize;
-      // this.filterObj.pageIndex = 1; 
+      this.filterObj.pageSize = newSize;
       this.getPagenation();
-    }
-    public onPrev():void{
-      if (this.filterObj.pageIndex > 1) {
-      this.filterObj.pagedItemsCount --;
-      this.getPagenation();
-
-    }
-  }
-    public onNext():void{
-      this.filterObj.pageIndex++;
-        this.getPagenation();
     }
     public onSearch(): void {
-      this.filterObj.pageIndex = 1; //reset
+      this.filterObj.filterQuery = this.filterObj.filterQuery.trim();
+      this.filterObj.pageNumber = 1;
+      // this.filterObj.pageSize = 10;
       this.getPagenation();
-  
      }
+     public onPageEvent(event: PageEvent): void {
+      this.filterObj.pageSize = event.pageSize;
+      this.filterObj.pageNumber = event.pageIndex+1;
+      this.getPagenation();
+      console.log("pages",event)
+    }
+    
+public sortDep(sortBy: string): void {
+  if (this.filterObj.sortBy === sortBy) {
+    this.filterObj.isAscending = !this.filterObj.isAscending;
+    this.getPagenation();
+  } else {
+    this.filterObj.sortBy = sortBy;
+    this.filterObj.isAscending = true;
+    
+    this.getPagenation();
+  }
+}
+//jump on the particular page
+public goToPage(): void {
+  const maxPage=this.getMaxPage()
+  if (this.pageInput && this.pageInput > 0 && this.pageInput <= this.getMaxPage()) {
+    const event: PageEvent = {
+      pageIndex: this.pageInput - 1,
+      pageSize: this.filterObj.pageSize,
+      length: this.totalEntriesCount
+    };
+    this.onPageEvent(event);
+    // this.filterObj.pageNumber=this.pageInput
+    this.getPagenation();
+    this.errorMsg=''
+  }else{
+    this.errorMsg=`page number ${this.pageInput} does not exist`
+    this.pageInput=1;
+    // this.errorMsg='';
+  }
+}
+
+getMaxPage(): number {
+  return Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
+}
+//index no in continuous manner
+public getGlobalIndex(index: number): number {
+   return(this.filterObj.pageNumber - 1) * this.filterObj.pageSize + index + 1;
+}
 }

@@ -9,13 +9,13 @@ export interface Employee {
   id: number | null,
   name: string | null,
   departmentName: string | null, 
-  managerName: string | null,
+  // managerName: string | null,
   role: EmployeeRole,
   salary: number,
   adminName:string,
   adminId:number,
   departmentId: number | null,
-    managerId: number | null,
+    // managerId: number | null,
     isActive:boolean
 }
 
@@ -25,36 +25,67 @@ export interface EmployeeResponse {
   message: string;
   data: Employee[];
 }
-
-export interface GetEmployeeResponseById {
+export interface EmployeeResponseById {
   success: boolean;
   status: number; 
   message: string;
   data: Employee;
 }
+// export interface GetEmployeeResponseById {
+//   success: boolean;
+//   status: number; 
+//   message: string;
+//   data: Employee;
+// }
 
-export interface EmployeeForm {
+// export interface EmployeeForm {
+//   name: FormControl<string |null>;
+//   salary: FormControl<number |null>;
+//   departmentName: FormControl<string|null>;
+//   managerName: FormControl<string |null>;
+//   departmentId: FormControl<number|null>;
+//   managerId: FormControl<number|null>;
+//   role: FormControl<EmployeeRole|null>;
+// } 
+export interface EmployeeForm{
+  username:FormControl<string|null>,
+  password: FormControl<string |null>;
   name: FormControl<string |null>;
   salary: FormControl<number |null>;
-  departmentName: FormControl<string|null>;
-  managerName: FormControl<string |null>;
-  departmentId: FormControl<number|null>;
-  managerId: FormControl<number|null>;
-  role: FormControl<EmployeeRole|null>;
-} 
+  departmentId?: FormControl<number |null>;
+  adminId?: FormControl<number |null>;
+  role?: FormControl<EmployeeRole |null>;
+}
 export enum EmployeeRole {
   Employee = 0,
-  Admin,
-  SuperAdmi,
+  Admin=1,
+  SuperAdmi=2,
 }
+// export interface AddEmployeeRequest{
+//   name: string,
+//   salary: number,
+//   departmentId: number|null,
+//   departmentName:string|null,
+//   managerId: number|null,
+//   managerName:string|null,
+//   role: number
+// }
 export interface AddEmployeeRequest{
-  name: string,
-  salary: number,
-  departmentId: number|null,
-  departmentName:string|null,
-  managerId: number|null,
-  managerName:string|null,
-  role: number
+  username: string | null ,
+  password: string | null ,
+  name: string | null ,
+  salary: number | null ,
+  departmentId: number | null | undefined,
+  adminId: number | null | undefined,
+  role: number | null | undefined,
+}
+
+export interface AddEmployeeResponse{
+  success: boolean,
+  // status: number,
+  message: string,
+  data: number,
+  totalEntriesCount:number
 }
 export interface EmployeeDeleteResponse {
   success: boolean;
@@ -67,7 +98,7 @@ export interface UpdatedEmployeeResponse{
   success: boolean,
   status: number,
   message: string,
-  data: Employee;
+  data: number;
 }
 
 export interface UpdateEmployeeRequest{
@@ -76,24 +107,19 @@ export interface UpdateEmployeeRequest{
   name: string,
   salary: number,
   departmentId: number|null,
-  managerId: number|null,
+  adminId: number|null,
   role: number
 }
 
-export interface AddEmployeeResponse{
-  success: boolean,
-  status: number,
-  message: string,
-  data: number
-}
+
 
 export interface EmployeePagenatorRequest{
   filterOn:string,
   filterQuery:string,
   sortBy : string,
-  isAscending: true,
-  pageNumber: 0,
-  pageSize: 0,
+  isAscending: boolean,
+  pageNumber: number,
+  pageSize: number,
 
 }
 export interface EmployeePagenatorResponse{
@@ -101,10 +127,4 @@ export interface EmployeePagenatorResponse{
   message:string,
   totalEntriesCount:number,
   data:Employee[];
-}
-export interface EmployeeResponseById {
-  success: boolean;
-  status: number; 
-  message: string;
-  data: Employee;
 }
