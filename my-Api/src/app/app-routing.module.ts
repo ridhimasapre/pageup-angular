@@ -5,8 +5,10 @@ import { AddComponent } from './Components/Department/add/add.component';
 import { EmployeeComponent } from './Components/Employee/employee/employee.component';
 import { AddEmployeeComponent } from './Components/Employee/add-employee/add-employee.component';
 import { ProjectComponent } from './Components/Project/project/project.component';
-// import { DeleteComponent } from './Components/Employee/Delete/delete/employeedelete.component';
-
+import { AddProjectComponent } from './Components/Project/add-project/add-project.component';
+import { AppComponent } from './app.component';
+import { TaskComponent } from './Components/Task/task/task.component';
+import { AddTaskComponent } from './Components/Task/add-task/add-task.component';
 const routes: Routes = [
   {path:'',component:DepartmentComponent},
   {path:'department' ,component:DepartmentComponent},
@@ -15,7 +17,12 @@ const routes: Routes = [
   {path:'employee',component:EmployeeComponent},
   {path:'employee/add',component:AddEmployeeComponent},
   {path:'employee/edit/:id',component:AddEmployeeComponent},
-  {path:'project',component:ProjectComponent}
+  {path:'project',component:ProjectComponent},
+  {path:'project/add',component:AddProjectComponent},
+  {path:'project/edit/:id',component:AddProjectComponent},
+  {path:'task',component:TaskComponent},
+  {path:"task/add",component:AddTaskComponent},
+  {path:'task/edit/:id',component:AddTaskComponent}
 ];
 
 @NgModule({

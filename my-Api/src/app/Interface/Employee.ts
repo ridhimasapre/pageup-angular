@@ -61,6 +61,7 @@ export enum EmployeeRole {
   Admin=1,
   SuperAdmi=2,
 }
+
 // export interface AddEmployeeRequest{
 //   name: string,
 //   salary: number,
@@ -71,9 +72,9 @@ export enum EmployeeRole {
 //   role: number
 // }
 export interface AddEmployeeRequest{
-  username: string | null ,
-  password: string | null ,
-  name: string | null ,
+  username: string | null | undefined,
+  password: string | null | undefined,
+  name: string | null | undefined ,
   salary: number | null ,
   departmentId: number | null | undefined,
   adminId: number | null | undefined,
@@ -82,7 +83,6 @@ export interface AddEmployeeRequest{
 
 export interface AddEmployeeResponse{
   success: boolean,
-  // status: number,
   message: string,
   data: number,
   totalEntriesCount:number

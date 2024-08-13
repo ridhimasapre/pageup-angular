@@ -8,7 +8,9 @@
              <!-- <div class="text-danger fw-semibold" *ngIf="myDepartmentForm.get('name')?.invalid && myDepartmentForm.get('name')?.touched && myDepartmentForm.get('name')?.errors">Name is already exist</div> -->
              <!-- <div *ngIf="myDepartmentForm.get('name')?.errors?.['required']">Name is required.</div> -->
              <!-- <div class="text-danger fw-semibold" *ngIf="myDepartmentForm.get('name')?.errors?.['nameExist']">Name already exists.</div> -->
-
+              <!-- <div *ngIf="alreadyExist" class="error-message text-danger">
+                {{alreadyExist}}
+              </div> -->
         </div>
         <div >
             <div *ngIf="!isEdit">

@@ -1,18 +1,32 @@
-
-<nav class="navbar bg-body-tertiary">
+  <!-- Navbar -->
+  <nav class=" navbar navbar-expand-lg nav-body bg-white sticky-top shadow-sm" >
+    <div class="fw-semibold fs-4 ms-4">My</div>
+    <div class="logo">
+        <i class="mdi mdi-school-outline"></i>
+    </div>
+   <div class="collapse navbar-collapse " id="navbarNav">
+       <ul class="navbar-nav ml-auto fw-semibold navbar-link">
+           <li class="nav-item ">
+               <a class="nav-link fs-5 ms-4 nav-text mt-2"  routerLink="department">DEPARTMENT</a>
+           </li>
+           <li class="nav-item">
+               <a class="nav-link  fs-5 nav-text mt-2 ms-4" routerLink="employee">EMPLOYEE</a>
+           </li>
+           <li class="nav-item">
+               <a class="nav-link  fs-5 nav-text mt-2 ms-4" routerLink="project">PROJECT</a>
+           </li>
+           <li class="nav-item">
+               <a class="nav-link  fs-5 nav-text mt-2 ms-4" routerLink="task">TASK</a>
+           </li>
+       </ul>
+   </div>
+</nav>
+<!-- <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="department"><button class="btn btn-primary btn-lg">DEPARTMENT</button></a>
     <a class="navbar-brand" routerLink="employee"><button class="btn btn-primary btn-lg">EMPLOYEE</button></a>
     <a class="navbar-brand" routerLink="project"><button class="btn btn-primary btn-lg">PROJECT</button></a>
   </div>
-</nav>
-<!-- <div class="container-fluid">
-  <div class="row">
-    <div class="col">DEPARTMENT</div>
-    <div class="col">EMPLOYEE</div>
-    <div class="col">PORJECT</div>
-    <div class="col"></div>
-  </div>
-</div> -->
+</nav> -->
 <router-outlet></router-outlet>
 

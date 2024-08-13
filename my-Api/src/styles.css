@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
+    /* color: #004861; */
+    background: rgb(29,236,253);
+    /* background: #99e9e4; */
+    background: linear-gradient(90deg, rgba(29,236,253,0.9831582291119573) 21%, rgba(29,225,253,1) 50%, rgba(69,220,252,1) 83%);
+    }

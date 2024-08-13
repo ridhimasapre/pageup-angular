@@ -1,56 +1,54 @@
-
-    <div [formGroup]="myEmployeeForm" class="mt-5 text-center form-div" >
-
-        <div *ngIf="!isEdit" class="username">
-            <div class="mb-4">
-                <label for="username" class="  mb-2 fw-medium me-4 fs-6">Username</label>
-                <input id="username" type="text" placeholder="employee username" formControlName="username">
-             </div>
-    
-            <div class="mb-4">
-                <label for="password" class="mb-2 fw-medium me-4 fs-6">Password</label>
-                <input id="password" type="text" placeholder="employee password" formControlName="password">
-            </div>
-        </div>
-        <div class="mb-4">
-            <label for="name" class="fw-medium me-4 fs-6 mb-2 ">Name</label>
-            <input id="name" type="text" placeholder="employee name" formControlName="name"></div>
-    
-        <div class="mb-4">
-            <label for="salary" class="fw-medium me-4 fs-6 mb-2">Salary</label>
-            <input id="salary" type="number" placeholder="salary" formControlName="salary">
-        </div>
-    
-        <div class="mb-4">
-            <label for="" class="fw-medium me-4 fs-6 mb-2">Department</label>
-            <select id="" formControlName="departmentId" class="">
-                <option *ngFor="let item of departmentList" [value]="item.id">{{item.name}}</option>
-            </select>
-        </div>
-    
-        <div class="mb-4">
-            <label for="" class=" fw-medium me-4 fs-6 mb-2">Admin Name</label>
-            <select id="" formControlName="adminId">
-                <option *ngFor="let item of employeeList" [value]="item.id">{{ item.adminName}}</option>
-            </select>
-        </div>
-    
-        <div class="mb-4">
-            <label  class=" mb-2 fw-medium me-4 fs-6">Role</label>
-            <select  formControlName="role"
-                class=" ">
-                <option value="0">Employee</option>
-                <option value="1">Admin</option>
-                <option value="2">SuperAdmin</option>
-            </select>
-        </div>
+<div [formGroup]="myEmployeeForm" class="mt-5 text-center form-div">
+    <div *ngIf="!isEdit" class="username mt-3">
+      <div class="mb-2 d-flex"> 
+        <label for="username" class="fw-medium me-2 fs-5 mt-2">Username:</label>
+        <input id="username" type="text" placeholder="employee username" formControlName="username">
+      </div>
+  
+      <div class="mb-2 d-flex">
+        <label for="password" class="fw-medium me-2 mt-2 fs-5">Password:</label>
+        <input id="password" type="text" placeholder="employee password" formControlName="password">
+      </div>
+    </div>
+  
+    <div class="mb-2 d-flex"> 
+      <label for="name" class="fw-medium me-2 mt-2 fs-5">Name:</label>
+      <input id="name" type="text" placeholder="employee name" formControlName="name">
+    </div>
+  
+    <div class="mb-2 d-flex"> 
+      <label for="salary" class="fw-medium me-2 mt-2 fs-5">Salary:</label>
+      <input id="salary" type="number" placeholder="salary" formControlName="salary">
+    </div>
+  
+    <div class="mb-2 d-flex"> 
+      <label for="department" class="fw-medium me-2 fs-5 mt-2">Department:</label>
+      <select id="department" formControlName="departmentId"     (change)="onDepartmentChange()"     >
+        <option *ngFor="let item of departmentList" [value]="item.id">{{item.name}}</option>
+      </select>
+    </div>
+  
+    <div class="mb-2 d-flex"> 
+      <label for="admin" class="fw-medium me-2 fs-5 mt-2">Admin:</label>
+      <select id="admin" formControlName="adminId" >
+        <option *ngFor="let item of SelectedEmployeeList" [value]="item.id">{{ item.name }}</option>
+      </select>
     </div>
     
-    <div *ngIf="!isEdit" class="text-center mt-2">
-        <button (click)="addEmployee()"
-            class=" btn bg-success">Save</button>
+    <div class="mb-2 d-flex"> 
+      <label for="role" class="fw-medium me-2 mt-2 fs-5">Role:</label>
+      <select id="role" formControlName="role">
+        <option value="0">Employee</option>
+        <option value="1">Admin</option>
+        <option value="2">SuperAdmin</option>
+      </select>
     </div>
-    
-    <div *ngIf="isEdit" class="text-center mt-2">
-        <button (click)="updateEmployee()" class=" btn btn-primary">Update</button>
-    </div>
+  </div>
+  
+  <div *ngIf="!isEdit" class="text-center mt-2">
+    <button (click)="addEmployee()" class="btn btn-save">Save</button>
+  </div>
+  
+  <div *ngIf="isEdit" class="text-center mt-2">
+    <button (click)="updateEmployee()" class="btn btn-primary">Update</button>
+  </div>

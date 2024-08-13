@@ -3,11 +3,8 @@ import { FormControl } from "@angular/forms";
 export interface department{
     id:number | null,
     name:string | null,
-    createdBy:number | null,
-    updatedBy:number,
+    createdBy_Name:string | null,
     createdOn:string,
-    updatedOn:string | null,
-    isActive:boolean
     totalEntriesCount:number,
 }
 export interface departmentResponse{
@@ -16,7 +13,14 @@ export interface departmentResponse{
     message:string | null,
     data:department[] ,
 }
+export interface generic<T>{
+  success:boolean,
+  status:number,
+  message:string | null,
+  data:T
+}
 export interface departmentForm{
+  id:FormControl<number | null>;
     name: FormControl<string | null>;
    }
 
@@ -32,6 +36,8 @@ export interface departmentForm{
         status: number,
         message: string | null,
         data: number
+       totalEntriesCount:number
+
    }
   
    export interface DepartmentRequest {

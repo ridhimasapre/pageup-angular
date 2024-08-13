@@ -1,19 +1,18 @@
-import { Component,OnInit } from '@angular/core';
-import { ProjectService } from '../../../Service/Project/project.service';
+import { Component ,OnInit, ViewChild} from '@angular/core';
+import { TaskService } from '../../../Service/Task/task.service';
 import { HttpClient } from '@angular/common/http';
-import { EmployeeService } from '../../../Service/employee/employee.service';
-import { Project,ProjectResponse} from '../../../Interface/Project';
+import { Task,TaskResponse,PagenatorRequest } from '../../../Interface/Task';
 import { PageEvent,MatPaginator } from '@angular/material/paginator';
-import { ViewChild } from '@angular/core';
+import { DeleteServiceService } from '../../../Service/delete-service.service';
 
 @Component({
-  selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrl: './project.component.css'
+  selector: 'app-task',
+  templateUrl: './task.component.html',
+  styleUrl: './task.component.css'
 })
-export class ProjectComponent implements OnInit{
-constructor(private projectService:ProjectService,private EmployeeService:EmployeeService,private httpClient:HttpClient){}
-public ProjectList:Project[]=[]; 
+export class TaskComponent implements OnInit{
+constructor(private taskService:TaskService,private httpClient:HttpClient,private deleteservice:DeleteServiceService){}
+public TaskList:Task[]=[];
 public pageInput: number=1;
   public errorMsg:string='';
   public filterFields = ['name', 'createdBy','status'];
@@ -28,24 +27,17 @@ public filterObj ={
   pageSize: 10
 }
 public  totalEntriesCount:number=15;
+
 ngOnInit(): void {
   this.getPagenation();
-
 }
-// public getProject():void{
-//   this.projectService.GetProject().subscribe((data=>{
-//     this.ProjectList=data.data;
-//     console.log("data dedo na",data);
-    
-//   }))
-//  } 
 public getPagenation():void{
    
-  this.projectService.PaginationProject(this.filterObj).subscribe({
-    next:(res:ProjectResponse<Project[]>)=>{
+  this.taskService.PaginationTask(this.filterObj).subscribe({
+    next:(res:TaskResponse<Task[]>)=>{
       // this.ProjectList;
-      this.ProjectList=res.data;
-      console.log("my data is",this.ProjectList);
+      this.TaskList=res.data;
+      console.log("my data is",this.TaskList);
       this.paginator.length=this.totalEntriesCount;
         if (this.paginator) {
       this.paginator.length = this.totalEntriesCount;
@@ -59,7 +51,21 @@ public getPagenation():void{
     }
   })
 }
-
+public delete(id: number | null): void {
+  this.deleteservice.openConfirmDialogEmployee('Are you sure to delete this Name?').afterClosed().subscribe(data => {
+    if (data) {
+      if (id !== null && id !== undefined) {
+        this.taskService.deleteTask(id).subscribe(() => {
+          console.log("deleted");
+          this.totalEntriesCount--;
+          this.getPagenation();
+        });
+      } else {
+        console.error("Invalid ID");
+      }
+    }
+  });
+}
 public changePageSize(newSize: number): void {
   this.filterObj.pageSize = newSize;
   this.getPagenation();
@@ -116,11 +122,4 @@ return Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
 public getGlobalIndex(index: number): number {
 return(this.filterObj.pageNumber - 1) * this.filterObj.pageSize + index + 1;
 }
-public clearSearch(): void {
-  this.filterObj.filterQuery = ''; 
-  this.pageInput = 1; 
-  this.getPagenation();
 }
-}
-
-

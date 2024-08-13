@@ -1,0 +1,9 @@
+.add-btn:hover{
+    background-color: rgb(97, 97, 237);
+    color: white;
+
+}
+.cancle-btn:hover{
+    background: rgb(216, 94, 94);
+    color: white;
+}

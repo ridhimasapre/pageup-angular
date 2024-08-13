@@ -26,6 +26,11 @@ import { Sort } from '@angular/material/sort';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { ProjectComponent } from './Components/Project/project/project.component';
+import { AddProjectComponent } from './Components/Project/add-project/add-project.component';
+import { TaskComponent } from './Components/Task/task/task.component';
+import { AddTaskComponent } from './Components/Task/add-task/add-task.component';
+import { TaskDeleteComponent } from './Components/Task/TaskDelete/task-delete/task-delete.component';
+import { DepartmentAddModalComponent } from './Components/Department/department-add-modal/department-add-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +41,11 @@ import { ProjectComponent } from './Components/Project/project/project.component
     AddEmployeeComponent,
     EmployeeDeleteComponent,
     ProjectComponent,
+    AddProjectComponent,
+    TaskComponent,
+    AddTaskComponent,
+    TaskDeleteComponent,
+    DepartmentAddModalComponent
 
   ],
   imports: [

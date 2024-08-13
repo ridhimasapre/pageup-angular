@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee ,EmployeeResponse,EmployeeRole} from '../../../Interface/Employee';
 import { EmployeeService } from '../../../Service/employee/employee.service';
-import { DepartmentServiceService } from '../../../Service/department-service.service';
-import { department,departmentResponse } from '../../../Interface/Department';
-import { EmployeeDeleteResponse,EmployeeForm,AddEmployeeRequest,EmployeeResponseById,AddEmployeeResponse} from '../../../Interface/Employee';
+import { DepartmentServiceService } from '../../../Service/Department/department-service.service';
+import { department,departmentResponse,DepartmentPagenatorRequest } from '../../../Interface/Department';
+import { EmployeeForm,EmployeeResponseById} from '../../../Interface/Employee';
 import { Router ,ActivatedRoute} from '@angular/router';
-import { FormGroup,FormControl,Validators,AbstractControl,ValidationErrors } from '@angular/forms';
+import { FormGroup,FormControl,Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-employee',
@@ -16,11 +16,20 @@ import { FormGroup,FormControl,Validators,AbstractControl,ValidationErrors } fro
 export class AddEmployeeComponent implements OnInit{
   public departmentList: department[]=[]; 
   public employeeList:Employee[]=[];
-  public filterdEmployeeList:Employee[]=[];
+  public SelectedEmployeeList:Employee[]=[];
   public isEdit=  false;
   public paramId!:number;
   public myEmployeeForm: FormGroup<EmployeeForm> = this.createForm();
+  public EmployeeFilterObj = {
+    filterOn: "",
+    filterQuery: "",
+    sortBy: "",
+    isAscending: true,
+    pageNumber: -1,
+    pageSize: -1
 
+  }
+  public totalEntriesCount: number = 0;
 
 constructor(private employeeService:EmployeeService,private router:Router,private activatedRoute:ActivatedRoute,private deparmentService:DepartmentServiceService){}
 ngOnInit(): void {
@@ -35,6 +44,7 @@ ngOnInit(): void {
   // });
   this.getParamId();
   this.getDepartment();
+  // this.getEmployeeByDepartment(this.paramId);
   // this.getEmployeeById(this.paramId)
 
 }
@@ -62,60 +72,66 @@ public createForm() {
   });
 }
 
+
 public addEmployee(): void {
-  console.log(this.myEmployeeForm.value)
-  if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.myEmployeeForm.value.username
-    && this.myEmployeeForm.value.password)
-  {
-     const body = {
-      username: this.myEmployeeForm.value.username,
-      password: this.myEmployeeForm.value.password,
-      name: this.myEmployeeForm.value.name,
-      salary: this.myEmployeeForm.value.salary,
-      departmentId: this.myEmployeeForm.value.departmentId,
-      adminId: this.myEmployeeForm.value.adminId,
-      role: this.myEmployeeForm.value.role
-    };
+  const { name } = this.myEmployeeForm.value;
 
-    const EmployeeExists = this.employeeList.some(employee => (employee.name ?? ''));
-  if (EmployeeExists) {
-    alert("Name already exists.");
-    this.myEmployeeForm.reset();
+  if (!name) {
+    alert(" name is required.");
     return;
-  }
-    if (this.myEmployeeForm.valid) {
-      this.employeeService.AddEmployee(body).subscribe({
-        next: (data: AddEmployeeResponse) => {
-          this.router.navigateByUrl("/employee");
-        },
-        error: (err) => {
-          console.error('Error:', err);
-          alert("Failed to add employee.");
-        }
-      });
-    } 
-  }
-}
+  }else
 
+  console.log(this.employeeList)
+  let departmentExists=false;
+  this.employeeList.forEach(department=>{
+    console.log("depatment name",name);
+    console.log("name is ",department.name);
+    
+    if(department.name?.toUpperCase()===name.toUpperCase()){
+      departmentExists=true;
+      
+      alert("department already exist")
+      this.myEmployeeForm.reset();
+    }
+    return;
+  })
+
+  this.employeeService.AddEmployee({
+    name,
+    username:"",
+    password: "",
+    salary: null,
+    departmentId: null,
+    adminId: null,
+    role: null
+  }).subscribe({
+    next: (data) => {
+      // datathis.myEmployeeForm=
+      console.log("data is",data);
+      this.router.navigateByUrl("/department");
+    }
+  });
+}
 public getDepartment():void{
-  this.deparmentService.getDepartmentList().subscribe((res=>{
+  this.deparmentService.PaginationDepartment(this.EmployeeFilterObj).subscribe((res=>{
     this.departmentList=res.data
     console.log("department",res);
-    
   }))
 }
-public getEmployeeByDepartment(id: number): void {
-  this.employeeService.getEmployeesByDepartment(id).subscribe((data=>{
-    this.employeeList=data.data
-    console.log("admin ka data",data);
+public getEmployeeByDepartment(departmentId: number): void {
+  this.employeeService.getEmployeesByDepartment(departmentId).subscribe((data=>{
+    this.SelectedEmployeeList=data.data
+    console.log("admin ka data",data.data);
   }))
 }
 public onDepartmentChange(): void {
+  console.log("department with employee id");
+  
   const departmentId = this.myEmployeeForm.get('departmentId')?.value;
   if (departmentId) {
     this.getEmployeeByDepartment(departmentId);
   } else {
-    this.filterdEmployeeList = [];
+    this.SelectedEmployeeList = [];
   }
 }
 
@@ -123,7 +139,6 @@ public updateEmployee(): void {
   if (this.myEmployeeForm.valid) {
     this.employeeService.updatedEmployee(this.myEmployeeForm.value, this.paramId).subscribe({
       next: () => {
-        // alert("Employee is updated successfully.");
         this.router.navigateByUrl('/employee');
       },
       error: (err) => {
@@ -136,68 +151,23 @@ public updateEmployee(): void {
   }
 }
 public getEmployeeById(): void {
-  this.employeeService.EmployeeById((this.paramId)).subscribe((res: EmployeeResponseById) => {
+  this.employeeService.EmployeeById(this.paramId).subscribe((res: EmployeeResponseById) => {
     const employeeData = res.data;
-    if (employeeData.departmentId) {
-      this.employeeService.getEmployeesByDepartment(employeeData.departmentId).subscribe((res: EmployeeResponse) => {
-        this.employeeList = res.data;
-        this.myEmployeeForm.patchValue({
-          username: null,
-          password: null,
-          name: employeeData.name,
-          salary: employeeData.salary,
-          departmentId: employeeData.departmentId,
-          adminId: employeeData.adminId,
-          role: employeeData.role
-        });
-      });      
+    if (employeeData) {
+      this.myEmployeeForm.patchValue({
+        name: employeeData.name,
+        salary: employeeData.salary,
+        departmentId: employeeData.departmentId,
+        adminId: employeeData.adminId,
+        role: employeeData.role
+      });
+
+      // if (employeeData.departmentId) {
+      //   this.employeeService.getEmployeesByDepartment(employeeData.departmentId).subscribe((res: EmployeeResponse) => {
+      //     this.employeeList = res.data;
+      //   });
+      // }
     }
   });
 }
 }
-// public getEmployeeById(id: number): void {
-//   this.employeeService.EmployeeById(this.paramId).subscribe((data:EmployeeResponseById )=>{
-//     this.employeeList=data.data
-//     this.myEmployeeForm.patchValue({
-//       username: null,
-//       password: null,
-//       name: data.name,
-//       salary: data.salary,
-//       departmentId: data.departmentId,
-//       adminId: data.adminId,
-//       role: data.role,
-//     });
-// console.log("data is",data);
-
-//   })
-// }
-
-
-//  public updateEmployee():void{
-//   this.employeeService.updatedEmployee(this.myEmployeeForm.value,this.paramId).subscribe(()=>{
-    
-//     alert("Your Product is Updated");
-//     // this.myProduct.reset();
-//   });
-//   this.router.navigateByUrl('/product');
-//  }
-// public getId( id:string | null):void{
-//   this.employeeService.EmployeeById(this.paramId).subscribe((data =>{
-//     this.employeeuser=data;
-//     console.log("data is",this.employeeuser)
-//     this.myEmployeeForm.patchValue({
-//     name:this.employeeuser.username,
-//     :this.employeeuser.password,
-//     departmentId:this.employeeuser.departmentId,
-//     departmentName:this.employeeuser.departmentName,
-//     managerId:this.employeeuser.managerId,
-//     managerName:this.employeeuser.managerId,
-//     salary:this.employeeuser.salary,
-//     })
-//     console.log("patchvalue",this.employeeuser)
-//   }))
-//  }
-
-
-
-

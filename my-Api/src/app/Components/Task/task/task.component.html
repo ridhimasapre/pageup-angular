@@ -2,11 +2,10 @@
 <div class="container mt-5 whole-project ">
     <div class="row">
       <div class="col-md-6">
-        <button class="btn btn-primary fw-medium" routerLink="add">Add PROJECT</button>
+        <button class="btn btn-primary fw-medium" routerLink="add">Add TASK</button>
       </div>
       <div class="col-md-6 d-flex">
         <input type="text" class="input-field" placeholder="Search" [(ngModel)]="filterObj.filterQuery">
-      <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
         <button class="btn btn-primary fw-medium ms-2 " (click)="onSearch()">SEARCH</button>
         <div class="ms-4 fw-medium fs-5">
           <label for="filterField">Filter by:</label>
@@ -26,30 +25,36 @@
           <thead class=" fw-medium fs-6 text-center ">
             <tr class=" ">
               <th class="col-md-1 ">ID</th>
-              <th class="col-md-1 "  (click)="sortDep('name')">NAME <i class="mdi mdi-menu-up hover-menu"></i></th>
+              <th class="col-md-1 "  (click)="sortDep('name')">NAME <i class="mdi mdi-menu-up"></i></th>
               <th class="col-md-1" >DESCRIPTION</th>
-              <th class="col-md-1" >STATUS </th>
-              <th class="col-md-1" (click)="sortDep('createdon')">CREATEDON <i class=" mdi mdi-menu-up hover-menu"></i></th>
-              <th class="col-md-1" >MEMBER </th>
-              <th class="col-md-1">ACTION</th>
+              <th class="col-md-1" >STATUS <i class=" mdi mdi-menu-up"></i></th>
+              <th class="col-md-1" (click)="sortDep('createdon')">CREATEDON <i class=" mdi mdi-menu-up"></i></th>
+              <th class="col-md-1" (click)="sortDep('status')">ASSIGNEDBY <i class=" mdi mdi-menu-up"></i></th>
+              <th class="col-md-1" (click)="sortDep('status')">ASSIGNEDTO <i class=" mdi mdi-menu-up"></i></th>
+              <!-- <th class="col-md-1" (click)="sortDep('status')">ASSIGNEDTO <i class=" mdi mdi-menu-up"></i></th> -->
+              <th class="col-md-2">ACTION</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of ProjectList; let i = index" class="text-center">
+            <tr *ngFor="let item of TaskList; let i = index" class="text-center">
               <td >{{ getGlobalIndex(i) }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.description }}</td>
               <td>
-                <div *ngIf="item.status == 0">Created</div>
-                <div *ngIf="item.status == 1">Running</div>
-                <div *ngIf="item.status == 2">Completed</div>
+                <div *ngIf="item.status==0">Pending</div>
+                <div *ngIf="item.status==1">Running</div>
+                <div *ngIf="item.status==2">Completed</div>
               </td>
               <td>{{ item.createdOn }}</td>
-              <td> <div *ngFor="let project of item.projectEmployee">
+              <td>{{ item.assigned_To }}</td>
+              <td>{{ item.assigned_From }}</td>
+              <!-- <td>{{ item.assignedToId }}</td> -->
+              <!-- <td> <div *ngFor="let project of item.">
                 <div class="pt-2 col-md-7 text-center">{{project.name}}</div>  
-            </div></td>
+            </div></td> -->
               <td class="text-center">
-                <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/project/edit', item.id]">UPDATE</button>
+                <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/task/edit', item.id]">UPDATE</button>
+                <button class="btn btn-danger  fw-medium btn-sm ms-2" (click)="delete(item.id)">DELETE</button>
               </td>
              
             </tr>

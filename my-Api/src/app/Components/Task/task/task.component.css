@@ -1,0 +1,96 @@
+
+.input-field{
+    height: 37px;
+    width: 13rem;
+    border-radius: 10px;
+    background: white;
+    padding-left: 10px;
+    border: none;
+    }
+    .pagination{
+       width: 28rem;   
+       height: 4rem;
+       border-radius: 40px;
+       padding-left: 0px !important;
+       color: #004861;
+       font-weight: 500;
+     
+       padding-top: 5px;
+    }
+    .go-input{
+        margin-left: 7rem;
+        margin-top: 2rem;
+        width: 4rem;
+        height: 3rem;
+        border-radius: 20px;
+    }
+    
+    .go-btn {
+        /* margin-left: 10rem; */
+        margin-top: 36px;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        height: 38px;
+    }
+    .table {
+        border-radius: 10px; 
+        overflow: hidden; 
+        border-collapse: separate; 
+        margin-bottom: 20px;
+      }
+    
+      thead th {
+        background-color: #007bff; 
+        color: #fff;
+        padding: 15px; 
+        font-weight: bold;
+        font-size: 16px;
+      }
+    
+      tbody tr {
+        background-color: #f8f9fa; 
+        transition: background-color 0.3s ease;
+      }
+    
+      tbody td:hover {
+        background-color: #e9ecef; 
+      }
+    
+      tbody td {
+        padding: 12px;
+        border-top: 1px solid #dee2e6; 
+      }
+    
+      .table-shadow {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+      }
+    
+      .btn {
+        border-radius: 5px;
+      }
+    
+      .input-field {
+        border-radius: 5px;
+        padding: 5px 10px;
+        border: 1px solid #ced4da;
+      }
+    
+      .pagination {
+        margin-top: 20px;
+      }
+    
+      .go-input {
+        margin-left: 10px;
+        width: 80px;
+      }
+    
+      .go-btn {
+        margin-left: 5px;
+      }
+    
+      .error-message {
+        margin-left: -8rem;
+        font-size: 14px;
+        margin-top: 6rem;
+        font-weight: 500;
+      }
