@@ -28,7 +28,7 @@ export class EmployeeService {
     public deleteEmployee(id: number): Observable<EmployeeDeleteResponse> {
       return this.httpClient.delete<EmployeeDeleteResponse>(`${this.DeleteUrl}/${id}`, { headers: this.headers });
     }
-    public AddEmployee(data: AddEmployeeRequest): Observable<AddEmployeeResponse> {
+    public AddEmployee(data: unknown): Observable<AddEmployeeResponse> {
       return this.httpClient.post<AddEmployeeResponse>(this.addUrl, data, { headers: this.headers });
     }
     public EmployeeById(id: number): Observable<EmployeeResponseById>{

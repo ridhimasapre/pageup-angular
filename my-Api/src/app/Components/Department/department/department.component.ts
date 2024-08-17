@@ -41,40 +41,12 @@ export class DepartmentComponent implements OnInit {
     public dialog: MatDialog,private router:Router) { }
 
   ngOnInit(): void {
-    // this. getDepartments();
     this.getPagination();
-
   }
-  // public addDepartment(): void {
-  //   const dialogRef = this.dialog.open(DepartmentAddModalComponent, {
-  //     width: '400px'
-  //   });
-
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result) {
-  //       this.departmentservice.AddDepartment(result).subscribe({
-  //         next: () => {
-  //           console.log("Department added");
-  //           this.getPagination();
-  //         },
-  //         error: (error: any) => {
-  //           if (error.status === 409) {
-  //             console.error('Department already exists');
-  //             alert('Department already exists'); 
-  //           } else {
-  //             console.error('Error adding department', error);
-  //             alert('An error occurred while adding the department');
-  //           }
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
   public addDepartment(): void {
     const dialogRef = this.dialog.open(DepartmentAddModalComponent, {
       width: '400px'
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.length > 0) {
         result.forEach((dept: { name: string }) => {
@@ -83,7 +55,7 @@ export class DepartmentComponent implements OnInit {
               console.log("Department added");
               this.getPagination();
             },
-            error: (error: any) => {
+            error: (error) => {
               if (error.status === 409) {
                 console.error('Department already exists');
                 alert(`Department "${dept.name}" already exists`);
@@ -134,7 +106,6 @@ export class DepartmentComponent implements OnInit {
     })
   }
 
-
   public changePageSize(newSize: number): void {
     this.filterObj.pageSize = newSize;
     this.getPagination();
@@ -151,7 +122,6 @@ export class DepartmentComponent implements OnInit {
     this.getPagination();
     console.log("pages", event)
   }
-
   public sortDep(sortBy: string): void {
     if (this.filterObj.sortBy === sortBy) {
       this.filterObj.isAscending = !this.filterObj.isAscending;
@@ -181,12 +151,8 @@ export class DepartmentComponent implements OnInit {
       
     }
   }
-  // getMaxPage(): number {
-  //   return Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
-  // }
   private updateMaxPage(): void {
     this.maxPage = Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
-    // this.getPagination();
   }
   //index no in continuous manner
   public getGlobalIndex(index: number): number {

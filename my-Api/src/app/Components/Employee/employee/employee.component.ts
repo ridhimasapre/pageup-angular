@@ -38,7 +38,6 @@ export class EmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.getEmployeePagenation();
   }
-
   public getEmployeePagenation(): void {
     this.employeeservice.PaginationEmployee(this.EmployeeFilterObj).subscribe({
       next: (res: EmployeePagenatorResponse) => {
@@ -113,8 +112,6 @@ export class EmployeeComponent implements OnInit {
       //  console.log("error is",)
     }
   }
-
-
   public updateMaxPage(): void {
     this.maxPage = Math.ceil(this.totalEntriesCount / this.EmployeeFilterObj.pageSize);
   }
@@ -127,28 +124,27 @@ export class EmployeeComponent implements OnInit {
     this.pageInput = 1; 
     this.getEmployeePagenation();
   }
-  // public calculateRoleCounts(): void {
-  //   this.superAdminCount = this.employeeList.filter(item => item.role === 2).length;
-  //   this.adminCount = this.employeeList.filter(item => item.role === 1).length;
-  //   this.employeeCount = this.employeeList.filter(item => item.role === 0).length;
-  // }
   public calculateRoleCounts(): void {
-    const filteredList = this.employeeList.filter((item) => {
-      if (this.selectedRole === 'SuperAdmin') {
-        return item.role === 2;
-      } else if (this.selectedRole === 'Admin') {
-        return item.role === 1;
-      } else if (this.selectedRole === 'Employee') {
-        return item.role === 0;
-      } else {
-        return true; // Show all data when no role is selected
-      }
-    });
-  
-    this.superAdminCount = filteredList.filter((item) => item.role === 2).length;
-    this.adminCount = filteredList.filter((item) => item.role === 1).length;
-    this.employeeCount = filteredList.filter((item) => item.role === 0).length;
+    this.superAdminCount = this.employeeList.filter(item => item.role === 2).length;
+    this.adminCount = this.employeeList.filter(item => item.role === 1).length;
+    this.employeeCount = this.employeeList.filter(item => item.role === 0).length;
   }
+  // public calculateRoleCounts(): void {
+  //   const filteredList = this.employeeList.filter((item) => {
+  //     if (this.selectedRole === 'SuperAdmin') {
+  //       return item.role === 2;
+  //     } else if (this.selectedRole === 'Admin') {
+  //       return item.role === 1;
+  //     } else if (this.selectedRole === 'Employee') {
+  //       return item.role === 0;
+  //     } else {
+  //       return true; 
+  //     }
+  //   });
+  //   this.superAdminCount = filteredList.filter((item) => item.role === 2).length;
+  //   this.adminCount = filteredList.filter((item) => item.role === 1).length;
+  //   this.employeeCount = filteredList.filter((item) => item.role === 0).length;
+  // }
    public filterByRole(role: string): void { 
     this.selectedRole = role; 
     this.EmployeeFilterObj.filterOn = 'role';

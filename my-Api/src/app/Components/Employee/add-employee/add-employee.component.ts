@@ -3,7 +3,7 @@ import { Employee, EmployeeResponse, EmployeeRole } from '../../../Interface/Emp
 import { EmployeeService } from '../../../Service/employee/employee.service';
 import { DepartmentServiceService } from '../../../Service/Department/department-service.service';
 import { department, departmentResponse, DepartmentPagenatorRequest } from '../../../Interface/Department';
-import { EmployeeForm, EmployeeResponseById } from '../../../Interface/Employee';
+import { EmployeeForm, AddEmployeeRequest,EmployeeResponseById } from '../../../Interface/Employee';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -33,17 +33,8 @@ export class AddEmployeeComponent implements OnInit {
 
   constructor(private employeeService: EmployeeService, private router: Router, private activatedRoute: ActivatedRoute, private deparmentService: DepartmentServiceService) { }
   ngOnInit(): void {
-    // this.activatedRoute.paramMap.subscribe(paramMap => {
-    //   console.log(paramMap);
-    //   this.paramId = Number(paramMap.get('id'));
-    //   if(this.paramId){
-    //     this.isEdit = true;
-    //     // this.getId();
-    //     this.getEmployeeById(this.paramId);
-    //   }
-    // });
     this.getParamId();
-    this.getDepartment();
+    this.getDepartment();    
     // this.getEmployeeByDepartment(this.paramId);
     // this.getEmployeeById(this.paramId)
 
@@ -62,15 +53,16 @@ export class AddEmployeeComponent implements OnInit {
 
   public createForm() {
     return new FormGroup<EmployeeForm>({
-      username: new FormControl('', [Validators.required]),
+      userName: new FormControl('', [Validators.required]),
       password: new FormControl(null, [Validators.required]),
       name: new FormControl('', [Validators.required]),
       salary: new FormControl(null, [Validators.required]),
-      departmentId: new FormControl(null, [Validators.required]),
-      adminId: new FormControl(null, [Validators.required]),
-      role: new FormControl(null, [Validators.required]),
+      departmentId: new FormControl<number | null>(null, [Validators.required]),
+      adminId: new FormControl<number | null>(null, [Validators.required]),
+      role: new FormControl<EmployeeRole | null>(null, [Validators.required]),
     });
   }
+  
 
 
   // public addEmployee(): void {
@@ -96,63 +88,33 @@ export class AddEmployeeComponent implements OnInit {
   //     return;
   //   })
   // }
-
-  //   this.employeeService.AddEmployee({
-  //     name,
-  //     username:"",
-  //     password: "",
-  //     salary: null,
-  //     departmentId: null,
-  //     adminId: null,
-  //     role: null
-  //   }).subscribe({
-  //     next: (data) => {
-  //       // datathis.myEmployeeForm=
-  //       console.log("data is",data);
-  //       this.router.navigateByUrl("/department");
-  //     }
-  //   });
-  // }
-
   public addEmployee(): void {
-    console.log(this.myEmployeeForm.value)
-    if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.myEmployeeForm.value.username
-      && this.myEmployeeForm.value.password) {
+    console.log("console log stringdata",this.myEmployeeForm.value)
+    if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.myEmployeeForm.value.userName
+      && this.myEmployeeForm.value.password 
+    )
+     {
       const body = {
-        username: this.myEmployeeForm.value.username,
+        userName: this.myEmployeeForm.value.userName,
         password: this.myEmployeeForm.value.password,
         name: this.myEmployeeForm.value.name,
         salary: this.myEmployeeForm.value.salary,
-        departmentId: this.myEmployeeForm.value.departmentId,
-        adminId: this.myEmployeeForm.value.adminId,
-        role: this.myEmployeeForm.value.role
+        departmentId: Number(this.myEmployeeForm.value.departmentId),
+        adminId: Number(this.myEmployeeForm.value.adminId),
+        role: Number(this.myEmployeeForm.value.role) 
       };
-
-      let departmentExists = false;
-      this.employeeList.forEach(department => {
-        console.log("depatment name", name);
-        console.log("name is ", department.name);
-        if (department.name?.toUpperCase() === name) {
-          departmentExists = true;
-          alert("department already exist")
-          this.myEmployeeForm.reset();
-        }
-        return;
-      })
-
-      if (this.myEmployeeForm.valid) {
-        this.employeeService.AddEmployee(body).subscribe({
-          next: (data) => {
-            console.log("whole data", data);
-            this.router.navigateByUrl("/employee");
-          },
-          error: (err) => {
-            console.error('Error:', err);
-            alert("Failed to add employee.");
+      console.log("added data",body)
+      this.employeeService.AddEmployee(body).subscribe({
+        next:()=>{
+          this.router.navigateByUrl("/employee")
+        },
+        error:(error)=>{
+          if(error.status===409){
+            alert(`employee already exist`);
           }
-        });
-      }
-    }
+        }
+      })
+    } 
   }
   public getDepartment(): void {
     this.deparmentService.PaginationDepartment(this.EmployeeFilterObj).subscribe((res => {
@@ -172,38 +134,61 @@ export class AddEmployeeComponent implements OnInit {
     const departmentId = this.myEmployeeForm.get('departmentId')?.value;
     if (departmentId) {
       this.getEmployeeByDepartment(departmentId);
-    } else {
-      this.SelectedEmployeeList = [];
+    // } else {
+    //   this.SelectedEmployeeList = [];
+    }
+  }
+  // public updateEmployee(): void {
+  //   if (this.myEmployeeForm.valid) {
+  //     this.employeeService.updatedEmployee(this.myEmployeeForm.value, this.paramId).subscribe({
+  //       next: () => {
+  //         this.router.navigateByUrl('/employee');
+  //       },
+  //       error: (err) => {
+  //         console.error('Error:', err);
+  //         alert("Failed to update employee.");
+  //       }
+  //     });
+  //   } else {
+  //     alert("Form is not valid.");
+  //   }
+  // }
+  public updateEmployee(): void {
+    console.log("updated data",this.myEmployeeForm.value);
+    
+    if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.paramId, this.myEmployeeForm.value.userName && this.myEmployeeForm.value.password
+    ) {
+      const body = {
+        userName:this.myEmployeeForm.value.userName,
+        password:this.myEmployeeForm.value.password,
+        name: this.myEmployeeForm.value.name,
+        salary: this.myEmployeeForm.value.salary,
+        departmentId: Number(this.myEmployeeForm.value.departmentId),
+        adminId: Number(this.myEmployeeForm.value.adminId),
+        role: Number(this.myEmployeeForm.value.role)
+      };
+      this.employeeService.updatedEmployee(body, Number(this.paramId)).subscribe(response => {
+        alert('Employee updated successfully');
+        this.router.navigate(['/employee']);
+      });
     }
   }
 
-  public updateEmployee(): void {
-    if (this.myEmployeeForm.valid) {
-      this.employeeService.updatedEmployee(this.myEmployeeForm.value, this.paramId).subscribe({
-        next: () => {
-          this.router.navigateByUrl('/employee');
-        },
-        error: (err) => {
-          console.error('Error:', err);
-          alert("Failed to update employee.");
-        }
-      });
-    } else {
-      alert("Form is not valid.");
-    }
-  }
+
   public getEmployeeById(): void {
     this.employeeService.EmployeeById(this.paramId).subscribe((res: EmployeeResponseById) => {
       const employeeData = res.data;
       if (employeeData) {
         this.myEmployeeForm.patchValue({
+          userName:employeeData.userName,
+          password:employeeData.password,
           name: employeeData.name,
           salary: employeeData.salary,
-          departmentId: employeeData.departmentId,
-          adminId: employeeData.adminId,
-          role: employeeData.role,
+          departmentId:Number(employeeData.departmentId),
+          adminId:Number(employeeData.adminId),
+          role:Number(employeeData.role),
         });
-        console.log("employee ka data hai ye to",employeeData);
+        // console.log("employee ka data hai ye to",employeeData);
         // if (employeeData.departmentId) {
         //   this.employeeService.getEmployeesByDepartment(employeeData.departmentId).subscribe((res: EmployeeResponse) => {
         //     this.employeeList = res.data;

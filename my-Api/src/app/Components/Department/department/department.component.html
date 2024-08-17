@@ -70,7 +70,37 @@
       </div>
       </div>
      -->
-     <div class="container mt-5">
+     <!-- <div class="container mt-5">
+      <div class="row">
+        <div class="col-4 mb-5">
+          <mat-paginator
+            class="pagination shadow"
+            [length]="totalEntriesCount"
+            [pageSize]="filterObj.pageSize"
+            [pageSizeOptions]="[5, 10, 20, 50]"
+            aria-label="Select page"
+            (page)="onPageEvent($event)"
+          >
+          </mat-paginator>
+        </div>
+        <div class="col-md-6 ms-4 d-flex">
+          <input
+            type="number"
+            [min]="1"
+            [max]="maxPage"
+            [(ngModel)]="pageInput"
+            placeholder="page"
+            class="form-control go-input text-center me-2"
+          />
+          <button class="btn btn-primary go-btn" (click)="goToPage()">GO</button>
+          <div *ngIf="errorMsg" class="error-message text-danger">
+            {{ errorMsg }}
+          </div>
+        </div>
+      </div>
+    </div>
+     -->
+    <div class="container mt-5">
       <div class="row">
         <div class="col-4 mb-5">
           <mat-paginator

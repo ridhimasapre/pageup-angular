@@ -1,5 +1,7 @@
 import { FormControl } from "@angular/forms";
 export interface Employee {
+  userName:string,
+  password:string,
   createdBy: number,
   updatedBy: number | null, 
   createdOn: string ,
@@ -27,13 +29,13 @@ export interface EmployeeResponseById {
   data: Employee;
 }
 export interface EmployeeForm{
-  username:FormControl<string|null>,
+  userName:FormControl<string|null>,
   password: FormControl<string |null>;
   name: FormControl<string |null>;
   salary: FormControl<number |null>;
-  departmentId?: FormControl<number |null>;
-  adminId?: FormControl<number |null>;
-  role?: FormControl<EmployeeRole |null>;
+  departmentId: FormControl<number |null>;
+  adminId: FormControl<number |null>;
+  role: FormControl<EmployeeRole |null>;
 }
 export enum EmployeeRole {
   Employee = 0,
@@ -41,7 +43,7 @@ export enum EmployeeRole {
   SuperAdmi=2,
 }
 export interface AddEmployeeRequest{
-  username: string | null | undefined,
+  userName: string | null | undefined,
   password: string | null | undefined,
   name: string | null | undefined ,
   salary: number | null ,
@@ -71,7 +73,7 @@ export interface UpdatedEmployeeResponse{
 }
 
 export interface UpdateEmployeeRequest{
-  username: string,
+  userName: string,
   password: string,
   name: string,
   salary: number,

@@ -1,8 +1,8 @@
 <div [formGroup]="myEmployeeForm" class="mt-5 text-center form-div">
-    <div *ngIf="!isEdit" class="username mt-3">
+    <div  class="username mt-3">
       <div class="mb-2 d-flex"> 
         <label for="username" class="fw-medium me-2 fs-5 mt-2">Username:</label>
-        <input id="username" type="text" placeholder="employee username" formControlName="username">
+        <input id="username" type="text" placeholder="employee username" formControlName="userName">
       </div>
   
       <div class="mb-2 d-flex">
@@ -23,7 +23,7 @@
   
     <div class="mb-2 d-flex"> 
       <label for="department" class="fw-medium me-2 fs-5 mt-2">Department:</label>
-      <select id="department" formControlName="departmentId"     (change)="onDepartmentChange()"     >
+      <select id="department" formControlName="departmentId"     (change)="onDepartmentChange()">
         <option *ngFor="let item of departmentList" [value]="item.id">{{item.name}}</option>
       </select>
     </div>

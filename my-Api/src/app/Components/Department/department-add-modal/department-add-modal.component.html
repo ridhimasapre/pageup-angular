@@ -1,19 +1,4 @@
-<!-- <h2 mat-dialog-title>Add Department</h2>
-<div mat-dialog-content>
-  <form #departmentForm="ngForm">
-    <mat-form-field appearance="fill">
-      <mat-label>Department Name</mat-label>
-      <input matInput [(ngModel)]="department.name" name="name" required>
-    </mat-form-field>
-    <div *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</div>
-     
-  </form> 
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()" class="cancle-btn">Cancel</button>
-  <button mat-button [mat-dialog-close]="department" [disabled]="!departmentForm.form.valid" class="add-btn" >Add</button>
-</div>
- -->
+
  <h2 mat-dialog-title class="ms-5">Add Departments</h2>
  <mat-dialog-content>
    <div *ngFor="let dept of departments; let i = index">
