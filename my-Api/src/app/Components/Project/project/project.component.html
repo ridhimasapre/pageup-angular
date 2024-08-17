@@ -24,14 +24,14 @@
       <div class="col-12  ">
         <table   class="table shadow">
           <thead class=" fw-medium fs-6 text-center ">
-            <tr class=" ">
-              <th class="col-md-1 ">ID</th>
+            <tr>
+              <th class="col-md-1">ID</th>
               <th class="col-md-1 "  (click)="sortDep('name')">NAME <i class="mdi mdi-menu-up hover-menu"></i></th>
-              <th class="col-md-1" >DESCRIPTION</th>
+              <th class="col-md-2" >DESCRIPTION</th>
               <th class="col-md-1" >STATUS </th>
               <th class="col-md-1" (click)="sortDep('createdon')">CREATEDON <i class=" mdi mdi-menu-up hover-menu"></i></th>
-              <th class="col-md-1" >MEMBER </th>
-              <th class="col-md-1">ACTION</th>
+              <th class="col-md-2" >MEMBER </th>
+              <th class="col-md-2">ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -46,10 +46,12 @@
               </td>
               <td>{{ item.createdOn }}</td>
               <td> <div *ngFor="let project of item.projectEmployee">
-                <div class="pt-2 col-md-7 text-center">{{project.name}}</div>  
+                <div class="pt-2 col-md-7 text-center">
+                  <ul><li>{{project.name}}</li></ul></div>  
             </div></td>
               <td class="text-center">
                 <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/project/edit', item.id]">UPDATE</button>
+                <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/project/view', item.id]">View</button>
               </td>
              
             </tr>

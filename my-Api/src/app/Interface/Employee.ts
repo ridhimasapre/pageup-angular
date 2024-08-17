@@ -1,6 +1,4 @@
 import { FormControl } from "@angular/forms";
-
-
 export interface Employee {
   createdBy: number,
   updatedBy: number | null, 
@@ -8,17 +6,14 @@ export interface Employee {
   updatedOn: string | null,
   id: number | null,
   name: string | null,
-  departmentName: string | null, 
-  // managerName: string | null,
+  departmentName: string , 
   role: EmployeeRole,
   salary: number,
   adminName:string,
   adminId:number,
   departmentId: number | null,
-    // managerId: number | null,
-    isActive:boolean
+    // isActive:boolean
 }
-
 export interface EmployeeResponse {
   success: boolean;
   status: number; 
@@ -31,22 +26,6 @@ export interface EmployeeResponseById {
   message: string;
   data: Employee;
 }
-// export interface GetEmployeeResponseById {
-//   success: boolean;
-//   status: number; 
-//   message: string;
-//   data: Employee;
-// }
-
-// export interface EmployeeForm {
-//   name: FormControl<string |null>;
-//   salary: FormControl<number |null>;
-//   departmentName: FormControl<string|null>;
-//   managerName: FormControl<string |null>;
-//   departmentId: FormControl<number|null>;
-//   managerId: FormControl<number|null>;
-//   role: FormControl<EmployeeRole|null>;
-// } 
 export interface EmployeeForm{
   username:FormControl<string|null>,
   password: FormControl<string |null>;
@@ -61,16 +40,6 @@ export enum EmployeeRole {
   Admin=1,
   SuperAdmi=2,
 }
-
-// export interface AddEmployeeRequest{
-//   name: string,
-//   salary: number,
-//   departmentId: number|null,
-//   departmentName:string|null,
-//   managerId: number|null,
-//   managerName:string|null,
-//   role: number
-// }
 export interface AddEmployeeRequest{
   username: string | null | undefined,
   password: string | null | undefined,
@@ -110,9 +79,6 @@ export interface UpdateEmployeeRequest{
   adminId: number|null,
   role: number
 }
-
-
-
 export interface EmployeePagenatorRequest{
   filterOn:string,
   filterQuery:string,

@@ -7,3 +7,11 @@
     background: rgb(216, 94, 94);
     color: white;
 }
+.plus-btn{
+    background-color:skyblue;
+    color: black;
+}
+.plus-btn:hover{
+    color: black;
+    background: rgb(92, 177, 211);
+}

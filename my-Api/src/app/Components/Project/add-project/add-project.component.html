@@ -24,7 +24,7 @@
             >
         </div>
         <div formArrayName="projectEmployee" class="mb-3">
-            <label class="form-label">Sub-members</label>
+            <label class="form-label">members</label>
             <div *ngFor="let control of myProjectForm.controls.projectEmployee.controls; let i = index" [formGroup]="control" class="d-flex align-items-center mb-2">
                 <input
                     class="form-control me-2"

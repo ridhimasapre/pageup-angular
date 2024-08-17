@@ -4,28 +4,22 @@ import { Observable } from 'rxjs';
 import { AddDepartmentResponse, department, DepartmentDeleteResponse, DepartmentPagenatorRequest, DepartmentPagenatorResponse, DepartmentRequest, departmentResponse, generic } from '../../Interface/Department';
 import { environment } from '../../../environments/environment';
 import { HttpHeaders } from '@angular/common/http';
-import { EmployeeResponseById } from '../../Interface/Employee';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartmentServiceService {
-  public token="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwiTmFtZSI6IkpheSIsIklkIjoiMiIsIkd1aWQiOiJiM2M0MjM1OC05NTQ1LTQwNTMtOWI4Zi03Yzk3ZTExZTBkODMiLCJleHAiOjE3MjM3MTE1MTYsImlzcyI6Ikp3dElzc3VlciIsImF1ZCI6Ikp3dEF1ZGllbmNlIn0.-vaWQZfNoife7pSsXnTTKFXNpIXcdOflQe9SxgDR5OU"
+  public token="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwiTmFtZSI6IkpheSIsIklkIjoiMiIsIkd1aWQiOiI1NmM2MzUxYS04OWNhLTQ5NWItODhiZS00OTc1YTk1NWUyMDEiLCJleHAiOjE3MjQyMzAyODIsImlzcyI6Ikp3dElzc3VlciIsImF1ZCI6Ikp3dEF1ZGllbmNlIn0.J9am8RH9tOZEuOo6e4z7HxWA-65YPov1_AO9rc1uAu8"
   // public url=`${environment.apiUrl}/api/Department/GetallDepartments`;
   public url=`${environment.apiUrl}/api/Department`;
   public PaginatorUrl =`${environment.apiUrl}/api/Department/GetallDepartments`
   public IdUrl =`${environment.apiUrl}/api/Department/GetDepartmentBy`
   public updatedUrl=`${environment.apiUrl}/api/Department`
 
-
-
   constructor(private httpClient: HttpClient) { }
-  
   private headers = new HttpHeaders({
     'Authorization': `Bearer ${this.token}` 
   });
-
 
   public getDepartmentList(): Observable<generic<department[]>> {
     return this.httpClient.get<generic<department[]>>(this.url, { headers: this.headers });

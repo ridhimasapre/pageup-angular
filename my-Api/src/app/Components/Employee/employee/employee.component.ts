@@ -13,11 +13,15 @@ export class EmployeeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public employeeList: Employee[] = [];
   public pageInput: number = 1;
-  public employeeListLength!: number;
+  // public employeeListLength!: number;
   public errorMsg: string = '';
   public maxPage: number = 1;
-  public filterFields = ["name", "departmentName", "AdminName", "Role", "CreatedBy"];
-  public selectedFilterField: string = 'name';
+  // public filterFields = ["name", "departmentName", "AdminName", "Role", "CreatedBy"];
+  // public selectedFilterField: string = 'name';
+  public selectedRole:string='';
+  public superAdminCount: number = 0;
+  public adminCount: number = 0;
+  public employeeCount: number = 0;
   public EmployeeFilterObj = {
     filterOn: "",
     filterQuery: "",
@@ -25,10 +29,8 @@ export class EmployeeComponent implements OnInit {
     isAscending: true,
     pageNumber: 1,
     pageSize: 10
-
   }
   public totalEntriesCount: number = 0;
-
   constructor(private employeeservice: EmployeeService,
     private httpclient: HttpClient, 
     private deleteservice: DeleteServiceService) { }
@@ -42,22 +44,16 @@ export class EmployeeComponent implements OnInit {
       next: (res: EmployeePagenatorResponse) => {
         this.employeeList = res.data;
         this.totalEntriesCount = res.totalEntriesCount;
+        console.log("pagination count",res);
         this.updateMaxPage();
-        // this.paginator.length=this.totalEntriesCount;
+        this.calculateRoleCounts();
         if (this.paginator) {
           this.paginator.length = this.totalEntriesCount;
-
         }
-        // if (this.employeeList.length === 0) {
-        //   this.employeeNotFound =; 
-        //   alert('department is not found');
-        //   this.EmployeeFilterObj.filterQuery = ''
-        //   this.EmployeeFilterObj.pageNumber = 1
-        //   this.getEmployeePagenation();
-        // }
       }
     })
   }
+  
   public delete(id: number | null): void {
     this.deleteservice.openConfirmDialogEmployee('Are you sure to delete this Name?').afterClosed().subscribe(data => {
       if (data) {
@@ -78,10 +74,8 @@ export class EmployeeComponent implements OnInit {
     this.getEmployeePagenation();
   }
   public onSearch(): void {
-    this.EmployeeFilterObj.filterOn = this.selectedFilterField;
     this.EmployeeFilterObj.filterQuery = this.EmployeeFilterObj.filterQuery.trim();
     this.EmployeeFilterObj.pageNumber = 1;
-    // this.EmployeeFilterObj.pageSize = 10;
     this.getEmployeePagenation();
     console.log(this.EmployeeFilterObj)
   }
@@ -132,5 +126,34 @@ export class EmployeeComponent implements OnInit {
     this.EmployeeFilterObj.filterQuery = ''; 
     this.pageInput = 1; 
     this.getEmployeePagenation();
+  }
+  // public calculateRoleCounts(): void {
+  //   this.superAdminCount = this.employeeList.filter(item => item.role === 2).length;
+  //   this.adminCount = this.employeeList.filter(item => item.role === 1).length;
+  //   this.employeeCount = this.employeeList.filter(item => item.role === 0).length;
+  // }
+  public calculateRoleCounts(): void {
+    const filteredList = this.employeeList.filter((item) => {
+      if (this.selectedRole === 'SuperAdmin') {
+        return item.role === 2;
+      } else if (this.selectedRole === 'Admin') {
+        return item.role === 1;
+      } else if (this.selectedRole === 'Employee') {
+        return item.role === 0;
+      } else {
+        return true; // Show all data when no role is selected
+      }
+    });
+  
+    this.superAdminCount = filteredList.filter((item) => item.role === 2).length;
+    this.adminCount = filteredList.filter((item) => item.role === 1).length;
+    this.employeeCount = filteredList.filter((item) => item.role === 0).length;
+  }
+   public filterByRole(role: string): void { 
+    this.selectedRole = role; 
+    this.EmployeeFilterObj.filterOn = 'role';
+    this.EmployeeFilterObj.filterQuery = role;
+    this.EmployeeFilterObj.pageNumber = 1; 
+    this.getEmployeePagenation(); 
   }
 }

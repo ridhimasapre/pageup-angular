@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Project, projectEmployeeitem, ProjectForm, subMembersForm } from '../../../Interface/Project';
+import { Project, ProjectForm, subMembersForm } from '../../../Interface/Project';
 import { Router,ActivatedRoute } from '@angular/router';
 import { FormGroup,FormControl,Validators, FormArray } from '@angular/forms';
 import { ProjectService } from '../../../Service/Project/project.service';
@@ -10,11 +10,11 @@ import { ProjectService } from '../../../Service/Project/project.service';
   styleUrl: './add-project.component.css'
 })
 export class AddProjectComponent implements OnInit{
-constructor(private projectService:ProjectService,private router:Router,private activatedRouter:ActivatedRoute){}
-public ProjectData:Project[]=[];
-public isEdit=  false;
-public paramId!:number;
-public myProjectForm: FormGroup<ProjectForm> = this.createForm();
+  public ProjectData:Project[]=[];
+  public isEdit=  false;
+  public paramId!:number;
+  public myProjectForm: FormGroup<ProjectForm> = this.createForm();
+  constructor(private projectService:ProjectService,private router:Router,private activatedRouter:ActivatedRoute){}
 
 ngOnInit(): void {
   this.getParamId();

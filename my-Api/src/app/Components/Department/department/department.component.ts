@@ -45,45 +45,58 @@ export class DepartmentComponent implements OnInit {
     this.getPagination();
 
   }
+  // public addDepartment(): void {
+  //   const dialogRef = this.dialog.open(DepartmentAddModalComponent, {
+  //     width: '400px'
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result) {
+  //       this.departmentservice.AddDepartment(result).subscribe({
+  //         next: () => {
+  //           console.log("Department added");
+  //           this.getPagination();
+  //         },
+  //         error: (error: any) => {
+  //           if (error.status === 409) {
+  //             console.error('Department already exists');
+  //             alert('Department already exists'); 
+  //           } else {
+  //             console.error('Error adding department', error);
+  //             alert('An error occurred while adding the department');
+  //           }
+  //         }
+  //       });
+  //     }
+  //   });
+  // }
   public addDepartment(): void {
     const dialogRef = this.dialog.open(DepartmentAddModalComponent, {
       width: '400px'
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.departmentservice.AddDepartment(result).subscribe({
-          next: () => {
-            console.log("Department added");
-            this.getPagination();
-          },
-          error: (error: any) => {
-            if (error.status === 409) {
-              console.error('Department already exists');
-              alert('Department already exists'); 
-            } else {
-              console.error('Error adding department', error);
-              alert('An error occurred while adding the department');
+      if (result && result.length > 0) {
+        result.forEach((dept: { name: string }) => {
+          this.departmentservice.AddDepartment(dept).subscribe({
+            next: () => {
+              console.log("Department added");
+              this.getPagination();
+            },
+            error: (error: any) => {
+              if (error.status === 409) {
+                console.error('Department already exists');
+                alert(`Department "${dept.name}" already exists`);
+              } else {
+                console.error('Error adding department', error);
+                alert('An error occurred while adding the department');
+              }
             }
-          }
+          });
         });
       }
     });
   }
-  // public getdepart(): void{
-  //   this.departmentservice.getDepartmentList().subscribe({
-  //     next: (data: departmentResponse)=>{
-  //       console.log(data);
-  //       this.departmentList = data.data;
-  //     },
-  //     error: (err: string)=>{
-  //       console.log(err);
-  //       alert("Error")
-  //     }
-  //   })
-  // }
-
-
   public delete(id: number | null): void {
     this.deleteservice.openConfirmDialog('Are you sure to delete this Name?').afterClosed().subscribe(data => {
       if (data) {
@@ -103,7 +116,7 @@ export class DepartmentComponent implements OnInit {
     this.departmentservice.PaginationDepartment(this.filterObj).subscribe({
       next: (res: DepartmentPagenatorResponse) => {
         this.departmentList = res.data;
-        console.log(res)
+        // console.log(res)
         this.totalEntriesCount=res.totalEntriesCount;
         this.updateMaxPage();
         if (this.paginator) {
@@ -127,7 +140,7 @@ export class DepartmentComponent implements OnInit {
     this.getPagination();
   }
   public onSearch(): void {
-  this.filterObj.filterOn = this.selectedFilterField;
+  // this.filterObj.filterOn = this.selectedFilterField;
     this.filterObj.filterQuery = this.filterObj.filterQuery.trim();
     this.filterObj.pageNumber = 1;
     this.getPagination();
