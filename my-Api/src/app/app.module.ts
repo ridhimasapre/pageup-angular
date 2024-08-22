@@ -32,6 +32,7 @@ import { AddTaskComponent } from './Components/Task/add-task/add-task.component'
 import { TaskDeleteComponent } from './Components/Task/TaskDelete/task-delete/task-delete.component';
 import { DepartmentAddModalComponent } from './Components/Department/department-add-modal/department-add-modal.component';
 import { ViewProjectComponent } from './Components/Project/view-project/view-project.component';
+import { NgxUiLoaderHttpModule, NgxUiLoaderModule} from 'ngx-ui-loader';
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,6 +71,10 @@ import { ViewProjectComponent } from './Components/Project/view-project/view-pro
     MatTableModule,
     CommonModule,
     MatSortModule,
+    NgxUiLoaderModule,
+    NgxUiLoaderHttpModule.forRoot({
+      showForeground:true
+    }),
   ],
   providers: [
     provideAnimationsAsync()

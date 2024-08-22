@@ -27,7 +27,6 @@ export class AddEmployeeComponent implements OnInit {
     isAscending: true,
     pageNumber: -1,
     pageSize: -1
-
   }
   public totalEntriesCount: number = 0;
 
@@ -35,18 +34,13 @@ export class AddEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.getParamId();
     this.getDepartment();    
-    // this.getEmployeeByDepartment(this.paramId);
-    // this.getEmployeeById(this.paramId)
-
+    this.getEmployeeByDepartment(this.paramId)
   }
   public getParamId(): void {
     this.activatedRoute.paramMap.subscribe(param => {
       this.paramId = Number(param.get('id')) ?? '';
       if (this.paramId) {
         this.isEdit = true;
-        this.getEmployeeById()
-        // this.getEmployeeById(this.paramId)
-        // this.getEmployeeByDepartment()
       }
     })
   }
@@ -62,9 +56,6 @@ export class AddEmployeeComponent implements OnInit {
       role: new FormControl<EmployeeRole | null>(null, [Validators.required]),
     });
   }
-  
-
-
   // public addEmployee(): void {
   //   const { name } = this.myEmployeeForm.value;
 
@@ -138,26 +129,9 @@ export class AddEmployeeComponent implements OnInit {
     //   this.SelectedEmployeeList = [];
     }
   }
-  // public updateEmployee(): void {
-  //   if (this.myEmployeeForm.valid) {
-  //     this.employeeService.updatedEmployee(this.myEmployeeForm.value, this.paramId).subscribe({
-  //       next: () => {
-  //         this.router.navigateByUrl('/employee');
-  //       },
-  //       error: (err) => {
-  //         console.error('Error:', err);
-  //         alert("Failed to update employee.");
-  //       }
-  //     });
-  //   } else {
-  //     alert("Form is not valid.");
-  //   }
-  // }
   public updateEmployee(): void {
     console.log("updated data",this.myEmployeeForm.value);
-    
-    if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.paramId, this.myEmployeeForm.value.userName && this.myEmployeeForm.value.password
-    ) {
+    if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.paramId, this.myEmployeeForm.value.userName && this.myEmployeeForm.value.password) {
       const body = {
         userName:this.myEmployeeForm.value.userName,
         password:this.myEmployeeForm.value.password,
@@ -167,18 +141,17 @@ export class AddEmployeeComponent implements OnInit {
         adminId: Number(this.myEmployeeForm.value.adminId),
         role: Number(this.myEmployeeForm.value.role)
       };
-      this.employeeService.updatedEmployee(body, Number(this.paramId)).subscribe(response => {
+      this.employeeService.updatedEmployee(body,this.paramId).subscribe(response => {
         alert('Employee updated successfully');
         this.router.navigate(['/employee']);
       });
     }
   }
-
-
   public getEmployeeById(): void {
     this.employeeService.EmployeeById(this.paramId).subscribe((res: EmployeeResponseById) => {
       const employeeData = res.data;
       if (employeeData) {
+        console.log("patch value",this.myEmployeeForm);
         this.myEmployeeForm.patchValue({
           userName:employeeData.userName,
           password:employeeData.password,
@@ -187,13 +160,8 @@ export class AddEmployeeComponent implements OnInit {
           departmentId:Number(employeeData.departmentId),
           adminId:Number(employeeData.adminId),
           role:Number(employeeData.role),
+          
         });
-        // console.log("employee ka data hai ye to",employeeData);
-        // if (employeeData.departmentId) {
-        //   this.employeeService.getEmployeesByDepartment(employeeData.departmentId).subscribe((res: EmployeeResponse) => {
-        //     this.employeeList = res.data;
-        //   });
-        // }
       }
     });
   }

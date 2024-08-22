@@ -5,20 +5,57 @@
         <button class="btn btn-primary fw-medium" routerLink="add">Add PROJECT</button>
       </div>
       <div class="col-md-6 d-flex">
-        <input type="text" class="input-field" placeholder="Search" [(ngModel)]="filterObj.filterQuery">
-      <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
-        <button class="btn btn-primary fw-medium ms-2 " (click)="onSearch()">SEARCH</button>
-        <div class="ms-4 fw-medium fs-5">
-          <label for="filterField">Filter by:</label>
-          <select id="filterField" [(ngModel)]="selectedFilterField">
-            <option *ngFor="let field of filterFields" [value]="field">
-              {{ field }}
-            </option>
-          </select>
-        </div>
+        <input
+          type="text"
+          class="input-field"
+          placeholder="Search "
+          [(ngModel)]="search"
+        >
+        <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
+        <button
+          class="btn search-btn btn-primary ms-2 btn-sm"
+          (click)="onSearch()" >
+          SEARCH
+        </button>
       </div>
     </div>
   </div>
+        <div class="container mt-5 ">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+              class="btn"
+              [ngClass]="{ 'btn-primary': selectedStatus === '', 'btn-outline-primary': selectedStatus !== '' }"
+              (click)="filterByRole('')">
+              All Data ({{totalEntriesCount}})
+            </button>
+              <button
+                class="btn ms-2"
+                [ngClass]="{ 'btn-primary': selectedStatus === 'SuperAdmin', 'btn-outline-primary': selectedStatus !== 'SuperAdmin' }"
+                (click)="filterByRole('SuperAdmin')"
+              >
+                Created ({{createdCount}})
+              </button>
+              <button
+                class="btn ms-2"
+                [ngClass]="{ 'btn-primary': selectedStatus === 'Admin', 'btn-outline-primary': selectedStatus !== 'Admin' }"
+                (click)="filterByRole('Admin')"
+              >
+                Running ({{runningCount}})
+              </button>
+              <button
+                class="btn ms-2"
+                [ngClass]="{ 'btn-primary': selectedStatus === 'Employee', 'btn-outline-primary': selectedStatus !== 'Employee' }"
+                (click)="filterByRole('Employee')"
+              >
+                Completed ({{completedCount}})
+              </button>
+            </div>
+          </div>
+        </div>
+      <!-- </div>
+    </div>
+  </div> -->
   <div class="container mt-5 ">
     <div class="row">
       <div class="col-12  ">

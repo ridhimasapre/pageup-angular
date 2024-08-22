@@ -43,18 +43,11 @@ export interface AddRequest{
     name: string,
     description: string |null,
     status: number | null
-    // members: Members[]
     member: number | null | undefined,
   }
   export interface Members{
     employeeId: number
   }
-//   export interface addResponse{
-//     success:boolean,
-//     message:string,
-//     data: number,
-//     totalEntriesCount:number,
-//   }
   export interface PagenatorRequest{
     filterOn:string,
     filterQuery:string,
@@ -62,5 +55,5 @@ export interface AddRequest{
     isAscending: boolean,
     pageNumber: number,
     pageSize: number,
-  
+    additionalSearch:string
   }

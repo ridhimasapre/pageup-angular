@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Employee, EmployeePagenatorRequest, EmployeePagenatorResponse, EmployeeForm, EmployeeResponse, AddEmployeeRequest, AddEmployeeResponse } from '../../../Interface/Employee';
+import { Employee, EmployeePagenatorRequest, EmployeePagenatorResponse, EmployeeForm, EmployeeResponse, AddEmployeeRequest, AddEmployeeResponse,RoleCountResponse,EmployeeRole } from '../../../Interface/Employee';
 import { HttpClient } from '@angular/common/http';
 import { DeleteServiceService } from '../../../Service/delete-service.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -13,46 +13,64 @@ export class EmployeeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public employeeList: Employee[] = [];
   public pageInput: number = 1;
-  // public employeeListLength!: number;
   public errorMsg: string = '';
   public maxPage: number = 1;
-  // public filterFields = ["name", "departmentName", "AdminName", "Role", "CreatedBy"];
-  // public selectedFilterField: string = 'name';
-  public selectedRole:string='';
+  public selectedRole:string="";
   public superAdminCount: number = 0;
   public adminCount: number = 0;
   public employeeCount: number = 0;
+  public search:string="";
   public EmployeeFilterObj = {
     filterOn: "",
     filterQuery: "",
     sortBy: "",
     isAscending: true,
     pageNumber: 1,
-    pageSize: 10
+    pageSize: 10,
+    additionalSearch:"",
   }
   public totalEntriesCount: number = 0;
+  public rolesentriesCount:boolean=false;
   constructor(private employeeservice: EmployeeService,
     private httpclient: HttpClient, 
     private deleteservice: DeleteServiceService) { }
-
   ngOnInit(): void {
     this.getEmployeePagenation();
+    this.calculateRoleCounts()
   }
+  // console.log(this.EmployeeFilterObj);
   public getEmployeePagenation(): void {
+    // console.log(this.EmployeeFilterObj);
     this.employeeservice.PaginationEmployee(this.EmployeeFilterObj).subscribe({
       next: (res: EmployeePagenatorResponse) => {
         this.employeeList = res.data;
         this.totalEntriesCount = res.totalEntriesCount;
         console.log("pagination count",res);
         this.updateMaxPage();
-        this.calculateRoleCounts();
         if (this.paginator) {
           this.paginator.length = this.totalEntriesCount;
         }
       }
     })
   }
-  
+  public getRoleCount(role: EmployeeRole): void {
+    this.employeeservice.getRoleCount(role).subscribe({
+      next: (data: RoleCountResponse) => {        
+        if (role === EmployeeRole.SuperAdmin) {
+          this.superAdminCount = data.data;
+        } else if (role === EmployeeRole.Admin) {
+          this.adminCount = data.data;
+        } else if (role === EmployeeRole.Employee) {
+          this.employeeCount = data.data;
+        }
+      }
+    });
+  }
+  public calculateRoleCounts(): void {
+    this.getRoleCount(EmployeeRole.SuperAdmin);
+    this.getRoleCount(EmployeeRole.Admin);
+    this.getRoleCount(EmployeeRole.Employee);
+  }
   public delete(id: number | null): void {
     this.deleteservice.openConfirmDialogEmployee('Are you sure to delete this Name?').afterClosed().subscribe(data => {
       if (data) {
@@ -73,12 +91,21 @@ export class EmployeeComponent implements OnInit {
     this.getEmployeePagenation();
   }
   public onSearch(): void {
+    // this.EmployeeFilterObj.filterQuery = this.EmployeeFilterObj.filterQuery.trim();
+    if (this.rolesentriesCount == true) {
+      // If a role filter is active, search the role      
+      this.EmployeeFilterObj.filterOn = "role";      
+      this.EmployeeFilterObj.filterQuery = this.selectedRole;      
+      this.EmployeeFilterObj.additionalSearch = this.search;      
+    } else {
+      // Otherwise, search all fields
+      this.EmployeeFilterObj.filterOn = ""; 
     this.EmployeeFilterObj.filterQuery = this.EmployeeFilterObj.filterQuery.trim();
+    }
+    // this.EmployeeFilterObj.additionalSearch = "";
     this.EmployeeFilterObj.pageNumber = 1;
     this.getEmployeePagenation();
-    console.log(this.EmployeeFilterObj)
   }
-
   public onPageEvent(event: PageEvent): void {
     this.EmployeeFilterObj.pageSize = event.pageSize;
     this.EmployeeFilterObj.pageNumber = event.pageIndex + 1;
@@ -103,13 +130,11 @@ export class EmployeeComponent implements OnInit {
         length: this.totalEntriesCount
       };
       this.onPageEvent(event);
-      // this.filterObj.pageNumber=this.pageInput
       this.getEmployeePagenation();
-      this.errorMsg = ''
+      this.errorMsg = ""
     } else {
       this.errorMsg = `page number ${this.pageInput} does not exist`
       this.pageInput = 1;
-      //  console.log("error is",)
     }
   }
   public updateMaxPage(): void {
@@ -120,36 +145,25 @@ export class EmployeeComponent implements OnInit {
     return (this.EmployeeFilterObj.pageNumber - 1) * this.EmployeeFilterObj.pageSize + index + 1;
   }
   public clearSearch(): void {
-    this.EmployeeFilterObj.filterQuery = ''; 
+    this.EmployeeFilterObj.filterQuery =""; 
+    // this.EmployeeFilterObj.additionalSearch="";
+    this.search=""
+    // this.selectedRole="" 
+    // this.rolesentriesCount = false; 
     this.pageInput = 1; 
     this.getEmployeePagenation();
   }
-  public calculateRoleCounts(): void {
-    this.superAdminCount = this.employeeList.filter(item => item.role === 2).length;
-    this.adminCount = this.employeeList.filter(item => item.role === 1).length;
-    this.employeeCount = this.employeeList.filter(item => item.role === 0).length;
-  }
-  // public calculateRoleCounts(): void {
-  //   const filteredList = this.employeeList.filter((item) => {
-  //     if (this.selectedRole === 'SuperAdmin') {
-  //       return item.role === 2;
-  //     } else if (this.selectedRole === 'Admin') {
-  //       return item.role === 1;
-  //     } else if (this.selectedRole === 'Employee') {
-  //       return item.role === 0;
-  //     } else {
-  //       return true; 
-  //     }
-  //   });
-  //   this.superAdminCount = filteredList.filter((item) => item.role === 2).length;
-  //   this.adminCount = filteredList.filter((item) => item.role === 1).length;
-  //   this.employeeCount = filteredList.filter((item) => item.role === 0).length;
-  // }
    public filterByRole(role: string): void { 
     this.selectedRole = role; 
-    this.EmployeeFilterObj.filterOn = 'role';
+    this.EmployeeFilterObj.filterOn = "role";
     this.EmployeeFilterObj.filterQuery = role;
+    this.rolesentriesCount=true;
+    // if(this.rolesentriesCount === true){
+    //   this.EmployeeFilterObj.filterQuery=this.selectedRole 
+    // this.EmployeeFilterObj.additionalSearch = "";
+    // }
     this.EmployeeFilterObj.pageNumber = 1; 
     this.getEmployeePagenation(); 
   }
 }
+

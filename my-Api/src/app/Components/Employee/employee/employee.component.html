@@ -9,43 +9,29 @@
       <input
         type="text"
         class="input-field"
-        placeholder="Search"
-        [(ngModel)]="EmployeeFilterObj.filterQuery"
-      />
+        placeholder="Search "
+        [(ngModel)]="search"
+      >
       <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
       <button
         class="btn search-btn btn-primary ms-2 btn-sm"
         (click)="onSearch()" >
         SEARCH
       </button>
-      <!-- <div class="ms-4 fw-medium fs-5">
-        <label for="filterField">Filter by:</label>
-        <select id="filterField" [(ngModel)]="selectedFilterField">
-          <option *ngFor="let field of filterFields" [value]="field">
-            {{ field }}
-          </option>
-        </select>
-      </div> -->
     </div>
   </div>
 </div>
-<!-- <div class="container">
-  <div class="alldata">All{{totalEntriesCount}}</div>
-  <div class="admin">Admin</div>
-  <div class="employee">SuperAdmin</div>
-  <div class="superadmin">Employee</div>
-</div> -->
 <div class="container mt-5 ">
   <div class="row">
     <div class="col-md-12">
       <button
       class="btn"
       [ngClass]="{ 'btn-primary': selectedRole === '', 'btn-outline-primary': selectedRole !== '' }"
-      (click)="getEmployeePagenation()">
+      (click)="filterByRole('')">
       All Data ({{totalEntriesCount}})
     </button>
       <button
-        class="btn "
+        class="btn ms-2"
         [ngClass]="{ 'btn-primary': selectedRole === 'SuperAdmin', 'btn-outline-primary': selectedRole !== 'SuperAdmin' }"
         (click)="filterByRole('SuperAdmin')"
       >
@@ -68,7 +54,6 @@
     </div>
   </div>
 </div>
-
 <div class="container mt-5">
   <div class="row">
     <div class="col-12">
@@ -94,7 +79,7 @@
             <th class="col-md-1 text-center" (click)="sortDep('salary')">
               SALARY <i class="mdi mdi-menu-up hover-menu"></i>
             </th>
-            <th class="col-md-1 text-center" (click)="sortDep('role')">
+            <th class="col-md-1 text-center" (click)="sortDep('role')" *ngIf="selectedRole==''">
               ROLE <i class="mdi mdi-menu-up hover-menu"></i>
             </th>
             <th class="col-md-1 text-center" (click)="sortDep('adminName')">
@@ -111,7 +96,7 @@
             <td class="text-start ps-2">{{ item.createdOn }}</td>
             <td class="text-start ps-2">{{ item.createdBy }}</td>
             <td class="text-start ps-2">{{ item.salary }}</td>
-            <td class="text-start ps-2">  
+            <td class="text-start ps-2" *ngIf="selectedRole === ''">  
               <div *ngIf="item.role === 0" >Employee</div> 
               <div *ngIf="item.role === 1" >Admin</div>
               <div *ngIf="item.role === 2" > SuperAdmin</div> 
@@ -155,9 +140,8 @@
         [min]="1"
         [max]="maxPage"
         [(ngModel)]="pageInput"
-        placeholder="page"
         class="form-control go-input text-center me-2"
-      />
+      >
       <button class="btn btn-primary go-btn" (click)="goToPage()">GO</button>
       <div *ngIf="errorMsg" class="error-message text-danger">
         {{ errorMsg }}

@@ -2,10 +2,14 @@
 .input-field{
 height: 37px;
 width: 13rem;
-border-radius: 10px;
+border-radius: 15px;
 background: white;
 padding-left: 10px;
 border: none;
+}
+.search-btn .mdi-magnify {
+  font-size: 18px;
+  /* height: 1rem; */
 }
 .pagination{
    width: 28rem;   
@@ -14,7 +18,6 @@ border: none;
    padding-left: 0px !important;
    color: #004861;
    font-weight: 500;
- 
    padding-top: 5px;
 }
 .go-input{
@@ -69,13 +72,6 @@ border: none;
   .btn {
     border-radius: 5px;
   }
-
-  .input-field {
-    border-radius: 5px;
-    padding: 5px 10px;
-    border: 1px solid #ced4da;
-  }
-
   .pagination {
     margin-top: 20px;
   }

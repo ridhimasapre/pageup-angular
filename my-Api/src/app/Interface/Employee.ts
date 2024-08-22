@@ -40,7 +40,7 @@ export interface EmployeeForm{
 export enum EmployeeRole {
   Employee = 0,
   Admin=1,
-  SuperAdmi=2,
+  SuperAdmin=2,
 }
 export interface AddEmployeeRequest{
   userName: string | null | undefined,
@@ -57,6 +57,11 @@ export interface AddEmployeeResponse{
   message: string,
   data: number,
   totalEntriesCount:number
+}
+export interface RoleCountResponse{
+  success: boolean,
+  message: string,
+  data: number,
 }
 export interface EmployeeDeleteResponse {
   success: boolean;
@@ -88,7 +93,7 @@ export interface EmployeePagenatorRequest{
   isAscending: boolean,
   pageNumber: number,
   pageSize: number,
-
+  additionalSearch:string
 }
 export interface EmployeePagenatorResponse{
   success:boolean,
