@@ -9,8 +9,7 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class EmployeeService {
-  // public token="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwiTmFtZSI6IlJpZGhpbWEgU2FwcmUiLCJJZCI6IjMiLCJHdWlkIjoiNzI3NWM4NWEtYTU4Zi00OGU0LWJkOWUtMDM0ZTczMTljN2YwIiwiZXhwIjoxNzI0NzU3ODc5LCJpc3MiOiJKd3RJc3N1ZXIiLCJhdWQiOiJKd3RBdWRpZW5jZSJ9.owYJFGSinpjguttKip8zJcV1vQKFZ6ArnzjlKngFYMY"
-  public token="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwiTmFtZSI6IlJpZGhpbWEgU2FwcmUiLCJJZCI6IjMiLCJHdWlkIjoiNTNmODhlNmUtNDQ2MS00N2U4LTg0ODQtNWVhZjlhNGU1MWZhIiwiZXhwIjoxNzI0NzY2MDQ2LCJpc3MiOiJKd3RJc3N1ZXIiLCJhdWQiOiJKd3RBdWRpZW5jZSJ9.3AQz5WC_DWZCM4gQIozpAhhHXjBQX-lpHwpzNkQ-FmI"
+  public token="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwiTmFtZSI6IlJpZGhpbWEgU2FwcmUiLCJJZCI6IjMiLCJHdWlkIjoiNzZkZDc2ZDMtZGNjYi00YTk0LWI1NDktMWQ4MzFmNjE2ZTVmIiwiZXhwIjoxNzI0ODIzMzI1LCJpc3MiOiJKd3RJc3N1ZXIiLCJhdWQiOiJKd3RBdWRpZW5jZSJ9.YdAGom1nrHtlrWKx6bCD9-Qe1xXTTQvXwDWB4OLIjoM"
   public url = `${environment.apiUrl}/api/Employees/GetAllEmployee`;
   public pagenationUrl= `${environment.apiUrl}/api/Employees/GetAllEmployee`
   public DeleteUrl=`${environment.apiUrl}/api/Employees/DeleteBy`
@@ -18,6 +17,7 @@ export class EmployeeService {
   public IdUrl=`${environment.apiUrl}/api/Employees/GetBy`
   public adminUrl=`${environment.apiUrl}/api/Department/GetEmployeesUnderDepartment`
   public roleCountUrl=`${environment.apiUrl}/api/Employees/getCount?role=`
+  public updateUrl=`${environment.apiUrl}/api/Employees/UpdateBy`
 
     constructor(private httpClient:HttpClient) { }
     private headers = new HttpHeaders({
@@ -38,7 +38,7 @@ export class EmployeeService {
     }
     public updatedEmployee(data: unknown, id: number): Observable<UpdatedEmployeeResponse>{
       
-      return this.httpClient.put<UpdatedEmployeeResponse>(`${this.url}/${id}`, data, {headers:this.headers});
+      return this.httpClient.put<UpdatedEmployeeResponse>(`${this.updateUrl}/${id}`, data, {headers:this.headers});
     }
     public PaginationEmployee(data:EmployeePagenatorRequest):Observable<EmployeePagenatorResponse>{
       return this.httpClient.post<EmployeePagenatorResponse>(this.pagenationUrl,data,{headers:this.headers})

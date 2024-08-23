@@ -19,8 +19,8 @@ export class ProjectComponent implements OnInit{
   public selectedStatus:string="";
   public createdCount: number = 0;
   public runningCount: number = 0;
-  public search:string="";
   public completedCount: number = 0;
+  public search:string="";
   public filterObj ={
     filterOn:"",
     filterQuery:"",
@@ -31,13 +31,14 @@ export class ProjectComponent implements OnInit{
     additionalSearch:""
   }
   public  totalEntriesCount:number=0;
-  public rolesentriesCount:boolean=false;
+  public displayedEntriesCount: number = 0; 
+  public statusEntriesCount:boolean=false;
   constructor(private projectService:ProjectService,
     private EmployeeService:EmployeeService,
     private httpClient:HttpClient){}
 ngOnInit(): void {
   this.getPagenation();
-
+  this.calculateStatusCounts();
 }
 // public getProject():void{
 //   this.projectService.GetProject().subscribe((data=>{
@@ -50,10 +51,9 @@ public getPagenation():void{
    
   this.projectService.PaginationProject(this.filterObj).subscribe({
     next:(res:ProjectResponse<Project[]>)=>{
-      // this.ProjectList;
       this.ProjectList=res.data;
       console.log("my data is",this.ProjectList);
-      this.paginator.length=this.totalEntriesCount;
+      this.totalEntriesCount=res.totalEntriesCount
         if (this.paginator) {
       this.paginator.length = this.totalEntriesCount;
     }
@@ -66,32 +66,32 @@ public getPagenation():void{
     }
   })
 }
-public getRoleCount(role: ProjectStatus): void {
-  this.projectService.getRoleCount(role).subscribe({
+public getStatusCount(status: ProjectStatus): void {
+  this.projectService.getStatusCount(status).subscribe({
     next: (data: ProjectResponse<number>) => {        
-      if (role === ProjectStatus.created) {
+      if (status === ProjectStatus.created) {
         this.createdCount = data.data;
-      } else if (role === ProjectStatus.running) {
+      } else if (status === ProjectStatus.running) {
         this.runningCount = data.data;
-      } else if (role === ProjectStatus.completed) {
+      } else if (status === ProjectStatus.completed) {
         this.completedCount = data.data;
       }
     }
   });
 }
-public calculateRoleCounts(): void {
-  this.getRoleCount(ProjectStatus.created);
-  this.getRoleCount(ProjectStatus.running);
-  this.getRoleCount(ProjectStatus.completed);
+public calculateStatusCounts(): void {
+  this.getStatusCount(ProjectStatus.created);
+  this.getStatusCount(ProjectStatus.running);
+  this.getStatusCount(ProjectStatus.completed);
 }
 public changePageSize(newSize: number): void {
   this.filterObj.pageSize = newSize;
   this.getPagenation();
 }
 public onSearch(): void {
-  if (this.rolesentriesCount == true) {
-    // If a role filter is active, search the role      
-    this.filterObj.filterOn = "role";      
+  if (this.statusEntriesCount == true) {
+    // If a status filter is active, search the status      
+    this.filterObj.filterOn = "status";      
     this.filterObj.filterQuery = this.selectedStatus;      
     this.filterObj.additionalSearch = this.search;      
   } else {
@@ -154,15 +154,11 @@ public clearSearch(): void {
   this.pageInput = 1; 
   this.getPagenation();
 }
-public filterByRole(status: string): void { 
+public filterBystatus(status: string): void { 
   this.selectedStatus = status; 
-  this.filterObj.filterOn = "role";
+  this.filterObj.filterOn = "status";
   this.filterObj.filterQuery = status;
-  this.rolesentriesCount=true;
-  // if(this.rolesentriesCount === true){
-  //   this.filterObj.filterQuery=this.selectedRole 
-  // this.filterObj.additionalSearch = "";
-  // }
+  this.statusEntriesCount=true;
   this.filterObj.pageNumber = 1; 
   this.getPagenation(); 
 }

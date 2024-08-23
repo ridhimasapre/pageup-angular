@@ -11,6 +11,7 @@
         class="input-field"
         placeholder="Search "
         [(ngModel)]="search"
+        (keyup.enter)="onSearch()"
       >
       <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
       <button
@@ -125,7 +126,7 @@
     <div class="col-4 mb-5">
       <mat-paginator
         class="pagination shadow"
-        [length]="totalEntriesCount"
+        [length]="displayedEntriesCount"
         [pageSize]="EmployeeFilterObj.pageSize"
         [pageSizeOptions]="[5, 10, 20, 50]"
         aria-label="Select page"
@@ -140,6 +141,7 @@
         [min]="1"
         [max]="maxPage"
         [(ngModel)]="pageInput"
+        (keyup.enter)="goToPage()"
         class="form-control go-input text-center me-2"
       >
       <button class="btn btn-primary go-btn" (click)="goToPage()">GO</button>

@@ -5,16 +5,16 @@
         <button class="btn btn-primary fw-medium" routerLink="add">Add TASK</button>
       </div>
       <div class="col-md-6 d-flex">
-        <input type="text" class="input-field" placeholder="Search" [(ngModel)]="filterObj.filterQuery">
+        <input type="text" class="input-field" placeholder="Search" [(ngModel)]="filterObj.filterQuery" (keyup.enter)="onSearch()">
         <button class="btn btn-primary fw-medium ms-2 " (click)="onSearch()">SEARCH</button>
-        <div class="ms-4 fw-medium fs-5">
+        <!-- <div class="ms-4 fw-medium fs-5">
           <label for="filterField">Filter by:</label>
           <select id="filterField" [(ngModel)]="selectedFilterField">
             <option *ngFor="let field of filterFields" [value]="field">
               {{ field }}
             </option>
           </select>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -48,10 +48,6 @@
               <td>{{ item.createdOn }}</td>
               <td>{{ item.assigned_To }}</td>
               <td>{{ item.assigned_From }}</td>
-              <!-- <td>{{ item.assignedToId }}</td> -->
-              <!-- <td> <div *ngFor="let project of item.">
-                <div class="pt-2 col-md-7 text-center">{{project.name}}</div>  
-            </div></td> -->
               <td class="text-center">
                 <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/task/edit', item.id]">UPDATE</button>
                 <button class="btn btn-danger  fw-medium btn-sm ms-2" (click)="delete(item.id)">DELETE</button>
@@ -63,7 +59,7 @@
       </div>
     </div>
   </div>
-  <div class="container mt-5 ">
+  <!-- <div class="container mt-5 ">
     <div class="row ">
       <div class="col-4 mb-5" >
         <mat-paginator class="pagination shadow" [length]="totalEntriesCount" [pageSize]="filterObj.pageSize" 
@@ -81,6 +77,41 @@
       </div>
       
     </div>
+    </div> -->
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6 d-flex align-items-center">
+          <button class="btn btn-outline-primary me-2" [disabled]="filterObj.pageNumber === 1" (click)="previousPage()">Previous</button>
+          
+          <!-- Dropdown for selecting page number -->
+          <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="pageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              Page {{ filterObj.pageNumber }} of {{ maxPage }}
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="pageDropdown">
+              <li *ngFor="let page of [].constructor(maxPage); let i = index">
+                <a class="dropdown-item " (click)="goToPageFromDropdown(i + 1)">{{ i + 1 }}</a>
+              </li>
+            </ul>
+          </div>
+          
+          <button class="btn btn-outline-primary ms-2" [disabled]="filterObj.pageNumber === maxPage" (click)="nextPage()">Next</button>
+        </div>
+    
+        <div class="col-md-6 d-flex justify-content-end">
+          <input
+            type="number"
+            [min]="1"
+            [max]="maxPage"
+            [(ngModel)]="pageInput"
+            class="form-control text-center me-2"
+            style="width: 80px;"
+            placeholder="Page"
+          >
+          <button class="btn btn-primary" (click)="goToPage()">Go</button>
+          <div *ngIf="errorMsg" class="text-danger ms-2">
+            {{ errorMsg }}
+          </div>
+        </div>
+      </div>
     </div>
-  <!-- </div> -->
-  

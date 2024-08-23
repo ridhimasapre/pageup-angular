@@ -30,6 +30,7 @@ export class EmployeeComponent implements OnInit {
     additionalSearch:"",
   }
   public totalEntriesCount: number = 0;
+  public displayedEntriesCount: number = 0; 
   public rolesentriesCount:boolean=false;
   constructor(private employeeservice: EmployeeService,
     private httpclient: HttpClient, 
@@ -38,17 +39,28 @@ export class EmployeeComponent implements OnInit {
     this.getEmployeePagenation();
     this.calculateRoleCounts()
   }
-  // console.log(this.EmployeeFilterObj);
   public getEmployeePagenation(): void {
     // console.log(this.EmployeeFilterObj);
     this.employeeservice.PaginationEmployee(this.EmployeeFilterObj).subscribe({
       next: (res: EmployeePagenatorResponse) => {
         this.employeeList = res.data;
         this.totalEntriesCount = res.totalEntriesCount;
+        if (this.rolesentriesCount) {
+          if (this.selectedRole === 'SuperAdmin') {
+            this.displayedEntriesCount = this.superAdminCount;
+          } else if (this.selectedRole === 'Admin') {
+            this.displayedEntriesCount = this.adminCount;
+          } else if (this.selectedRole === 'Employee') {
+            this.displayedEntriesCount = this.employeeCount;
+          }
+        } else {
+          this.displayedEntriesCount = this.totalEntriesCount;
+        }
         console.log("pagination count",res);
         this.updateMaxPage();
         if (this.paginator) {
-          this.paginator.length = this.totalEntriesCount;
+          // this.paginator.length = this.totalEntriesCount;
+          this.paginator.length = this.displayedEntriesCount; 
         }
       }
     })
@@ -91,7 +103,6 @@ export class EmployeeComponent implements OnInit {
     this.getEmployeePagenation();
   }
   public onSearch(): void {
-    // this.EmployeeFilterObj.filterQuery = this.EmployeeFilterObj.filterQuery.trim();
     if (this.rolesentriesCount == true) {
       // If a role filter is active, search the role      
       this.EmployeeFilterObj.filterOn = "role";      
@@ -102,8 +113,12 @@ export class EmployeeComponent implements OnInit {
       this.EmployeeFilterObj.filterOn = ""; 
     this.EmployeeFilterObj.filterQuery = this.EmployeeFilterObj.filterQuery.trim();
     }
-    // this.EmployeeFilterObj.additionalSearch = "";
     this.EmployeeFilterObj.pageNumber = 1;
+    this.getEmployeePagenation();
+  }
+  public clearSearch(): void {
+    this.EmployeeFilterObj.filterQuery =""; 
+    this.search=""
     this.getEmployeePagenation();
   }
   public onPageEvent(event: PageEvent): void {
@@ -144,24 +159,12 @@ export class EmployeeComponent implements OnInit {
   public getGlobalIndex(index: number): number {
     return (this.EmployeeFilterObj.pageNumber - 1) * this.EmployeeFilterObj.pageSize + index + 1;
   }
-  public clearSearch(): void {
-    this.EmployeeFilterObj.filterQuery =""; 
-    // this.EmployeeFilterObj.additionalSearch="";
-    this.search=""
-    // this.selectedRole="" 
-    // this.rolesentriesCount = false; 
-    this.pageInput = 1; 
-    this.getEmployeePagenation();
-  }
+ 
    public filterByRole(role: string): void { 
     this.selectedRole = role; 
     this.EmployeeFilterObj.filterOn = "role";
     this.EmployeeFilterObj.filterQuery = role;
     this.rolesentriesCount=true;
-    // if(this.rolesentriesCount === true){
-    //   this.EmployeeFilterObj.filterQuery=this.selectedRole 
-    // this.EmployeeFilterObj.additionalSearch = "";
-    // }
     this.EmployeeFilterObj.pageNumber = 1; 
     this.getEmployeePagenation(); 
   }

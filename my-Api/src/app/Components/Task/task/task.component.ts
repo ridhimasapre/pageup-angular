@@ -11,22 +11,25 @@ import { DeleteServiceService } from '../../../Service/delete-service.service';
   styleUrl: './task.component.css'
 })
 export class TaskComponent implements OnInit{
-constructor(private taskService:TaskService,private httpClient:HttpClient,private deleteservice:DeleteServiceService){}
-public TaskList:Task[]=[];
-public pageInput: number=1;
+  public TaskList:Task[]=[];
+  public pageInput: number=1;
   public errorMsg:string='';
-  public filterFields = ['name', 'createdBy','status'];
-public selectedFilterField: string = 'name'; 
-@ViewChild(MatPaginator) paginator!:MatPaginator;
-public filterObj ={
-  filterOn:'',
-  filterQuery:'',
-  sortBy : '',
-  isAscending: true,
-  pageNumber: 1,
-  pageSize: 10
-}
-public  totalEntriesCount:number=15;
+  public maxPage: number = 1;
+  // public filterFields = ['name', 'createdBy','status'];
+  // public selectedFilterField: string = 'name'; 
+  @ViewChild(MatPaginator) paginator!:MatPaginator;
+  public filterObj ={
+    filterOn:'',
+    filterQuery:'',
+    sortBy : '',
+    isAscending: true,
+    pageNumber: 1,
+    pageSize: 10
+  }
+  public  totalEntriesCount:number=15;
+  constructor(private taskService:TaskService,
+    private httpClient:HttpClient,
+    private deleteservice:DeleteServiceService){}
 
 ngOnInit(): void {
   this.getPagenation();
@@ -37,7 +40,7 @@ public getPagenation():void{
     next:(res:TaskResponse<Task[]>)=>{
       // this.ProjectList;
       this.TaskList=res.data;
-      console.log("my data is",this.TaskList);
+      // console.log("my data is",this.TaskList);
       this.paginator.length=this.totalEntriesCount;
         if (this.paginator) {
       this.paginator.length = this.totalEntriesCount;
@@ -71,10 +74,9 @@ public changePageSize(newSize: number): void {
   this.getPagenation();
 }
 public onSearch(): void {
-  this.filterObj.filterOn = this.selectedFilterField;
+  // this.filterObj.filterOn = this.selectedFilterField;
   this.filterObj.filterQuery = this.filterObj.filterQuery.trim();
   this.filterObj.pageNumber = 1;
-  // this.filterObj.pageSize = 10;
   this.getPagenation();
  }
  public onPageEvent(event: PageEvent): void {
@@ -96,25 +98,22 @@ this.getPagenation();
 }
 }
 //jump on the particular page
-public goToPage(): void {
-const maxPage=this.getMaxPage()
-if (this.pageInput && this.pageInput > 0 && this.pageInput <= this.getMaxPage()) {
-const event: PageEvent = {
-  pageIndex: this.pageInput - 1,
-  pageSize: this.filterObj.pageSize,
-  length: this.totalEntriesCount
-};
-this.onPageEvent(event);
-// this.filterObj.pageNumber=this.pageInput
-this.getPagenation();
-this.errorMsg=''
-}else{
-this.errorMsg=`page number ${this.pageInput} does not exist`;
-this.pageInput=1;
-// this.errorMsg='';
-}
-}
-
+// public goToPage(): void {
+// const maxPage=this.getMaxPage()
+// if (this.pageInput && this.pageInput > 0 && this.pageInput <= this.getMaxPage()) {
+// const event: PageEvent = {
+//   pageIndex: this.pageInput - 1,
+//   pageSize: this.filterObj.pageSize,
+//   length: this.totalEntriesCount
+// };
+// this.onPageEvent(event);
+// this.getPagenation();
+// this.errorMsg=''
+// }else{
+// this.errorMsg=`page number ${this.pageInput} does not exist`;
+// this.pageInput=1;
+// }
+// }
 getMaxPage(): number {
 return Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
 }
@@ -122,4 +121,38 @@ return Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
 public getGlobalIndex(index: number): number {
 return(this.filterObj.pageNumber - 1) * this.filterObj.pageSize + index + 1;
 }
+public changePage(newPage: number): void {
+  if (newPage >= 1 && newPage <= this.maxPage) {
+    this.filterObj.pageNumber = newPage;
+    // this.getTasks();  // Method to get the tasks based on the current page
+  }
+}
+
+public goToPageFromDropdown(pageNumber: number): void {
+  this.pageInput = pageNumber;
+  this.goToPage();
+}
+
+public goToPage(): void {
+  if (this.pageInput && this.pageInput > 0 && this.pageInput <= this.maxPage) {
+    this.changePage(this.pageInput);
+    this.errorMsg = "";
+  } else {
+    this.errorMsg = `Page number ${this.pageInput} does not exist`;
+    this.pageInput = 1;
+  }
+}
+
+public previousPage(): void {
+  if (this.filterObj.pageNumber > 1) {
+    this.changePage(this.filterObj.pageNumber - 1);
+  }
+}
+
+public nextPage(): void {
+  if (this.filterObj.pageNumber < this.maxPage) {
+    this.changePage(this.filterObj.pageNumber + 1);
+  }
+}
+
 }

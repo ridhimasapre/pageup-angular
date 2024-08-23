@@ -28,7 +28,7 @@
       </select>
     </div>
   
-    <div class="mb-2 d-flex"> 
+    <div *ngIf="myEmployeeForm.get('departmentId')?.value" class="mb-2 d-flex"> 
       <label for="admin" class="fw-medium me-2 fs-5 mt-2">Admin:</label>
       <select id="admin" formControlName="adminId" >
         <option *ngFor="let item of SelectedEmployeeList" [value]="item.id">{{ item.name }}</option>

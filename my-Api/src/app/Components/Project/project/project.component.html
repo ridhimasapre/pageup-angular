@@ -10,6 +10,7 @@
           class="input-field"
           placeholder="Search "
           [(ngModel)]="search"
+          (keyup.enter)="onSearch()"
         >
         <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
         <button
@@ -26,27 +27,27 @@
               <button
               class="btn"
               [ngClass]="{ 'btn-primary': selectedStatus === '', 'btn-outline-primary': selectedStatus !== '' }"
-              (click)="filterByRole('')">
+              (click)="filterBystatus('')">
               All Data ({{totalEntriesCount}})
             </button>
               <button
                 class="btn ms-2"
-                [ngClass]="{ 'btn-primary': selectedStatus === 'SuperAdmin', 'btn-outline-primary': selectedStatus !== 'SuperAdmin' }"
-                (click)="filterByRole('SuperAdmin')"
+                [ngClass]="{ 'btn-primary': selectedStatus === 'created', 'btn-outline-primary': selectedStatus !== 'created' }"
+                (click)="filterBystatus('created')"
               >
                 Created ({{createdCount}})
               </button>
               <button
                 class="btn ms-2"
-                [ngClass]="{ 'btn-primary': selectedStatus === 'Admin', 'btn-outline-primary': selectedStatus !== 'Admin' }"
-                (click)="filterByRole('Admin')"
+                [ngClass]="{ 'btn-primary': selectedStatus === 'running', 'btn-outline-primary': selectedStatus !== 'running' }"
+                (click)="filterBystatus('running')"
               >
                 Running ({{runningCount}})
               </button>
               <button
                 class="btn ms-2"
-                [ngClass]="{ 'btn-primary': selectedStatus === 'Employee', 'btn-outline-primary': selectedStatus !== 'Employee' }"
-                (click)="filterByRole('Employee')"
+                [ngClass]="{ 'btn-primary': selectedStatus === 'completed', 'btn-outline-primary': selectedStatus !== 'completed' }"
+                (click)="filterBystatus('completed')"
               >
                 Completed ({{completedCount}})
               </button>
@@ -65,7 +66,7 @@
               <th class="col-md-1">ID</th>
               <th class="col-md-1 "  (click)="sortDep('name')">NAME <i class="mdi mdi-menu-up hover-menu"></i></th>
               <th class="col-md-2" >DESCRIPTION</th>
-              <th class="col-md-1" >STATUS </th>
+              <th class="col-md-1"*ngIf="selectedStatus==''" >STATUS </th>
               <th class="col-md-1" (click)="sortDep('createdon')">CREATEDON <i class=" mdi mdi-menu-up hover-menu"></i></th>
               <th class="col-md-2" >MEMBER </th>
               <th class="col-md-2">ACTION</th>
@@ -76,7 +77,7 @@
               <td >{{ getGlobalIndex(i) }}</td>
               <td>{{ item.name }}</td>
               <td>{{ item.description }}</td>
-              <td>
+              <td *ngIf="selectedStatus==''">
                 <div *ngIf="item.status == 0">Created</div>
                 <div *ngIf="item.status == 1">Running</div>
                 <div *ngIf="item.status == 2">Completed</div>

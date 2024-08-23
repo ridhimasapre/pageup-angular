@@ -35,6 +35,11 @@ export class AddEmployeeComponent implements OnInit {
     this.getParamId();
     this.getDepartment();    
     this.getEmployeeByDepartment(this.paramId)
+     // Only fetch employee data for editing
+     if (this.isEdit) {
+      this.getEmployeeById();
+    }
+  
   }
   public getParamId(): void {
     this.activatedRoute.paramMap.subscribe(param => {
