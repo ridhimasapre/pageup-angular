@@ -38,7 +38,13 @@ export enum ProjectStatus{
   running=1,
   completed=2
 }
-
+export interface members{
+  id:number;
+}
+export interface EmployeeProjectIDs{
+id:number;
+name:string;
+}
 export interface AddRequest{
     name: string,
     description: string |null,
@@ -55,5 +61,16 @@ export interface AddRequest{
     isAscending: boolean,
     pageNumber: number,
     pageSize: number,
-    additionalSearch:string
+    additionalSearch:string,
+  }
+  export interface SprintById<T>{
+    success:string,
+    message:string,
+    data:T;
+  }
+  export interface Sprint{
+    id:number,
+    name:string;
+    startDate:string,
+    endDate:string;
   }

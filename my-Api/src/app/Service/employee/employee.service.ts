@@ -9,7 +9,7 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class EmployeeService {
-  public token="eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwiTmFtZSI6IlJpZGhpbWEgU2FwcmUiLCJJZCI6IjMiLCJHdWlkIjoiNzZkZDc2ZDMtZGNjYi00YTk0LWI1NDktMWQ4MzFmNjE2ZTVmIiwiZXhwIjoxNzI0ODIzMzI1LCJpc3MiOiJKd3RJc3N1ZXIiLCJhdWQiOiJKd3RBdWRpZW5jZSJ9.YdAGom1nrHtlrWKx6bCD9-Qe1xXTTQvXwDWB4OLIjoM"
+  public token=environment.token
   public url = `${environment.apiUrl}/api/Employees/GetAllEmployee`;
   public pagenationUrl= `${environment.apiUrl}/api/Employees/GetAllEmployee`
   public DeleteUrl=`${environment.apiUrl}/api/Employees/DeleteBy`

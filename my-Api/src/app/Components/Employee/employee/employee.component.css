@@ -52,6 +52,21 @@
        font-weight: 500;
        padding-top: 5px;
     }
+   /* .paginator-parent .mat-mdc-paginator-container{
+      border-radius: 40px;
+      width: 28rem;   
+       height: 4rem;
+       color: #004861;
+       font-weight: 500;
+       padding-top: 5px;
+       display: flex;
+       flex-direction: row;
+    } */
+    /* .mat-mdc-paginator-page-size{
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+    } */
     .go-input{
         margin-left: 7rem;
         margin-top: 1rem;

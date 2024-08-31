@@ -61,29 +61,6 @@ export class AddEmployeeComponent implements OnInit {
       role: new FormControl<EmployeeRole | null>(null, [Validators.required]),
     });
   }
-  // public addEmployee(): void {
-  //   const { name } = this.myEmployeeForm.value;
-
-  //   if (!name) {
-  //     alert(" name is required.");
-  //     return;
-  //   }else
-
-  //   console.log(this.employeeList)
-  //   let departmentExists=false;
-  //   this.employeeList.forEach(department=>{
-  //     console.log("depatment name",name);
-  //     console.log("name is ",department.name);
-
-  //     if(department.name?.toUpperCase()===name.toUpperCase()){
-  //       departmentExists=true;
-
-  //       alert("department already exist")
-  //       this.myEmployeeForm.reset();
-  //     }
-  //     return;
-  //   })
-  // }
   public addEmployee(): void {
     console.log("console log stringdata",this.myEmployeeForm.value)
     if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.myEmployeeForm.value.userName
@@ -126,14 +103,15 @@ export class AddEmployeeComponent implements OnInit {
   }
   public onDepartmentChange(): void {
     console.log("department with employee id");
-
     const departmentId = this.myEmployeeForm.get('departmentId')?.value;
     if (departmentId) {
       this.getEmployeeByDepartment(departmentId);
-    // } else {
-    //   this.SelectedEmployeeList = [];
     }
   }
+
+public onAdminChange():void{
+  const adminId=this.myEmployeeForm.get("adminId")?.value;
+}
   public updateEmployee(): void {
     console.log("updated data",this.myEmployeeForm.value);
     if (this.myEmployeeForm.value.name && this.myEmployeeForm.value.salary && this.paramId, this.myEmployeeForm.value.userName && this.myEmployeeForm.value.password) {
@@ -147,7 +125,7 @@ export class AddEmployeeComponent implements OnInit {
         role: Number(this.myEmployeeForm.value.role)
       };
       this.employeeService.updatedEmployee(body,this.paramId).subscribe(response => {
-        alert('Employee updated successfully');
+        // alert('Employee updated successfully');
         this.router.navigate(['/employee']);
       });
     }
@@ -155,8 +133,9 @@ export class AddEmployeeComponent implements OnInit {
   public getEmployeeById(): void {
     this.employeeService.EmployeeById(this.paramId).subscribe((res: EmployeeResponseById) => {
       const employeeData = res.data;
+      console.log(employeeData);
       if (employeeData) {
-        console.log("patch value",this.myEmployeeForm);
+        console.log("patch value",this.myEmployeeForm.value);
         this.myEmployeeForm.patchValue({
           userName:employeeData.userName,
           password:employeeData.password,
@@ -164,9 +143,13 @@ export class AddEmployeeComponent implements OnInit {
           salary: employeeData.salary,
           departmentId:Number(employeeData.departmentId),
           adminId:Number(employeeData.adminId),
-          role:Number(employeeData.role),
-          
+          role:Number(employeeData.role),          
         });
+      }
+      if(employeeData.departmentId!=null){
+      this.getEmployeeByDepartment(employeeData.departmentId);
+      this.myEmployeeForm.value.adminId = employeeData.adminId;
+      console.log("admin id",employeeData.adminName); 
       }
     });
   }

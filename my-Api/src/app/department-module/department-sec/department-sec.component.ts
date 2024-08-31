@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { department, DepartmentPagenatorResponse } from '../../../Interface/Department';
-import { DepartmentServiceService } from '../../../Service/Department/department-service.service';
+import { department,DepartmentPagenatorResponse } from '../../Interface/Department';
+import { DepartmentServiceService } from '../Service/departmentservice.service';
 import { HttpClient } from '@angular/common/http';
-import { DeleteServiceService } from '../../../Service/delete-service.service';
+// import { DeleteServiceService } from '../../../Service/delete-service.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { DepartmentAddModalComponent } from '../department-add-modal/department-add-modal.component';
+// import { DepartmentAddModalComponent } from '../department-add-modal/department-add-modal.component';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-department',
@@ -15,11 +15,13 @@ import { Router } from '@angular/router';
   styleUrl: './department.component.css'
 })
 export class DepartmentComponent implements OnInit {
+  // @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   public departmentList: department[] = [];
   public departmentNotFound: string = "";
-  public pageInput: number = 1;
+  public pageInput: number= 1;
   public errorMsg: string = "";
+  // public alreadyExist:string="";
   public maxPage: number = 1;
   public filterObj = {
     filterOn: "",
@@ -30,12 +32,13 @@ export class DepartmentComponent implements OnInit {
     pageSize: 10
   }
   public totalEntriesCount: number = 0;
+  public filterFields = ["name", "createdBy_Name"];
+  public selectedFilterField: string = "name"; 
   constructor(
     private departmentservice: DepartmentServiceService,
     private httpclient: HttpClient,
     private deleteservice: DeleteServiceService,
     public dialog: MatDialog,private router:Router) { }
-
   ngOnInit(): void {
     this.getPagination();
   }

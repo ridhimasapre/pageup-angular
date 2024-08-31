@@ -7,14 +7,6 @@
       <div class="col-md-6 d-flex">
         <input type="text" class="input-field" placeholder="Search" [(ngModel)]="filterObj.filterQuery" (keyup.enter)="onSearch()">
         <button class="btn btn-primary fw-medium ms-2 " (click)="onSearch()">SEARCH</button>
-        <!-- <div class="ms-4 fw-medium fs-5">
-          <label for="filterField">Filter by:</label>
-          <select id="filterField" [(ngModel)]="selectedFilterField">
-            <option *ngFor="let field of filterFields" [value]="field">
-              {{ field }}
-            </option>
-          </select>
-        </div> -->
       </div>
     </div>
   </div>

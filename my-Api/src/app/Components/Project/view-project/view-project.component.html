@@ -1,6 +1,51 @@
-<div>{{projectId}}</div>
-<div *ngFor="let item of project">
-  <label for="">Name</label>
-  <div>{{item.name}}</div>
-  <div>{{item.description}}</div>
+
+  <div *ngIf="project" class="card shadow-sm details">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">Project Details</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Name:</div>
+        <div class="col-md-8">{{ project.name }}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Description:</div>
+        <div class="col-md-8">{{ project.description }}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Status</div>
+        <div class="col-md-8">{{ getStatus(project.status) }}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Start Date & Time:</div>
+        <div class="col-md-8">{{ project.createdOn | date:'dd/MM/yyyy, h:mm a' }}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">End Date & Time:</div>
+        <div class="col-md-8">--</div>
+      </div>
+
+      <!-- <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Status:</div>
+        <div class="col-md-8">{{ project.status }}</div>
+      </div> -->
+      <div class="row mb-3">
+        <div class="col font-weight-bold">
+          <div class="fs-5 fw-medium mb-3">Members:</div>
+        <div *ngFor="let project of project.projectEmployee;let i=index" >
+          <ul><li>
+            <div>{{project.name}}</div>
+            <!-- <div><button class="btn btn-sm btn-danger" (click)="removeMember(i)">X</button></div> -->
+          </li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-danger mt-3">
+    {{ errorMsg }}
+  </div>
 </div>
+<app-task-list></app-task-list>

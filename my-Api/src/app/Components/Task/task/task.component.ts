@@ -13,24 +13,21 @@ import { DeleteServiceService } from '../../../Service/delete-service.service';
 export class TaskComponent implements OnInit{
   public TaskList:Task[]=[];
   public pageInput: number=1;
-  public errorMsg:string='';
+  public errorMsg:string= "";
   public maxPage: number = 1;
-  // public filterFields = ['name', 'createdBy','status'];
-  // public selectedFilterField: string = 'name'; 
   @ViewChild(MatPaginator) paginator!:MatPaginator;
   public filterObj ={
-    filterOn:'',
-    filterQuery:'',
-    sortBy : '',
+    filterOn: "",
+    filterQuery: "",
+    sortBy : "",
     isAscending: true,
     pageNumber: 1,
     pageSize: 10
   }
-  public  totalEntriesCount:number=15;
+  public totalEntriesCount:number=15;
   constructor(private taskService:TaskService,
     private httpClient:HttpClient,
     private deleteservice:DeleteServiceService){}
-
 ngOnInit(): void {
   this.getPagenation();
 }
@@ -50,12 +47,12 @@ public getPagenation():void{
       //   this.filterObj.filterQuery=''
       //   this.getPagenation();
       // } 
-      console.log("the data of patch value is",res.data);
+      console.log("the data of patch value is ",res.data);
     }
   })
 }
 public delete(id: number | null): void {
-  this.deleteservice.openConfirmDialogEmployee('Are you sure to delete this Name?').afterClosed().subscribe(data => {
+  this.deleteservice.openConfirmDialogEmployee("Are you sure to delete this Name?").afterClosed().subscribe(data => {
     if (data) {
       if (id !== null && id !== undefined) {
         this.taskService.deleteTask(id).subscribe(() => {

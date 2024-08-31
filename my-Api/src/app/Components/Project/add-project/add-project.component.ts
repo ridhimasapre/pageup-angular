@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Project, ProjectForm, subMembersForm } from '../../../Interface/Project';
+import { Project, projectEmployeeitem, ProjectForm, subMembersForm} from '../../../Interface/Project';
+import { Employee} from '../../../Interface/Employee';
 import { Router,ActivatedRoute } from '@angular/router';
 import { FormGroup,FormControl,Validators, FormArray } from '@angular/forms';
 import { ProjectService } from '../../../Service/Project/project.service';
+import { EmployeeService } from '../../../Service/employee/employee.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EmployeeComponent } from '../../Employee/employee/employee.component';
+import { EmployeeProjectIDs } from '../../../Interface/Project';
 
 @Component({
   selector: 'app-add-project',
@@ -11,23 +16,37 @@ import { ProjectService } from '../../../Service/Project/project.service';
 })
 export class AddProjectComponent implements OnInit{
   public ProjectData:Project[]=[];
+  public SelectedEmployeeList: Employee[] = [];
+  public addedMembers:string[]=[];
+  public projectMembers:EmployeeProjectIDs[]=[];
   public isEdit=  false;
+  public dataFlag!:boolean;
   public paramId!:number;
   public myProjectForm: FormGroup<ProjectForm> = this.createForm();
-  constructor(private projectService:ProjectService,private router:Router,private activatedRouter:ActivatedRoute){}
+  public ProjectFilterObj = {
+    filterOn: "",
+    filterQuery: "",
+    sortBy: "",
+    isAscending: true,
+    pageNumber: -1,
+    pageSize: -1,
+    additionalSearch:""
+  }
+  constructor(private projectService:ProjectService,
+    private router:Router,
+    private dialog:MatDialog,
+    private emplopyeeService:EmployeeService,
+    private activatedRouter:ActivatedRoute){}
 
 ngOnInit(): void {
-  this.getParamId();
-  
+  this.getParamId();  
 }
 public getParamId():void{
   this.activatedRouter.paramMap.subscribe(param=>{
-    this.paramId=Number(param.get('id'))??'';
+    this.paramId=Number(param.get('id'));
     if(this.paramId){
       this.isEdit=true;
       this.getProjectById(this.paramId)
-      // this.getEmployeeById(this.paramId)
-      // this.getEmployeeByDepartment()
     }
   })
 }
@@ -36,7 +55,6 @@ public createForm(): FormGroup<ProjectForm> {
     name:new FormControl(null,[Validators.required]),
     description:new FormControl(null,[Validators.required]),
     status:new FormControl(null,[Validators.required]),
-    // member:new FormControl(null,[Validators.required])
     projectEmployee:new FormArray<FormGroup<subMembersForm>>([
       new FormGroup<subMembersForm>({
         id:new FormControl(0),
@@ -46,7 +64,6 @@ public createForm(): FormGroup<ProjectForm> {
   })
 }
 public addProject():void{
-  // const { name } = this.myProjectForm.value;
   const { name } = this.myProjectForm.value;
   
   if (!name) {
@@ -63,13 +80,10 @@ public addProject():void{
       departmentExists=true;
       alert("department already exist")
       this.myProjectForm.reset();
-      
     }
     return;
   })
   // console.log();
-  this.myProjectForm.value.status=0;
-  
   this.projectService.AddProject(this.myProjectForm.value).subscribe({
     next: (data) => {
       console.log("data kya h",data);
@@ -78,22 +92,52 @@ public addProject():void{
     }
   });
   // console.log(this.myProjectForm.values);
-  // console.log(this.myProjectForm.value);
+}
+public addMembersFunction():void{
+
+}
+public openEmployeepopup(): void {
+  const dialog = this.dialog.open(EmployeeComponent, {
+    height: '600px',
+    width: '1600px',
+    enterAnimationDuration:"999ms",
+    exitAnimationDuration:"600ms",
+    disableClose: true,
+  });
+  dialog.componentInstance.dialogref=dialog;
+  dialog.componentInstance.isActive=true;
+  dialog.afterClosed().subscribe({
+    next: (data: projectEmployeeitem[] | null) => {
+      if (data) {
+        const membersArray = this.myProjectForm.controls['projectEmployee'] as FormArray;
+        console.log("member array",membersArray);
+        
+        data.forEach(employee => {
+          membersArray.push(new FormGroup<subMembersForm>({
+            id: new FormControl(employee.id),
+            name: new FormControl(employee.name)
+          }));
+        });
+
+        this.addedMembers = data.map(employee => employee.name);
+        console.log("Selected members:", data);
+      }
+    },
+    error: (err) => console.error("Error closing dialog:", err)
+  });
+}
+public removeMember(i: number): void {
+  this.addedMembers.splice(i, 1);
 }
 public updateEmployee(): void {
   if (this.myProjectForm.valid) {
     console.log("updated data",this.myProjectForm.value);
-    
     this.projectService.updateProject(this.paramId,this.myProjectForm).subscribe({
       next: (data) => {
         // alert("Employee is updated successfully.");
         this.router.navigateByUrl('/project');
         console.log("something went wrong",data);
       },
-      // error: (err) => {
-      //   console.error('Error:', err);
-      //   alert("Failed to update employee.");
-      // }
     });
   } else {
     alert("Form is not valid.");
@@ -106,9 +150,17 @@ public getProjectById(id:number ):void{
       name:data.data.name,
       description:data.data.description,
       status:data.data.status, 
-      projectEmployee:data.data.projectEmployee,     
+      // projectEmployee:data.data.projectEmployee,     
     })
-    console.log("data patched is 1",this.myProjectForm.value)
+    const membersArray = this.myProjectForm.controls['projectEmployee'] as FormArray;
+    data.data.projectEmployee.forEach((employee: projectEmployeeitem) => {
+      membersArray.push(new FormGroup<subMembersForm>({
+        id: new FormControl(employee.id),
+        name: new FormControl(employee.name)
+      }));
+    });
+    this.addedMembers = data.data.projectEmployee.map(employee => employee.name);
+    console.log("data patched is ",this.myProjectForm.value)
   }))
  }
  public addDetail():void {
@@ -121,8 +173,8 @@ public getProjectById(id:number ):void{
   console.log(currArr)
 }
 public remove(i: number):void {
-  let arr = this.myProjectForm.controls.projectEmployee;
-  arr.removeAt(i);
+  let remove = this.myProjectForm.controls.projectEmployee;
+  remove.removeAt(i);
 }
 }
-// 
+

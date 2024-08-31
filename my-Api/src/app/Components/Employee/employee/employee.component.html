@@ -5,7 +5,7 @@
         Add Employee
       </button>
     </div>
-    <div class="col-md-6 d-flex">
+    <div class="col-6 d-flex">
       <input
         type="text"
         class="input-field"
@@ -19,6 +19,9 @@
         (click)="onSearch()" >
         SEARCH
       </button>
+      <div  *ngIf="isActive">
+        <button class="btn ms-3 btn-danger" mat-dialog-close="true">Close</button>
+      </div>
     </div>
   </div>
 </div>
@@ -94,7 +97,7 @@
             <td class="text-center">{{ getGlobalIndex(i) }}</td>
             <td class="text-start ps-2">{{ item.name }}</td>
             <td class="text-start ps-2">{{ item.departmentName }}</td>
-            <td class="text-start ps-2">{{ item.createdOn }}</td>
+            <td class="text-start ps-2">{{ item.createdOn | date:'dd/MM/yyyy , h:mm a' }}</td>
             <td class="text-start ps-2">{{ item.createdBy }}</td>
             <td class="text-start ps-2">{{ item.salary }}</td>
             <td class="text-start ps-2" *ngIf="selectedRole === ''">  
@@ -103,16 +106,29 @@
               <div *ngIf="item.role === 2" > SuperAdmin</div> 
             </td>
             <td class="text-start ps-2">{{ item.adminName }}</td>
-            <td class="text-center">
+            <td class="text-center d-flex">
+              <div *ngIf="!isActive">
               <button class="btn btn-danger btn-sm" (click)="delete(item.id)">
                 DELETE
               </button>
+            </div>
+            <div *ngIf="!isActive" >
               <button
                 class="btn btn-primary btn-sm ms-2"
                 [routerLink]="['/employee/edit', item.id]"
               >
                 UPDATE
-              </button>
+              </button></div>
+             <div>
+              <div class="d-flex">
+                <div  *ngIf="isActive && !MemberAlreadyExist(item.id)">
+                  <button class="btn btn-success" (click)="addMemberFun(item.id,item.name)">Add</button>
+                </div>
+                <div  *ngIf="isActive && MemberAlreadyExist(item.id)">
+                  <button class="btn btn-success" (click)="addMemberFun(item.id,item.name)">Remove</button>
+                </div>
+              </div>
+             </div>
             </td>
           </tr>
         </tbody>
@@ -123,10 +139,10 @@
 
 <div class="container mt-5">
   <div class="row">
-    <div class="col-4 mb-5">
+    <div class="col-6 mb-5 paginator-parent">
       <mat-paginator
-        class="pagination shadow"
-        [length]="displayedEntriesCount"
+        class="pagination shadow mat-mdc-paginator-container"
+        [length]="rolesentriesCount ? displayedEntriesCount : totalEntriesCount"
         [pageSize]="EmployeeFilterObj.pageSize"
         [pageSizeOptions]="[5, 10, 20, 50]"
         aria-label="Select page"
@@ -134,7 +150,7 @@
       >
       </mat-paginator>
     </div>
-    <div class="col-md-6 ms-4 d-flex">
+    <div class="col-6">
       <!-- {{getMaxPage()}} -->
       <input
         type="number"

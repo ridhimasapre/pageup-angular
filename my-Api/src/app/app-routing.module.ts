@@ -14,7 +14,7 @@ const routes: Routes = [
   {path:'',component:DepartmentComponent},
   {path:'department' ,component:DepartmentComponent},
   {path:'department/add',component:AddComponent},
-  {path:'add/:id',component:AddComponent},
+  {path:'update/:id',component:AddComponent},
   {path:'employee',component:EmployeeComponent},
   {path:'employee/add',component:AddEmployeeComponent},
   {path:'employee/edit/:id',component:AddEmployeeComponent},
@@ -24,7 +24,8 @@ const routes: Routes = [
   {path:'project/view/:id',component:ViewProjectComponent},
   {path:'task',component:TaskComponent},
   {path:"task/add",component:AddTaskComponent},
-  {path:'task/edit/:id',component:AddTaskComponent}
+  {path:'task/edit/:id',component:AddTaskComponent},
+  // {path:"departmnet", loadChildren:()=>import('./department/department-module.module')}
 ];
 
 @NgModule({

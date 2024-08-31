@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { ProjectService } from '../../../Service/Project/project.service';
 import { HttpClient } from '@angular/common/http';
 import { EmployeeService } from '../../../Service/employee/employee.service';
-import { Project,ProjectResponse, ProjectStatus} from '../../../Interface/Project';
+import { Project,ProjectResponse, ProjectStatus,EmployeeProjectIDs} from '../../../Interface/Project';
 import { PageEvent,MatPaginator } from '@angular/material/paginator';
 import { ViewChild } from '@angular/core';
 
@@ -13,7 +13,8 @@ import { ViewChild } from '@angular/core';
 })
 export class ProjectComponent implements OnInit{
   @ViewChild(MatPaginator) paginator!:MatPaginator;
-  public ProjectList:Project[]=[]; 
+  public ProjectList:Project[]=[];
+  public EmployeeMembers:EmployeeProjectIDs[]=[]; 
   public pageInput: number=1;
   public errorMsg:string='';
   public selectedStatus:string="";
@@ -21,6 +22,7 @@ export class ProjectComponent implements OnInit{
   public runningCount: number = 0;
   public completedCount: number = 0;
   public search:string="";
+  public projectId!:number;
   public filterObj ={
     filterOn:"",
     filterQuery:"",
@@ -28,7 +30,9 @@ export class ProjectComponent implements OnInit{
     isAscending: true,
     pageNumber: 1,
     pageSize: 10,
-    additionalSearch:""
+    additionalSearch:"",
+    // startDate:"",
+    // endDate:"",
   }
   public  totalEntriesCount:number=0;
   public displayedEntriesCount: number = 0; 
@@ -40,13 +44,6 @@ ngOnInit(): void {
   this.getPagenation();
   this.calculateStatusCounts();
 }
-// public getProject():void{
-//   this.projectService.GetProject().subscribe((data=>{
-//     this.ProjectList=data.data;
-//     console.log("data dedo na",data);
-    
-//   }))
-//  } 
 public getPagenation():void{
    
   this.projectService.PaginationProject(this.filterObj).subscribe({
@@ -57,11 +54,6 @@ public getPagenation():void{
         if (this.paginator) {
       this.paginator.length = this.totalEntriesCount;
     }
-      // if (this.ProjectList.length === 0) {
-      //   alert('department is not found'); 
-      //   this.filterObj.filterQuery=''
-      //   this.getPagenation();
-      // } 
       console.log("the data of patch value is",res.data);
     }
   })
@@ -90,20 +82,19 @@ public changePageSize(newSize: number): void {
 }
 public onSearch(): void {
   if (this.statusEntriesCount == true) {
-    // If a status filter is active, search the status      
     this.filterObj.filterOn = "status";      
     this.filterObj.filterQuery = this.selectedStatus;      
-    this.filterObj.additionalSearch = this.search;      
+    this.filterObj.additionalSearch = this.search.trim();      
   } else {
-    // Otherwise, search all fields
+    // search all fields
     this.filterObj.filterOn = ""; 
-  this.filterObj.filterQuery = this.filterObj.filterQuery.trim();
+  // this.filterObj.filterQuery = this.filterObj.filterQuery.trim();
+  this.filterObj.additionalSearch=this.search.trim();
   }
   // this.filterObj.additionalSearch = "";
   this.filterObj.pageNumber = 1;
   this.getPagenation();
 }
- 
  public onPageEvent(event: PageEvent): void {
   this.filterObj.pageSize = event.pageSize;
   this.filterObj.pageNumber = event.pageIndex+1;
@@ -141,7 +132,6 @@ this.pageInput=1;
 // this.errorMsg='';
 }
 }
-
 getMaxPage(): number {
 return Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
 }
@@ -150,8 +140,15 @@ public getGlobalIndex(index: number): number {
 return(this.filterObj.pageNumber - 1) * this.filterObj.pageSize + index + 1;
 }
 public clearSearch(): void {
-  this.filterObj.filterQuery = ""; 
-  this.pageInput = 1; 
+  this.search = "";
+  this.filterObj.additionalSearch = "";
+  this.pageInput = 1;
+  if (this.statusEntriesCount) {
+    this.filterObj.filterQuery = "";
+  } else {
+    this.filterObj.filterOn = ""; 
+    this.filterObj.filterQuery = "";
+  }
   this.getPagenation();
 }
 public filterBystatus(status: string): void { 
@@ -162,6 +159,21 @@ public filterBystatus(status: string): void {
   this.filterObj.pageNumber = 1; 
   this.getPagenation(); 
 }
+public removeMember(memberId: number, projectId: number): void {
+  console.log("data is deleted", memberId, projectId);
+  this.projectService.removeProjectMember(projectId, memberId).subscribe({
+    next: () => {
+      this.EmployeeMembers = this.EmployeeMembers.filter(
+        (member) => member.id !== memberId        
+      );
+    },
+    error: (err) => {
+      this.errorMsg = 'Failed to remove the member.';
+      console.error(err);
+    }
+  });
 }
+}
+
 
 

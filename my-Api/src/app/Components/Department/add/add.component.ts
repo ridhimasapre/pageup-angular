@@ -35,30 +35,9 @@ export class AddComponent implements OnInit {
     private activatedroute:ActivatedRoute) {}
 
   ngOnInit(): void {
-    // this.getdepart()
-    // this.getPagination();
+  
     this.getParamId()
   }
-  // public getdepart(): void{
-  //     this.departmentService.getDepartmentList().subscribe({
-  //       next: (data: departmentResponse)=>{
-  //         console.log(data);
-  //         this.UserData = data.data;
-  //       },
-       
-  //     })
-  //   }  
-    // public getAllDepartment(): void{
-    //   this.departmentService.PaginationDepartment().subscribe({
-    //     next: (data: departmentResponse)=>{
-    //       console.log(data);
-    //       this.UserData = data.data;
-    //     },
-    //   })
-    // }
-    // public getAllDep():void{
-    //   this.departmentService.PaginationDepartment().subscribe((da))
-    // }
   public createForm(): FormGroup<departmentForm> {
     return new FormGroup<departmentForm>({
       id:new FormControl(null),
@@ -123,16 +102,6 @@ export class AddComponent implements OnInit {
       alert("Form is not valid.");
     }
   }
-  // public getDepartmentById(id:number):void{
-  //   this.departmentService.getDepartmentById(id).subscribe((data =>{
-  //     // this.UserData=this.UserData;
-  //     this.myDepartmentForm.patchValue({
-  //       name:this.myDepartmentForm.name,
-  //     })
-  //     console.log("data is",data)
-  //     // console.log("data is",this.UserData)
-  //   }))
-  //  }
   public getId(id:number ):void{
     this.departmentService.getDepartmentById(id).subscribe((data =>{
       // console.log(`data is ${data}`);

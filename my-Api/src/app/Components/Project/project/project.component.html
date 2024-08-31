@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <button class="btn btn-primary fw-medium" routerLink="add">Add PROJECT</button>
       </div>
-      <div class="col-md-6 d-flex">
+      <div class="col d-flex">
         <input
           type="text"
           class="input-field"
@@ -19,6 +19,7 @@
           SEARCH
         </button>
       </div>
+      
     </div>
   </div>
         <div class="container mt-5 ">
@@ -67,8 +68,8 @@
               <th class="col-md-1 "  (click)="sortDep('name')">NAME <i class="mdi mdi-menu-up hover-menu"></i></th>
               <th class="col-md-2" >DESCRIPTION</th>
               <th class="col-md-1"*ngIf="selectedStatus==''" >STATUS </th>
-              <th class="col-md-1" (click)="sortDep('createdon')">CREATEDON <i class=" mdi mdi-menu-up hover-menu"></i></th>
-              <th class="col-md-2" >MEMBER </th>
+              <th class="col-md-2" (click)="sortDep('createdon')">CREATEDON <i class=" mdi mdi-menu-up hover-menu"></i></th>
+              <!-- <th class="col-md-3" >MEMBER </th> -->
               <th class="col-md-2">ACTION</th>
             </tr>
           </thead>
@@ -82,16 +83,11 @@
                 <div *ngIf="item.status == 1">Running</div>
                 <div *ngIf="item.status == 2">Completed</div>
               </td>
-              <td>{{ item.createdOn }}</td>
-              <td> <div *ngFor="let project of item.projectEmployee">
-                <div class="pt-2 col-md-7 text-center">
-                  <ul><li>{{project.name}}</li></ul></div>  
-            </div></td>
+              <td>{{ item.createdOn | date:'dd/MM/yyyy , h:mm a' }}</td>
               <td class="text-center">
                 <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/project/edit', item.id]">UPDATE</button>
-                <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/project/view', item.id]">View</button>
+                <button class="btn btn-primary  fw-medium btn-sm ms-2" [routerLink]="['/project/view', item.id]">More Details</button>
               </td>
-             
             </tr>
           </tbody>
         </table>
@@ -101,7 +97,7 @@
   <div class="container mt-5 ">
     <div class="row ">
       <div class="col-4 mb-5" >
-        <mat-paginator class="pagination shadow" [length]="totalEntriesCount" [pageSize]="filterObj.pageSize" 
+        <mat-paginator class="pagination shadow" [length]="statusEntriesCount ? displayedEntriesCount : totalEntriesCount" [pageSize]="filterObj.pageSize" 
                        [pageSizeOptions]="[5, 10, 20, 50]" aria-label="Select page"  
                        (page)="onPageEvent($event)">
         </mat-paginator>
