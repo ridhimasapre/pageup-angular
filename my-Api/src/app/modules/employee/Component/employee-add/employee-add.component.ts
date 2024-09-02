@@ -2,8 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Employee, EmployeeResponse, EmployeeRole } from '../../Model/employee-model';
 import { EmployeeServiceService } from '../../Service/employee-service.service';
 import { department, departmentResponse, DepartmentPagenatorRequest } from '../../../Department/department-module/Model/department.model';
-import { DepartmentServiceService } from '../../../../Service/Department/department-service.service';
-// import { EmployeeForm, AddEmployeeRequest,EmployeeResponseById } from '../../../Interface/Employee';
+import { DepartmentServiceService } from '../../../Department/department-module/Service/department-service.service';
 import {EmployeeForm, AddEmployeeRequest,EmployeeResponseById} from '../../Model/employee-model'
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';

@@ -6,7 +6,8 @@ import { DeleteServiceService } from '../../../SharedModules/shared/services/del
 // import {MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef } from '@angular/material/dialog';
-import { EmployeeService } from '../../../../Service/employee/employee.service';
+// import { EmployeeService } from '../../../../Service/employee/employee.service';
+import { EmployeeServiceService } from '../../Service/employee-service.service';
 import { Project,projectEmployeeitem ,EmployeeProjectIDs} from '../../../Project/project/model/project-model';
 import { ProjectModule } from '../../../Project/project/project.module';
 
@@ -48,7 +49,7 @@ export class EmployeeListComponent implements OnInit{
   public totalEntriesCount: number = 0;
   public displayedEntriesCount: number = 0; 
   public rolesentriesCount:boolean=false;
-  constructor(private employeeservice: EmployeeService,
+  constructor(private employeeservice: EmployeeServiceService,
     private httpclient: HttpClient, 
     private dialog:MatDialog,
     // private ref:MatDialogRef<EmployeeComponent>,
