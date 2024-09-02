@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DepartmentComponent } from './Components/Department/department/department.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { DeleteComponent } from './Components/Department/delete/delete.component';
+// import { DeleteComponent } from './Components/Department/delete/delete.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
@@ -16,14 +16,14 @@ import { MatDialogActions,MatDialogClose,MatDialogContent,MatDialogTitle} from '
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { EmployeeComponent } from './Components/Employee/employee/employee.component';
+// import { EmployeeComponent } from './Components/Employee/employee/employee.component';
 import { AddEmployeeComponent } from './Components/Employee/add-employee/add-employee.component';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EmployeeDeleteComponent } from './Components/Employee/employee-delete/employee-delete.component';
 import { ProjectComponent } from './Components/Project/project/project.component';
 import { AddProjectComponent } from './Components/Project/add-project/add-project.component';
-import { TaskComponent } from './Components/Task/task/task.component';
+// import { TaskComponent } from './Components/Task/task/task.component';
 import { AddTaskComponent } from './Components/Task/add-task/add-task.component';
 import { TaskDeleteComponent } from './Components/Task/TaskDelete/task-delete/task-delete.component';
 import { DepartmentAddModalComponent } from './Components/Department/department-add-modal/department-add-modal.component';
@@ -33,26 +33,29 @@ import { MatDatepickerModule}  from '@angular/material/datepicker';
 import { TaskListComponent } from './Components/Task/task-list/task-list.component'
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { ToastrModule } from 'ngx-toastr';
+// import { DeleteComponentComponent } from './shared/components/delete-component/delete-component.component';
+// import { DepartmentlistComponent } from './models/Department/department-module/Components/departmentlist/departmentlist.component';
 // import { DepartmentSectionComponent } from './department-module/department-section/department-section.component';
 @NgModule({
   declarations: [
     AppComponent,
-    DepartmentComponent,
-    DeleteComponent,
+    // DepartmentComponent,
+    // DeleteComponent,
     AddComponent,
-    EmployeeComponent,
+    // EmployeeComponent,
     AddEmployeeComponent,
     EmployeeDeleteComponent,
     ProjectComponent,
     AddProjectComponent,
-    TaskComponent,
+    // TaskComponent,
     AddTaskComponent,
     TaskDeleteComponent,
     DepartmentAddModalComponent,
     ViewProjectComponent,
     TaskListComponent,
-    // DepartmentSectionComponent
-
+    // DeleteComponentComponent,
+    // DepartmentlistComponent,
   ],
   imports: [
     BrowserModule,
@@ -82,11 +85,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     NgxUiLoaderHttpModule.forRoot({
       showForeground:true
     }),
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+      closeButton: true
+    }),
   ],
   providers: [
     provideAnimationsAsync()
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+  ]
 })
 export class AppModule { }

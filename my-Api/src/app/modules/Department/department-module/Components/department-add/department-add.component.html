@@ -1,0 +1,15 @@
+<h2 mat-dialog-title class="ms-5">Add Departments</h2>
+<mat-dialog-content>
+  <div *ngFor="let dept of departments; let i = index">
+    <mat-form-field appearance="fill" class="ms-3">
+      <mat-label class="fw-medium text-black">Name:</mat-label>
+      <input matInput [(ngModel)]="departments[i].name" placeholder="Enter department name" class="mt-2 mb-2 ms-3 rounded" />
+    </mat-form-field>
+  </div>
+  <button class="btn plus-btn" mat-button (click)="addDepartmentField()"><i class="mdi mdi-plus plus-icon"></i></button>
+  <div *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="btn cancle-btn" mat-button (click)="onCancel()">Cancel</button>
+  <button class="btn add-btn" mat-button (click)="onSubmit()">Submit</button>
+</mat-dialog-actions>

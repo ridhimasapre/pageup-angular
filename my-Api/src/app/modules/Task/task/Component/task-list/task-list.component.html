@@ -1,0 +1,88 @@
+<div class="Task-view">
+    <div class="fs-4 fw-medium pb-2">Task List</div>
+    <div class="row">
+    <div class="col">
+      <mat-form-field style="width: 170px; margin: 2px">
+        <mat-label>TaskType</mat-label>
+        <mat-select (selectionChange)="TaskType($event)" multiple>
+          <mat-option [value]=0>Epic</mat-option>
+          <mat-option [value]=1>Feature</mat-option>
+          <mat-option [value]=2>Userstory</mat-option>
+          <mat-option [value]=3>Task</mat-option>
+          <mat-option [value]=4>Bug</mat-option>
+          <!-- <mat-option (click)="onTaskNone()">None</mat-option> -->
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field style="width: 170px; margin: 2px">
+        <mat-label>Status</mat-label>
+        <mat-select (selectionChange)="TaskStatus($event)" multiple>
+          <mat-option [value]=0>Not Finalized</mat-option>
+          <mat-option [value]=1>Active</mat-option>
+          <mat-option [value]=2>Completed</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <div>
+        <mat-form-field style="width: 200px; margin: 2px">
+          <mat-label>Assigned To</mat-label>
+          <mat-select (selectionChange)="TaskAssigned($event)" multiple>
+            <mat-option *ngFor="let employee of projectMembers" [value]="employee.id">
+              {{ employee.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+  </div>
+    <div *ngIf="taskItemList">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Task Name</th>
+            <th>Assigned From</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of taskItemList; let i=index">
+            <td>{{getGlobalIndex(i)}}</td>
+            <div>
+            <td><i class="mdi mdi-menu-down" (click)="getParentData()"></i> {{task.name}}</td></div>
+            <td>{{task.description}}</td>
+            <td>{{ task.assignedById }}</td>
+            <td>{{ task.assigned_From }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-4 mb-5">
+        <mat-paginator
+          class="pagination shadow"
+          [length]="totalEntriesCount"
+          [pageSize]="filterObj.pageSize"
+          [pageSizeOptions]="[5, 10, 20, 50]"
+          aria-label="Select page"
+          (page)="onPageEvent($event)"
+        >
+        </mat-paginator>
+      </div>
+      <div class="col-md-6 ms-4 d-flex">
+        <!-- {{getMaxPage()}} -->
+        <input type="number" min="1" [max]="getMaxPage()" [(ngModel)]="pageInput" placeholder="page" class="form-control go-input text-center"> 
+        <button class="btn btn-primary go-btn" (click)="goToPage()">GO</button>
+        <div *ngIf="errorMsg" class="error-message text-danger">
+          {{ errorMsg }}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
