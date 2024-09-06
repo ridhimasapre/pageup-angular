@@ -39,7 +39,7 @@ constructor(private httpClient:HttpClient) { }
    public getStatusCount(status: ProjectStatus): Observable<ProjectResponse<number>> {
     return this.httpClient.post<ProjectResponse<number>>(`${this.statusCountUrl}${status}`, { headers: this.headers });
   }
-  removeProjectMember(projectId: number, memberId: number): Observable<ProjectResponse<boolean>>{
+  public removeProjectMember(projectId: number, memberId: number): Observable<ProjectResponse<boolean>>{
     return this.httpClient.delete<ProjectResponse<boolean>>(`${this.deleteMemberUrl}${memberId}&projectId=${projectId}`);
   }
   public getSprintById(taskId:number):Observable<SprintById<Sprint[]>>{

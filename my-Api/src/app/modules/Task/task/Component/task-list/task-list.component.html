@@ -1,5 +1,4 @@
 <div class="Task-view">
-    <div class="fs-4 fw-medium pb-2">Task List</div>
     <div class="row">
     <div class="col">
       <mat-form-field style="width: 170px; margin: 2px">
@@ -18,7 +17,7 @@
       <mat-form-field style="width: 170px; margin: 2px">
         <mat-label>Status</mat-label>
         <mat-select (selectionChange)="TaskStatus($event)" multiple>
-          <mat-option [value]=0>Not Finalized</mat-option>
+          <mat-option [value]=0>Not Started</mat-option>
           <mat-option [value]=1>Active</mat-option>
           <mat-option [value]=2>Completed</mat-option>
         </mat-select>
@@ -29,20 +28,23 @@
         <mat-form-field style="width: 200px; margin: 2px">
           <mat-label>Assigned To</mat-label>
           <mat-select (selectionChange)="TaskAssigned($event)" multiple>
-            <mat-option *ngFor="let employee of projectMembers" [value]="employee.id">
+            <mat-option *ngFor="let employee of employeeList" [value]="employee.id">
               {{ employee.name}}
             </mat-option>
           </mat-select>
         </mat-form-field>
     </div>
   </div>
+  <div class="fs-4 fw-medium pb-2">Task List</div>
     <div *ngIf="taskItemList">
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>No</th>
             <th>Task Name</th>
-            <th>Assigned From</th>
+            <th>Description</th>
+            <th>Creaded On</th>
+            <th>Actions</th>
             <th></th>
           </tr>
         </thead>
@@ -50,10 +52,17 @@
           <tr *ngFor="let task of taskItemList; let i=index">
             <td>{{getGlobalIndex(i)}}</td>
             <div>
-            <td><i class="mdi mdi-menu-down" (click)="getParentData()"></i> {{task.name}}</td></div>
+              <td>
+              <div [routerLink]="['/task/view', task.id]"> {{task.name}} </div>
+            </td></div>
             <td>{{task.description}}</td>
-            <td>{{ task.assignedById }}</td>
-            <td>{{ task.assigned_From }}</td>
+            <td>{{task.createdOn | date:'dd/MM/yyyy , h:mm a'}}</td>
+            <td><i class="mdi mdi-menu-down action-icon" (click)="getChild(task.id)"></i> 
+            <i class="mdi mdi-plus action-icon"></i> 
+            <i class="mdi mdi-update action-icon" [routerLink]="['/task/edit',task.id]"></i> </td>
+          </tr>
+          <tr *ngFor="let child of childItemList" ngIf="task.childShow">
+            <td>{{child.name}}</td>
           </tr>
         </tbody>
       </table>

@@ -15,6 +15,7 @@ export class TaskServiceService {
 public Pagenationurl=`${environment.apiUrl}/api/Tasks/GetAllTasks`
 public Deleteurl=`${environment.apiUrl}/api/Tasks`
 public TaskById=`${environment.apiUrl}/api/Tasks/GetAllTasks`
+public Employeeurl = `${environment.apiUrl}/api/Employees/GetAllEmployee`;
 constructor(private httpClient:HttpClient) { }
 
   public PaginationTask(data:PagenatorRequest):Observable<TaskResponse<Task[]>>{
@@ -28,5 +29,8 @@ constructor(private httpClient:HttpClient) { }
   }
   public getTaskByParent(body:ParentTaskRequest):Observable<ParentTaskResponse>{
     return this.httpClient.post<ParentTaskResponse>(this.TaskById,body,{headers:this.headers})
+  }
+  public getTaskDetailByID(body:AllTaskByIdRequest):Observable<TaskByIdData>{
+    return this.httpClient.post<TaskByIdData>(this.TaskById,body,{headers:this.headers})
   }
 }

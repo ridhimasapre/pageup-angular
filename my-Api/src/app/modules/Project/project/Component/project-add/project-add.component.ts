@@ -57,12 +57,13 @@ public createForm(): FormGroup<ProjectForm> {
     name:new FormControl(null,[Validators.required]),
     description:new FormControl(null,[Validators.required]),
     status:new FormControl(null,[Validators.required]),
-    projectEmployee:new FormArray<FormGroup<subMembersForm>>([
-      new FormGroup<subMembersForm>({
-        id:new FormControl(0),
-        name:new FormControl(null)
-      })
-    ])
+    projectEmployee:new FormArray<FormGroup<subMembersForm>>([])
+    // projectEmployee:new FormArray<FormGroup<subMembersForm>>([
+    //   new FormGroup<subMembersForm>({
+    //     id:new FormControl(0),
+    //     name:new FormControl(null)
+    //   })
+    // ])
   })
 }
 public addProject():void{
@@ -136,7 +137,6 @@ public updateEmployee(): void {
     console.log("updated data",this.myProjectForm.value);
     this.projectService.updateProject(this.paramId,this.myProjectForm).subscribe({
       next: (data) => {
-        // alert("Employee is updated successfully.");
         this.router.navigateByUrl('/project');
         console.log("something went wrong",data);
       },

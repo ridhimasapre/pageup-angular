@@ -5,6 +5,8 @@ import { Project, ProjectStatus} from '../../model/project-model';
 import { Employee } from '../../../../employee/Model/employee-model';
 import { MatDialog,MatDialogModule } from '@angular/material/dialog';
 import { ProjectModule } from '../../project.module';
+import { TaskModule } from '../../../../Task/task/task.module';
+import { TaskListComponent } from '../../../../Task/task/Component/task-list/task-list.component';
 @Component({
   selector: 'app-project-view',
   templateUrl: './project-view.component.html',
@@ -12,7 +14,6 @@ import { ProjectModule } from '../../project.module';
 })
 export class ProjectViewComponent implements OnInit{
   public projectId!: number;
-  // public project: Project[]=[];
   public ProjectList : Project[]=[]; 
   public employeeList:Employee[]=[]
   // public projectStatus:ProjectStatus[]=[];
@@ -21,23 +22,23 @@ export class ProjectViewComponent implements OnInit{
   public errorMsg: string = "";
   public selectedStatus:string="";
 constructor(private projectService:ProjectServiceService,private router:Router,private activatedroute:ActivatedRoute){}
-ngOnInit(): void {
+ ngOnInit(): void {
  this.getProjectId();
-}
-public getProjectId():void{
+  }
+  public getProjectId():void{
   this.activatedroute.paramMap.subscribe(data=>{
     this.projectId=Number(data.get("id"));
     this.getProjectDetails(this.projectId);
-  })
-}
-getProjectDetails(id:number): void {
+   })
+  }
+  public getProjectDetails(id:number): void {
   this.projectService.getProjectById(id).subscribe({
     next: (data) => {
       console.log("view data",data);
       this.project=data.data;
     }
   });
-}
+  }
 public removeMember(i: number): void {
   this.ProjectList.splice(i, 1);
 }

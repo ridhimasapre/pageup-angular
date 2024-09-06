@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <div class="row">
       <div class="col-md-6">
-        <button class="btn btn-primary" routerLink="/employee/add">
+        <button class="btn btn-primary" routerLink="./add">
           Add Employee
         </button>
       </div>
@@ -115,7 +115,7 @@
               <div *ngIf="!isActive" >
                 <button
                   class="btn btn-primary btn-sm ms-2"
-                  [routerLink]="['/employee/edit', item.id]"
+                  [routerLink]="['edit', item.id]"
                 >
                   UPDATE
                 </button></div>

@@ -13,18 +13,22 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } fr
 import { MatTableModule } from '@angular/material/table';
 import { SharedModule } from '../../SharedModules/shared/shared.module';
 import { MatOption, MatOptionModule } from '@angular/material/core';
-import { MatSelectModule } from '@angular/material/select';
-
+import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { TaskRoutingModule } from '../../Task/task/task-routing.module';
+import { TaskModule } from '../../Task/task/task.module';
 
 @NgModule({
   declarations: [
     ProjectAddComponent,
     ProjectViewComponent,
-    ProjectListComponent
+    ProjectListComponent,
   ],
   imports: [
     CommonModule,
     ProjectRoutingModule,
+    TaskRoutingModule,
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
@@ -38,7 +42,9 @@ import { MatSelectModule } from '@angular/material/select';
     MatButtonModule,
     SharedModule,
     MatOptionModule,
-    MatSelectModule
-  ]
+    MatSelectModule,
+    MatFormField,
+    TaskModule
+  ],
 })
 export class ProjectModule { }

@@ -20,7 +20,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     MatPaginator,
     FormsModule,
     ReactiveFormsModule,
-    BrowserModule,
     MatDialogModule,
   ]
 })

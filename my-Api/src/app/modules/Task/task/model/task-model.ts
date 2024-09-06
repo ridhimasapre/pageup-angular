@@ -31,8 +31,8 @@ export interface AllTaskByIdRequest{
   pageSize: number,
   // startDate: string,
   // endDate: string,
-  status: Status[],
-  type:Type[],
+  status:  [] | null,
+  type:  [] | null,
   assigned: boolean,
   assignedTo: [] | null,
   // sprintId: number,
@@ -68,6 +68,21 @@ export interface TaskById{
       projectId: number,
       // parentId: number,
       // sprintId: number,
+}
+export interface ChildById{
+  id: number,
+  name: string,
+  assigned_From: string,
+  assigned_To: string,
+  assignedById: number,
+  assignedToId: number,
+  createdOn: string,
+  description: string,
+  status: number,
+  isActive: boolean,
+  projectId: number,
+  parentId: number,
+  // sprintId: number,
 }
 export enum TaskStatus{
     pending=0,
@@ -106,7 +121,7 @@ export interface PagenatorRequest{
     feature=4
   }
   export interface ParentTaskRequest{
-    projectID:number,
+    projectId:number,
     parentId:number,
   }
   export interface ParentTaskResponse{
@@ -135,3 +150,12 @@ export interface PagenatorRequest{
       ],
       totalEntriesCount: number,
     }
+   export  interface parentChild {
+      id: number;
+      name: string;
+      description: string;
+      createdOn: Date;
+      childShow: boolean;
+      children: Task[]; 
+    }
+    

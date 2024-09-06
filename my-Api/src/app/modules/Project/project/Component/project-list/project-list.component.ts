@@ -6,6 +6,7 @@ import { EmployeeServiceService } from '../../../../employee/Service/employee-se
 import { PageEvent,MatPaginator } from '@angular/material/paginator';
 import { ViewChild } from '@angular/core';
 import { ProjectModule } from '../../project.module';
+import { TaskListComponent } from '../../../../Task/task/Component/task-list/task-list.component';
 
 @Component({
   selector: 'app-project-list',
@@ -32,8 +33,6 @@ export class ProjectListComponent {
     pageNumber: 1,
     pageSize: 10,
     additionalSearch:"",
-    // startDate:"",
-    // endDate:"",
   }
   public  totalEntriesCount:number=0;
   public displayedEntriesCount: number = 0; 

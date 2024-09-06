@@ -2,11 +2,14 @@ import { Component,OnInit } from '@angular/core';
 import { Sprint,SprintById } from '../../../../Project/project/model/project-model';
 import { ProjectServiceService } from '../../../../Project/project/Service/project-service.service';
 import { Router,ActivatedRoute } from '@angular/router';
-import { TaskById, TaskByIdData, taskData, TaskResponse } from '../../model/task-model';
+import { ChildById, ParentTaskRequest, ParentTaskResponse, TaskById, TaskByIdData, taskData, TaskResponse } from '../../model/task-model';
 import { TaskServiceService } from '../../../task/Service/task-service.service';
 import { EmployeeProjectIDs } from '../../../../Project/project/model/project-model';
 import { MatSelectChange } from '@angular/material/select';
 import { PageEvent } from '@angular/material/paginator';
+import { TaskModule } from '../../task.module';
+import { Employee,EmployeeDeleteResponse } from '../../../../employee/Model/employee-model';
+import { EmployeeServiceService } from '../../../../employee/Service/employee-service.service';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -14,28 +17,38 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class TaskListComponent implements OnInit{
   public taskId!:number;
+  public taskParentId!:number;
   public taskItemList: TaskById[] = []; 
+  public childItemList:ChildById[]=[]
   public projectMembers:EmployeeProjectIDs[]=[];
   public taskByIdResponse: TaskByIdData[]=[]; 
+  public employeeList:Employee[]=[]
   public paramId!:number
+  public parentid!:number
+  public projectid!:number
   public pageInput: number = 1;
   public errorMsg: string = "";
   public maxPage: number = 1;
+  public childShow:boolean=false;
   public filterObj = {
   filterQuery: "",
   sortBy: "",
   isAscending: true,
   pageNumber: 0,
   pageSize: 0,
-  status: [],
-  type:[],
+  status: null,
+  type: null,
   assigned: true,
   assignedTo: null,
   projectId: 0,
+  } 
+  public parentData={
+    projectId:0,
+    parentId:0,
   }
   public totalEntriesCount: number = 0;
   constructor(private projectService:ProjectServiceService,
-    private taskService:TaskServiceService,
+    private taskService:TaskServiceService,private employeeservice:EmployeeServiceService,
     private router:Router,
     private activatedroute:ActivatedRoute){}
 ngOnInit(): void {
@@ -43,12 +56,13 @@ ngOnInit(): void {
 }
 public getTaskById():void{
   this.activatedroute.paramMap.subscribe(data=>{
-    const Id = Number(data.get("id"));
-    console.log(Id) 
-    this.filterObj.projectId = Id;
+    this.taskId = Number(data.get("id"));
+    console.log("project id",this.taskId) 
+    this.filterObj.projectId = this.taskId;
     this.getTaskDetails();
   })
 }
+
 public getTaskDetails(): void {
   this.taskService.getTaskById(this.filterObj).subscribe({
     next: (data) => {
@@ -59,30 +73,83 @@ public getTaskDetails(): void {
     }
   });
 }
-public getParentData(): void {
-  this.taskService.getTaskById(this.filterObj).subscribe({
+// public getChild(id:number):void{
+//   console.log("id",id)
+//   this.taskParentId=id;
+//   this.activatedroute.paramMap.subscribe(data=>{
+//     console.log("task parent id is", data.get("id"))
+//     this.taskParentId = Number(data.get("id"));
+//     console.log("task id for",this.taskParentId) 
+//     this.parentData.parentId=this.taskParentId;
+//     this.parentData.projectId=this.taskId
+//     this.ChildById();
+//   })
+// }
+// public ChildById(): void {
+//   this.taskService.getTaskByParent(this.parentData).subscribe({
+//     next: (data) => {
+//       this.childItemList = data.data;
+//       this.childShow=true;
+//       console.log("List of child tasks", data.data);
+//     },
+//     error: (err) => {
+//       console.error("Error", err);
+//     }
+//   });
+// }
+public getChild(id: number): void {
+  console.log("Parent task ID:", id);
+
+  this.taskParentId = id;
+  this.parentData.parentId = this.taskParentId;
+  this.parentData.projectId = this.taskId;
+
+  console.log(" Parent ID in payload:", this.parentData.parentId);
+  console.log(" Project ID in payload:", this.parentData.projectId);
+
+  this.taskService.getTaskByParent(this.parentData).subscribe({
     next: (data) => {
-      console.log("Task data",data.data);
-      this.taskItemList=data.data;
-      this.totalEntriesCount=data.totalEntriesCount;
-      this.updateMaxPage();
+      this.childItemList = data.data;
+      this.childShow = true;
+      console.log("List of child tasks", data.data);
+    },
+    error: (err) => {
+      console.error("Error", err);
     }
   });
+}
+
+public getEmployeeList(id: number){
+  console.log("id of project", id);
+  this.employeeservice.getEmployee().subscribe({
+    next:(data)=>{
+      const Data = data.data;
+      this.employeeList = Data;
+      console.log(this.employeeList);
+      console.log(data);
+      console.log(Data);
+    },
+    error: (err)=>{
+      console.log(err);
+    }
+  })
 }
 public TaskType(event: MatSelectChange): void {
   const taskType = event.value;
   this.filterObj.type = taskType;
+  this.getTaskDetails()
 }
-
 public TaskAssigned(event: MatSelectChange): void{
   const assignedId = event.value;
   this.filterObj.assignedTo = assignedId;
-  console.log(assignedId);
+  this.getEmployeeList(this.paramId);
+  console.log("assigned to",assignedId);
 }
 public TaskStatus(event: MatSelectChange): void {
   const status = event.value;
-  console.log(status);
+  console.log("status of task",status);
   this.filterObj.status = status;
+  this.getTaskDetails()
 }
 public changePageSize(newSize: number): void {
   this.filterObj.pageSize = newSize;
@@ -128,7 +195,6 @@ public goToPage(): void {
   } else {
     this.errorMsg = `page number ${this.pageInput} does not exist`
     this.pageInput = 1;
-    
   }
 }
 private updateMaxPage(): void {

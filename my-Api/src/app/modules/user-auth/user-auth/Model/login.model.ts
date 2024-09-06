@@ -1,40 +1,32 @@
+import { FormControl } from "@angular/forms";
+
 export interface LoginResponse<T> {
     success: boolean;
     status: number; 
     message: string;
-    data: T | null;
+    data: T;
   }  
   export interface LoginUser {
-    employee: NeedEmpployeeType;
-    token: string | null;
+    employee: TypeOfEmployee;
+    token: string;
   }
   export interface LoginRequest {
     username: string;
     password: string;
   }
-  export interface EmployeeType {
-    createdBy: number | null;
-    updatedBy: number | null;
-    createdOn: string | null;
-    updatedOn: string | null;
-    id: number | null;
-    name: string | null;
-    departmentName: string | null;
-    managerName: string | null;
-    role: Role[];
-    salary: number;
-    departmentId: number | null;
-    managerId: number | null;
+  export interface LoginForm{
+    username:FormControl<string | null>,
+    password:FormControl<string | null>
   }
   export enum Role {
     Employee = 1,
     Admin = 2,
     SuperAdmin = 3
   }
-  export interface NeedEmpployeeType{
+  export interface TypeOfEmployee{
     id: number;
     name: string;
     role: Role;
-    isManager: boolean;
+    isAdmin: boolean;
   }
   
