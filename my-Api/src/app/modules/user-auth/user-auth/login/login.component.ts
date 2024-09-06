@@ -9,14 +9,8 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit{
-// public loginForm!: FormGroup;
 public isSubmitting:boolean=false;
-// public username:string="";
-// public password:string="";
-public userInfo={
-  username:"",
-  password:""
-}
+
 public loginForm: FormGroup<LoginForm> = this.createForm();
 constructor(private authService:AuthService,private router:Router){}
 ngOnInit(): void {
@@ -39,7 +33,7 @@ onSubmit(): void {
       if (data) {
         console.log(data);
         localStorage.setItem('token', data.data.token);
-        this.router.navigateByUrl("/departmentlist");
+        // this.router.navigateByUrl("/departmentlist");
       } else {
         console.log('Login failed', data);
       }
