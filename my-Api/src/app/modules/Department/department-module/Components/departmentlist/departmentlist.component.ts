@@ -70,7 +70,7 @@ export class DepartmentlistComponent implements OnInit{
 public openDepartmentModal(department?: department): void {
   const dialogRef = this.dialog.open(DepartmentAddComponent, {
     width: '400px',
-    data: department ? department : null // Pass the department data if updating
+    data: department ? department : null 
   });
 
   dialogRef.afterClosed().subscribe(result => {
@@ -112,7 +112,6 @@ public openDepartmentModal(department?: department): void {
 public addDepartment(): void {
   this.openDepartmentModal();
 }
-
 public updateDepartment(department: department): void {
   this.openDepartmentModal(department); 
 }

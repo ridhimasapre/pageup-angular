@@ -136,7 +136,14 @@
       </div>
     </div>
   </div>
-  
+  <div class="d-flex justify-centent-end">
+    <div *ngIf="isActive">
+      <button [mat-dialog-close]="SelectedEmployeeList">Save</button>
+    </div>
+    <div *ngIf="isActive">
+      <button mat-dialog-close="true">Cancel</button>
+    </div>
+  </div>
   <div class="container mt-5">
     <div class="row">
       <div class="col-6 mb-5 paginator-parent">

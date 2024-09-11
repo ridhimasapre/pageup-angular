@@ -1,0 +1,51 @@
+.Task-view{
+    background: white;
+    width: 80%;
+    height: auto;
+    /* width: 80%; */
+    margin-left: 10rem;
+    margin-top: 5rem;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    text-align: center;
+}
+.input-field{
+    height: 37px;
+    width: 13rem;
+    border-radius: 10px;
+    background: white;
+    padding-left: 10px;
+    border: none;
+    }
+    .search-btn .mdi-magnify {
+      font-size: 18px;
+      /* height: 1rem; */
+    }
+    .pagination{
+       width: 28rem;   
+       height: 4rem;
+       border-radius: 40px;
+       padding-left: 0px !important;
+       color: #004861;
+       font-weight: 500;
+       padding-top: 5px;
+    }
+    .go-input{
+        margin-left: 7rem;
+        margin-top: 2rem;
+        width: 4rem;
+        height: 3rem;
+        border-radius: 20px;
+    }
+    
+    .go-btn {
+        /* margin-left: 10rem; */
+        margin-top: 36px;
+        margin-bottom: 1rem;
+        font-weight: 500;
+        height: 38px;
+    }
+    .action-icon{
+        font-size: 16px;
+        color:black;
+    }

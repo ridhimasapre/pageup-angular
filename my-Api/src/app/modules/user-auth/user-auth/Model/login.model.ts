@@ -9,6 +9,7 @@ export interface LoginResponse<T> {
   export interface LoginUser {
     employee: TypeOfEmployee;
     token: string;
+    role:Role;
   }
   export interface LoginRequest {
     username: string;

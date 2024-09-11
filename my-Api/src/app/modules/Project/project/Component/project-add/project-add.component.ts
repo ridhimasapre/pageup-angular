@@ -103,17 +103,21 @@ public openEmployeepopup(): void {
   const dialog = this.dialog.open(EmployeeListComponent, {
     height: '600px',
     width: '1600px',
-    enterAnimationDuration:"999ms",
-    exitAnimationDuration:"600ms",
+    // enterAnimationDuration:"999ms",
+    // exitAnimationDuration:"600ms",
     disableClose: true,
   });
   dialog.componentInstance.dialogref=dialog;
   dialog.componentInstance.isActive=true;
   dialog.afterClosed().subscribe({
     next: (data: projectEmployeeitem[] | null) => {
+      console.log(data);
+      
       if (data) {
+        console.log(data);
+        
         const membersArray = this.myProjectForm.controls['projectEmployee'] as FormArray;
-        console.log("member array",membersArray);
+        console.log("member array",membersArray.value);
         
         data.forEach(employee => {
           membersArray.push(new FormGroup<subMembersForm>({

@@ -2,7 +2,7 @@ import { Component,OnInit } from '@angular/core';
 import { Sprint,SprintById } from '../../../../Project/project/model/project-model';
 import { ProjectServiceService } from '../../../../Project/project/Service/project-service.service';
 import { Router,ActivatedRoute } from '@angular/router';
-import { ChildById, ParentTaskRequest, ParentTaskResponse, TaskById, TaskByIdData, taskData, TaskResponse } from '../../model/task-model';
+import { ChildById, ParentTaskRequest, ParentTaskResponse,AddTaskResponse, TaskById, TaskByIdData, taskData, TaskResponse ,TaskAddRequest} from '../../model/task-model';
 import { TaskServiceService } from '../../../task/Service/task-service.service';
 import { EmployeeProjectIDs } from '../../../../Project/project/model/project-model';
 import { MatSelectChange } from '@angular/material/select';
@@ -10,6 +10,9 @@ import { PageEvent } from '@angular/material/paginator';
 import { TaskModule } from '../../task.module';
 import { Employee,EmployeeDeleteResponse } from '../../../../employee/Model/employee-model';
 import { EmployeeServiceService } from '../../../../employee/Service/employee-service.service';
+import { MatDialog } from '@angular/material/dialog';
+import { TaskAddComponent } from '../task-add/task-add.component';
+import { MatFormField } from '@angular/material/select';
 @Component({
   selector: 'app-task-list',
   templateUrl: './task-list.component.html',
@@ -23,13 +26,17 @@ export class TaskListComponent implements OnInit{
   public projectMembers:EmployeeProjectIDs[]=[];
   public taskByIdResponse: TaskByIdData[]=[]; 
   public employeeList:Employee[]=[]
+  public childTasks?: ChildById[];
+  public addTaskData:AddTaskResponse[]=[]
+  public selectedType!:number;
+  public assiged:boolean=false;
   public paramId!:number
   public parentid!:number
   public projectid!:number
   public pageInput: number = 1;
   public errorMsg: string = "";
   public maxPage: number = 1;
-  public childShow:boolean=false;
+  public childShow=false;
   public filterObj = {
   filterQuery: "",
   sortBy: "",
@@ -50,7 +57,8 @@ export class TaskListComponent implements OnInit{
   constructor(private projectService:ProjectServiceService,
     private taskService:TaskServiceService,private employeeservice:EmployeeServiceService,
     private router:Router,
-    private activatedroute:ActivatedRoute){}
+    private activatedroute:ActivatedRoute,
+  private dialog:MatDialog){}
 ngOnInit(): void {
   this.getTaskById();
 }
@@ -73,48 +81,33 @@ public getTaskDetails(): void {
     }
   });
 }
-// public getChild(id:number):void{
-//   console.log("id",id)
-//   this.taskParentId=id;
-//   this.activatedroute.paramMap.subscribe(data=>{
-//     console.log("task parent id is", data.get("id"))
-//     this.taskParentId = Number(data.get("id"));
-//     console.log("task id for",this.taskParentId) 
-//     this.parentData.parentId=this.taskParentId;
-//     this.parentData.projectId=this.taskId
-//     this.ChildById();
-//   })
-// }
-// public ChildById(): void {
-//   this.taskService.getTaskByParent(this.parentData).subscribe({
-//     next: (data) => {
-//       this.childItemList = data.data;
-//       this.childShow=true;
-//       console.log("List of child tasks", data.data);
-//     },
-//     error: (err) => {
-//       console.error("Error", err);
-//     }
-//   });
-// }
-public getChild(id: number): void {
-  console.log("Parent task ID:", id);
+public toggleChild(taskId: number): void {
+  const task = this.taskItemList.find(t => t.id === taskId);
+  if (task) {
+    task.childShow = !task.childShow;
+    if (task.childShow) {
+      this.getChild(taskId); 
+    }
+  }
+}
 
-  this.taskParentId = id;
-  this.parentData.parentId = this.taskParentId;
+public getChild(parentTaskId: number): void {
+  console.log("Fetching child tasks for Parent task ID:", parentTaskId);
+  this.parentData.parentId = parentTaskId;
   this.parentData.projectId = this.taskId;
-
-  console.log(" Parent ID in payload:", this.parentData.parentId);
-  console.log(" Project ID in payload:", this.parentData.projectId);
-
   this.taskService.getTaskByParent(this.parentData).subscribe({
     next: (data) => {
-      this.childItemList = data.data;
-      this.childShow = true;
+      // Find the parent task in taskItemList and assign child data to it
+      const task = this.taskItemList.find(t => t.id === parentTaskId);
+      if (task) {
+        // this.childItemList = data.data;
+        task.childTasks = data.data; 
+        task.childShow = true; 
+      }
       console.log("List of child tasks", data.data);
     },
     error: (err) => {
-      console.error("Error", err);
+      console.error("Error fetching child tasks", err);
     }
   });
 }
@@ -144,6 +137,12 @@ public TaskAssigned(event: MatSelectChange): void{
   this.filterObj.assignedTo = assignedId;
   this.getEmployeeList(this.paramId);
   console.log("assigned to",assignedId);
+}
+public onAssignBoolChange(event: MatSelectChange): void{
+  const assigneBoolValue = event.value;
+  console.log(assigneBoolValue);
+  this.TaskAssigned = assigneBoolValue;
+  this.assiged = event.value !== null;
 }
 public TaskStatus(event: MatSelectChange): void {
   const status = event.value;
@@ -189,7 +188,6 @@ public goToPage(): void {
       length: this.totalEntriesCount
     };
     this.onPageEvent(event);
-    // this.filterObj.pageNumber=this.pageInput
     this.getTaskDetails();
     this.errorMsg = ''
   } else {
@@ -208,5 +206,47 @@ public clearSearch(): void {
   this.filterObj.filterQuery = ''; 
   this.pageInput = 1; 
   this.getTaskDetails();
+}
+// get type of task in list 
+public getTaskTypeLabel(taskType: number): string {
+  switch (taskType) {
+    case 0:
+      return "Epic";
+    case 1:
+      return "Feature";
+    case 2:
+      return "Userstory";
+    case 3:
+      return "Task";
+    case 4:
+      return "Bug";
+    default:
+      return 'Unknown';
+  }
+}
+public openAddTaskModal(): void {
+  const dialogRef = this.dialog.open(TaskAddComponent);
+
+  dialogRef.afterClosed().subscribe((result: AddTaskResponse | null) => {
+    if (result) {
+      this.taskService.addTask(result).subscribe({
+        next:()=>{
+          console.log("data is coming");
+          this.addTask(result)  
+        }
+      })
+    }
+  });
+}
+public addTask(taskData: AddTaskResponse): void {
+  this.addTaskData.push({
+    name:taskData.name,
+    type: taskData.type ,
+    assignedToId:taskData.assignedToId,
+    description: taskData.description,
+    status:taskData.status,
+    projectId:taskData.projectId,
+    estimateHours:taskData.estimateHours,
+  });
 }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Task,PagenatorRequest,TaskResponse, TaskById ,AllTaskByIdRequest, TaskByIdData, ParentTaskRequest, ParentTaskResponse} from '../model/task-model';
+import { Task,PagenatorRequest,TaskResponse, TaskById ,AllTaskByIdRequest, TaskByIdData, ParentTaskRequest, ParentTaskResponse, TaskAddRequest, AddTaskResponse} from '../model/task-model';
 import { environment } from '../../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ public Pagenationurl=`${environment.apiUrl}/api/Tasks/GetAllTasks`
 public Deleteurl=`${environment.apiUrl}/api/Tasks`
 public TaskById=`${environment.apiUrl}/api/Tasks/GetAllTasks`
 public Employeeurl = `${environment.apiUrl}/api/Employees/GetAllEmployee`;
+public addurl = `${environment.apiUrl}/api/Tasks`;
 constructor(private httpClient:HttpClient) { }
 
   public PaginationTask(data:PagenatorRequest):Observable<TaskResponse<Task[]>>{
@@ -32,5 +33,8 @@ constructor(private httpClient:HttpClient) { }
   }
   public getTaskDetailByID(body:AllTaskByIdRequest):Observable<TaskByIdData>{
     return this.httpClient.post<TaskByIdData>(this.TaskById,body,{headers:this.headers})
+  }
+  public addTask(body:AddTaskResponse):Observable<TaskAddRequest>{
+    return this.httpClient.post<TaskAddRequest>(this.addurl,body,{headers:this.headers})
   }
 }

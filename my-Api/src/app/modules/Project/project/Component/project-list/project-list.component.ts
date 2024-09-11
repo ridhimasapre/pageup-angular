@@ -38,8 +38,8 @@ export class ProjectListComponent {
   public displayedEntriesCount: number = 0; 
   public statusEntriesCount:boolean=false;
   constructor(private projectService:ProjectServiceService,
-    private EmployeeService:EmployeeServiceService,
-    private httpClient:HttpClient){}
+  private EmployeeService:EmployeeServiceService,
+  private httpClient:HttpClient){}
 ngOnInit(): void {
   this.getPagenation();
   this.calculateStatusCounts();

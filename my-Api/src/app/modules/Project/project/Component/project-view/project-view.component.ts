@@ -35,7 +35,7 @@ constructor(private projectService:ProjectServiceService,private router:Router,p
   this.projectService.getProjectById(id).subscribe({
     next: (data) => {
       console.log("view data",data);
-      this.project=data.data;
+      this.project=data.data;            
     }
   });
   }

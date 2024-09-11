@@ -1,0 +1,49 @@
+.logo {
+     font-size: 40px;
+}
+.navbar-link a {
+    /* color: #333; */
+    color: #004861;
+    display: inline-block;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+ .navbar-link a:hover {
+    transform: scale(1.1);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.18);
+
+  }
+#navbarNav{
+    display: flex;
+    justify-content: end;
+    margin-right: 3rem;
+    color: #004861;
+    /* background: #009386; */
+}
+#navbarNav:hover a{
+    color: #004861;
+}
+.list-hover:hover{
+    background:#99e9e4;
+    color: #004861;
+    width: 9rem;
+    margin-left: 8px;
+}
+.nav-text{
+    color: #004861;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.book-btn{
+    background: #99e9e4;
+    color: #004861;
+    font-weight: 500;
+    font-size: 16px;
+    /* margin-bottom: 3rem; */
+    /* padding-bottom: 1rem; */
+}
+.book-btn:hover{
+    background:#9adeda ;
+    /* color: ; */
+}

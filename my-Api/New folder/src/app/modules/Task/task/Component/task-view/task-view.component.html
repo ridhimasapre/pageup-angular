@@ -1,0 +1,33 @@
+
+<div *ngIf="task" class="card shadow-sm details">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">Project Details</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Name:</div>
+        <div class="col-md-8">{{ task.name }}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Description:</div>
+        <div class="col-md-8">{{ task.description }}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Status:</div>
+        <div class="col-md-8">{{ task.status }}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">Status</div>
+        <!-- <div class="col-md-8">{{ getStatus(task.status) }}</div> -->
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold">createdOn</div>
+        <div class="col-md-8">{{ task.createdOn | date:'dd/MM/yyyy' }}</div>
+      </div>
+  </div>
+  <div>
+    <h5>Task Review</h5>
+    
+  </div>
+</div>

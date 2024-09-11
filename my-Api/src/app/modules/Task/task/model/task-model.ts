@@ -55,6 +55,7 @@ export interface TaskByIdsTT{
   sprintId: number,
 }
 export interface TaskById{
+      childTasks: [{ id: number; name: string; assigned_From: string; assigned_To: string; assignedById: number; assignedToId: number; createdOn: string; description: string; status: number; isActive: boolean; parentId: number; projectId: number; sprintId: number; type: number; estimatedHours: number; remainingHours: number; }];
       id: number,
       name: string,
       assigned_From: string,
@@ -66,6 +67,8 @@ export interface TaskById{
       status: number,
       isActive: boolean,
       projectId: number,
+      type:number,
+      childShow:boolean;
       // parentId: number,
       // sprintId: number,
 }
@@ -157,5 +160,19 @@ export interface PagenatorRequest{
       createdOn: Date;
       childShow: boolean;
       children: Task[]; 
+    }
+    export interface TaskAddRequest{
+      success:boolean,
+      message:string,
+      data:AddTaskResponse,
+  }
+  export interface AddTaskResponse{
+  name: FormControl<string|null>,
+  description: FormControl<string|null>,
+  assignedToId:FormControl<number|null>,
+  projectId:FormControl<number|null>,
+  type:FormControl<Type|null>,
+  status:FormControl<Status|null>,
+  estimateHours:FormControl<number|null>,
     }
     

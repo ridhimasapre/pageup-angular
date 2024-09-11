@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,Validators } from '@angular/forms';
 import { AuthService } from '../service/auth.service';
-import { LoginForm, LoginRequest } from '../Model/login.model';
+import { LoginForm, LoginRequest,Role } from '../Model/login.model';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
@@ -28,13 +28,15 @@ onSubmit(): void {
       password: this.loginForm.value.password!
     };
     console.log('logindata', userInfo);
-
     this.authService.Login(userInfo).subscribe(data => {
       if (data) {
         console.log(data);
         localStorage.setItem('token', data.data.token);
-        // this.router.navigateByUrl("/departmentlist");
+        localStorage.setItem('userRole', data.data.role.toString());
+        console.log("aa gya",data.data.role);
+        this.router.navigate(['/project/project']); 
       } else {
+
         console.log('Login failed', data);
       }
     });

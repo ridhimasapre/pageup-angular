@@ -1,7 +1,8 @@
 <div class="Task-view">
     <div class="row">
     <div class="col">
-      <mat-form-field style="width: 170px; margin: 2px">
+      <!-- TASK TYPE SELECT  -->
+      <mat-form-field>
         <mat-label>TaskType</mat-label>
         <mat-select (selectionChange)="TaskType($event)" multiple>
           <mat-option [value]=0>Epic</mat-option>
@@ -9,11 +10,11 @@
           <mat-option [value]=2>Userstory</mat-option>
           <mat-option [value]=3>Task</mat-option>
           <mat-option [value]=4>Bug</mat-option>
-          <!-- <mat-option (click)="onTaskNone()">None</mat-option> -->
         </mat-select>
       </mat-form-field>
     </div>
     <div class="col">
+      <!-- TASK STATUS  -->
       <mat-form-field style="width: 170px; margin: 2px">
         <mat-label>Status</mat-label>
         <mat-select (selectionChange)="TaskStatus($event)" multiple>
@@ -24,7 +25,7 @@
       </mat-form-field>
     </div>
     <div class="col">
-      <div>
+      <!-- EMPLOYEES THAT ARE IN TASK  -->
         <mat-form-field style="width: 200px; margin: 2px">
           <mat-label>Assigned To</mat-label>
           <mat-select (selectionChange)="TaskAssigned($event)" multiple>
@@ -33,16 +34,27 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-    </div>
   </div>
+  <div class="col">
+    <!-- TASK IS ASSIGNED OR NOT -->
+    <mat-form-field style="width: 170px; margin: 2px">
+      <mat-label>Assign</mat-label>
+      <mat-select (selectionChange)="onAssignBoolChange($event)">
+        <mat-option [value]="true">Assigned</mat-option>
+        <mat-option [value]="false">Unassigned</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+   <!-- TASK LIST  -->
   <div class="fs-4 fw-medium pb-2">Task List</div>
+  <button class="col-1 my-5 btn btn-primary btn-sm" (click)="openAddTaskModal()">Add Task</button>
     <div *ngIf="taskItemList">
       <table class="table table-bordered table-striped">
         <thead>
           <tr>
             <th>No</th>
             <th>Task Name</th>
-            <th>Description</th>
+            <th>Task Type</th>
             <th>Creaded On</th>
             <th>Actions</th>
             <th></th>
@@ -55,15 +67,27 @@
               <td>
               <div [routerLink]="['/task/view', task.id]"> {{task.name}} </div>
             </td></div>
-            <td>{{task.description}}</td>
-            <td>{{task.createdOn | date:'dd/MM/yyyy , h:mm a'}}</td>
-            <td><i class="mdi mdi-menu-down action-icon" (click)="getChild(task.id)"></i> 
-            <i class="mdi mdi-plus action-icon"></i> 
-            <i class="mdi mdi-update action-icon" [routerLink]="['/task/edit',task.id]"></i> </td>
+            <td class="text-start">{{ getTaskTypeLabel(task.type) }}</td>
+            <td class="text-start">{{task.createdOn | date:'dd/MM/yyyy , h:mm a'}}</td>
+            <td class="text-center"><i class="mdi mdi-menu-down action-icon fs-4 pe-2" (click)="toggleChild(task.id)"></i> 
+            <i class="mdi mdi-plus action-icon pe-2 text-success fw-bold fs-4"></i> 
+            <i class="mdi mdi-pencil action-icon fs-5 pe-2 text-primary" [routerLink]="['/task/edit',task.id]"></i> </td>
           </tr>
-          <tr *ngFor="let child of childItemList" ngIf="task.childShow">
-            <td>{{child.name}}</td>
-          </tr>
+          <ng-container *ngFor="let task of taskItemList; let i=index">
+            <ng-container *ngIf="task.childShow">
+              <tr *ngFor="let child of task.childTasks">
+                <td colspan="1">{{ i }}</td>
+                <td colspan="1">{{ child.name }}</td>
+                <td colspan="1">{{ getTaskTypeLabel(child.type) }}</td>
+                <td colspan="1">{{ child.createdOn | date:'dd/MM/yyyy , h:mm a'}}</td>
+                <td class="text-center"><i class="mdi mdi-menu-down action-icon fs-4 pe-2" (click)="toggleChild(task.id)"></i> 
+                  <i class="mdi mdi-plus action-icon pe-2 text-success fw-bold fs-4"></i> 
+                  <i class="mdi mdi-pencil action-icon fs-5 pe-2 text-primary" [routerLink]="['/task/edit',task.id]"></i> </td>
+              </tr>
+            </ng-container>
+          </ng-container>
+          <!-- <app-task-list ></app-task-list> -->
+           
         </tbody>
       </table>
     </div>
@@ -83,7 +107,6 @@
         </mat-paginator>
       </div>
       <div class="col-md-6 ms-4 d-flex">
-        <!-- {{getMaxPage()}} -->
         <input type="number" min="1" [max]="getMaxPage()" [(ngModel)]="pageInput" placeholder="page" class="form-control go-input text-center"> 
         <button class="btn btn-primary go-btn" (click)="goToPage()">GO</button>
         <div *ngIf="errorMsg" class="error-message text-danger">
