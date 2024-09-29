@@ -1,9 +1,61 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+/* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; 
-    /* color: #004861; */
-    background: rgb(29,236,253);
-    /* background: #99e9e4; */
-    background: linear-gradient(90deg, rgba(29,236,253,0.9831582291119573) 21%, rgba(29,225,253,1) 50%, rgba(69,220,252,1) 83%);
+    background: linear-gradient(90deg,rgb(221, 205, 208) 21%, lightgray 50%, rgb(221, 205, 208) 83%);
+    } */
+    :root {
+        --bg-color: rgb(34, 34, 34);
+        --text-color: whitesmoke;
+        --header-bg-color: grey;
+        --header-text-color: white;
+        --sidebar-bg-color: #343a40;
+        --catelog-list-bg:#1b2430;
+        --sidebar-text-color: lightgray;
+        --sidebar-hover-color: rgb(10, 160, 97);
+        --button-bg-color: rgb(14, 173, 93);
+        --button-text-color: whitesmoke;
+        --table-bg-color: #343a40;
+        --table-text-color: lightgray;
+        --input-bg-color: #343a40;
+        --input-text-color: lightgray;
+        --resetBtn-border:lightgray;
+        --deletebtn-color:rgb(185, 62, 62);
+        --addbtn-color:#1e8052;
+        --bulk-color:#828891;
+        --bulkSide-color:#71757a;
+        --checkbox-bg:black;
+        --checkbox-tick-color:white;
+        --table-bg-color:#1b2430;
+        --tableselect-bg:#1b2430;
+        --tableselect-color:white;
+    }
+    /* Light Mode */
+
+    /* .light-mode { */
+        [lightTheme="light"]{
+        --bg-color: #eef0f1 ;
+        --text-color: black;
+        --header-bg-color: white;
+        --header-text-color: black;
+        --sidebar-bg-color: white;
+        --catelog-list-bg:whitesmoke;
+        --sidebar-text-color: rgb(14, 14, 14);
+        --sidebar-hover-color: rgb(10, 160, 97);
+        --button-bg-color: rgb(14, 173, 93);
+        --button-text-color: black;
+        --table-bg-color: white;
+        --table-text-color: black;
+        --input-bg-color: whitesmoke;
+        --input-text-color: gray;
+        --resetBtn-border:gray;
+        --deletebtn-color:rgb(185, 62, 62);
+        --addbtn-color:#1e8052;
+        --bulk-color:#828891;
+        --bulkSide-color:#71757a;
+        --checkbox-bg:rgb(235, 228, 228);
+        --checkbox-tick-color:#28a745;
+        --table-bg-color:white;
+        --tableselect-bg:white;
+        --tableselect-color:black;
     }

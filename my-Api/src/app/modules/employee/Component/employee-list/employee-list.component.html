@@ -1,7 +1,19 @@
-<div class="container mt-5">
-    <div class="row">
+<div class="whole-body" *ngIf="!isEmployee()">
+  <div *ngIf="!isActive">
+  <div class="sticky-top">
+    <app-header></app-header></div>
+    <div class="sidebar-content d-flex">
+    <div class="sidebar">
+    <app-sidebar></app-sidebar>
+    </div></div>
+  </div>
+  <div *ngIf="isActive" class="closeBtnDiv">
+    <button class="btn btn-danger mb-5 close-btn" mat-dialog-close="true">Close</button>
+  </div>  
+    <div class="container content-container mt-5" id="content-wrapper"    [ngClass]="{ 'employee-view': isActive }">
+    <!-- <div class="row">
       <div class="col-md-6">
-        <button class="btn btn-primary" routerLink="./add">
+        <button class="btn btn-primary" routerLink="employee/add">
           Add Employee
         </button>
       </div>
@@ -23,8 +35,25 @@
           <button class="btn ms-3 btn-danger" mat-dialog-close="true">Close</button>
         </div>
       </div>
+    </div> -->
+ 
+    <div class="row searchbar">
+      <div class="col-md-6 ">
+        <button class="button-expo" routerLink="employee/add">ADD EMPLOYEE</button>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end">
+        <div class="input-container">
+          <input
+            type="text"
+            class="input-box"
+            placeholder="Search"
+            [(ngModel)]="search"
+            (keyup.enter)="onSearch()">
+          <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
+        </div>
+        <button class="btn searchBtn ms-2" (click)="onSearch()">SEARCH</button>
+      </div>
     </div>
-  </div>
   <div class="container mt-5 ">
     <div class="row">
       <div class="col-md-12">
@@ -58,38 +87,77 @@
       </div>
     </div>
   </div>
-  <div class="container mt-5">
+  <div class="container mt-5 ps-0 pe-0">
     <div class="row">
-      <div class="col-12">
-        <table class="table">
-          <thead class="bg-primary text-white fw-semibold">
+      <div class="col-12 ps-0 pe-0 ">
+        <table class="table table-dark align-start table-striped shadow-lg">
+          <thead>
             <tr>
-              <th class="col-md-1 text-center">ID</th>
-              <th class="col-md-2 text-center" (click)="sortDep('name')">
-                NAME <i class="mdi mdi-menu-up hover-menu"></i>
-              </th>
+              <th class="py-3 ps-3 bg-success">S.No</th>
+              <th class="py-3 ps-3 bg-success" (click)="sortDep('name')">
+                NAME 
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': EmployeeFilterObj.sortBy === 'name' && EmployeeFilterObj.isAscending, 
+                  'mdi-menu-down': EmployeeFilterObj.sortBy === 'name' && !EmployeeFilterObj.isAscending
+                }" >
+             </i></th>
               <th
-                class="col-md-1 text-center"
+                class="py-3 ps-3 bg-success"
                 (click)="sortDep('departmentName')"
               >
-                DEPARTMENT <i class="mdi mdi-menu-up hover-menu"></i>
+                DEPARTMENT 
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': EmployeeFilterObj.sortBy === 'departmentName' && EmployeeFilterObj.isAscending, 
+                  'mdi-menu-down': EmployeeFilterObj.sortBy === 'departmentName' && !EmployeeFilterObj.isAscending
+                }" >
+             </i>
               </th>
-              <th class="col-md-2 text-center" (click)="sortDep('createdOn')">
-                CREATED ON <i class="mdi mdi-menu-up hover-menu"></i>
+              <th class="py-3 ps-3 bg-success" (click)="sortDep('createdOn')">
+                CREATED ON
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': EmployeeFilterObj.sortBy === 'createdOn' && EmployeeFilterObj.isAscending, 
+                  'mdi-menu-down': EmployeeFilterObj.sortBy === 'createdOn' && !EmployeeFilterObj.isAscending
+                }" >
+             </i>
+               </th>
+              <th class="py-3 ps-3 bg-success" (click)="sortDep('createdBy')">
+                CREATED BY 
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': EmployeeFilterObj.sortBy === 'createdBy' && EmployeeFilterObj.isAscending, 
+                  'mdi-menu-down': EmployeeFilterObj.sortBy === 'createdBy' && !EmployeeFilterObj.isAscending
+                }" >
+             </i>
               </th>
-              <th class="col-md-1 text-center" (click)="sortDep('createdBy')">
-                CREATED BY <i class="mdi mdi-menu-up hover-menu"></i>
+              <th class="py-3 ps-3 bg-success" (click)="sortDep('salary')">
+                SALARY 
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': EmployeeFilterObj.sortBy === 'salary' && EmployeeFilterObj.isAscending, 
+                  'mdi-menu-down': EmployeeFilterObj.sortBy === 'salary' && !EmployeeFilterObj.isAscending
+                }" >
+             </i>              </th>
+              <th class="py-3 ps-3 bg-success" (click)="sortDep('role')" *ngIf="selectedRole==''">
+                ROLE
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': EmployeeFilterObj.sortBy === 'role' && EmployeeFilterObj.isAscending, 
+                  'mdi-menu-down': EmployeeFilterObj.sortBy === 'role' && !EmployeeFilterObj.isAscending
+                }" >
+             </i>
               </th>
-              <th class="col-md-1 text-center" (click)="sortDep('salary')">
-                SALARY <i class="mdi mdi-menu-up hover-menu"></i>
-              </th>
-              <th class="col-md-1 text-center" (click)="sortDep('role')" *ngIf="selectedRole==''">
-                ROLE <i class="mdi mdi-menu-up hover-menu"></i>
-              </th>
-              <th class="col-md-1 text-center" (click)="sortDep('adminName')">
-                MANAGER <i class="mdi mdi-menu-up hover-menu"></i>
-              </th>
-              <th class="col-md-2 text-center">ACTION</th>
+              <th class="py-3 ps-3 bg-success" (click)="sortDep('adminName')">
+                MANAGER 
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': EmployeeFilterObj.sortBy === 'adminName' && EmployeeFilterObj.isAscending, 
+                  'mdi-menu-down': EmployeeFilterObj.sortBy === 'adminName' && !EmployeeFilterObj.isAscending
+                }" >
+             </i>              </th>
+              <th class="py-3 ps-3 bg-success">ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -108,26 +176,36 @@
               <td class="text-start ps-2">{{ item.adminName }}</td>
               <td class="text-center d-flex">
                 <div *ngIf="!isActive">
-                <button class="btn btn-danger btn-sm" (click)="delete(item.id)">
+                <button class="btn deleteBtn btn-sm" (click)="delete(item.id)">
                   DELETE
                 </button>
               </div>
               <div *ngIf="!isActive" >
                 <button
-                  class="btn btn-primary btn-sm ms-2"
+                  class="btn updateBtn btn-sm ms-2"
                   [routerLink]="['edit', item.id]"
                 >
                   UPDATE
                 </button></div>
                <div>
-                <div class="d-flex">
+                <!-- <div class="d-flex">
                   <div  *ngIf="isActive && !MemberAlreadyExist(item.id)">
                     <button class="btn btn-success" (click)="addMemberFun(item.id,item.name)">Add</button>
                   </div>
                   <div  *ngIf="isActive && MemberAlreadyExist(item.id)">
                     <button class="btn btn-success" (click)="addMemberFun(item.id,item.name)">Remove</button>
                   </div>
+                </div> -->
+                <div class="d-flex">
+                  <div *ngIf="isActive">
+                    <button 
+                      class="btn btn-success" 
+                      (click)="toggleMemberStatus(item.id, item.name)">
+                      {{ MemberAlreadyExist(item.id) ? 'Remove' : 'Add' }}
+                    </button>
+                  </div>
                 </div>
+                
                </div>
               </td>
             </tr>
@@ -136,14 +214,14 @@
       </div>
     </div>
   </div>
-  <div class="d-flex justify-centent-end">
+  <!-- <div class="d-flex justify-centent-end">
     <div *ngIf="isActive">
       <button [mat-dialog-close]="SelectedEmployeeList">Save</button>
     </div>
     <div *ngIf="isActive">
       <button mat-dialog-close="true">Cancel</button>
     </div>
-  </div>
+  </div> -->
   <div class="container mt-5">
     <div class="row">
       <div class="col-6 mb-5 paginator-parent">
@@ -174,3 +252,13 @@
       </div>
     </div>
   </div>
+  <div class="d-flex cancelAddBtn ">
+    <div  *ngIf="isActive">
+      <button class="btn btn-success" [mat-dialog-close]="projectMembers">Save</button>
+    </div>
+    <div  *ngIf="isActive" class="ms-2">
+      <button class="btn btn-danger" mat-dialog-close="true">Cancel</button>
+    </div>
+  </div>
+</div>
+</div>

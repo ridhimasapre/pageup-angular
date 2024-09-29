@@ -47,3 +47,58 @@
     background:#9adeda ;
     /* color: ; */
 }
+
+/* side bar */
+
+/* #content-wrapper {
+    transition: margin-left 0.6s;
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  #content-wrapper.active {
+    margin-left: 250px;
+    padding: 0px;
+  }
+  #sidebar {
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    height: 100%;
+    background: #1b2430;
+    color: white;
+    transition: all 0.6s;
+    padding-left: 10px;
+    font-size: 19px;
+    font-weight: 500;
+    margin-top: 100px;
+  }
+  
+  #sidebar.active {
+    left: 0;
+  } */
+  
+/* Default mode is dark */
+:root {
+    --bg-color: rgb(34, 34, 34);
+    --text-color: whitesmoke;
+    --header-bg-color: grey;
+    --header-text-color: white;
+    --sidebar-bg-color: #343a40;
+    --catelog-list-bg: #1b2430;
+    --sidebar-text-color: lightgray;
+    --sidebar-hover-color: rgb(10, 160, 97);
+}
+
+/* Light mode overrides */
+.light-mode {
+    --bg-color: #eef0f1;
+    --text-color: black;
+    --header-bg-color: white;
+    --header-text-color: black;
+    --sidebar-bg-color: white;
+    --catelog-list-bg: whitesmoke;
+    --sidebar-text-color: rgb(14, 14, 14);
+    --sidebar-hover-color: rgb(10, 160, 97);
+}

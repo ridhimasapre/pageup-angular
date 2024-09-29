@@ -44,7 +44,8 @@ import { TaskModule } from '../../Task/task/task.module';
     MatOptionModule,
     MatSelectModule,
     MatFormField,
-    TaskModule
+    TaskModule,
+    SharedModule
   ],
 })
 export class ProjectModule { }

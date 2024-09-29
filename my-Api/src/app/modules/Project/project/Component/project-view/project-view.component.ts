@@ -16,7 +16,6 @@ export class ProjectViewComponent implements OnInit{
   public projectId!: number;
   public ProjectList : Project[]=[]; 
   public employeeList:Employee[]=[]
-  // public projectStatus:ProjectStatus[]=[];
   public projectStatus=ProjectStatus;
   public project! : Project
   public errorMsg: string = "";

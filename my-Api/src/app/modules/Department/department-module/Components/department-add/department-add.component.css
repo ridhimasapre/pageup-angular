@@ -3,6 +3,11 @@
     color: white;
 
 }
+.cancle-btn{
+    height: 2rem;
+    margin-top: 18px;
+    margin-left: 70px;
+}
 .cancle-btn:hover{
     background: rgb(216, 94, 94);
     color: white;

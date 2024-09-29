@@ -1,38 +1,43 @@
-<div class="container body">
-  <div class="login-form">
-    <h2>Login</h2>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input id="username" type="text" formControlName="username" placeholder="Enter your username" />
-        <div *ngIf="
-            loginForm.controls['username'].invalid &&
-            loginForm.controls['username'].touched
-          " class="text-danger fw-medium">
-          <small *ngIf="loginForm.controls['username'].errors?.['required']" class="text-danger fw-medium">
-            Username is required.
-          </small>
-          <small *ngIf="loginForm.controls['username'].errors?.['username']" class="text-danger fw-medium">
-            Please enter a valid username.
-          </small>
+
+<div class="container-fluid p-0 m-0">
+<div class="bg-img">
+  <div class=" body">
+    <div class="login-form">
+      <div class="profile"> <i class="mdi mdi-account"></i> </div>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group pt-3">
+          <label for="username" class="fw-medium fs-5">Username:</label>
+          <input id="username" type="text" formControlName="username" placeholder="Enter your username" />
+          <div *ngIf="
+              loginForm.controls['username'].invalid &&
+              loginForm.controls['username'].touched
+            " class="text-danger fw-medium">
+            <small *ngIf="loginForm.controls['username'].errors?.['required']" class="text-danger fw-medium">
+              Username is required.
+            </small>
+            <small *ngIf="loginForm.controls['username'].errors?.['username']" class="text-danger fw-medium">
+              Please enter a valid username.
+            </small>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input id="password" type="password" formControlName="password" placeholder="Enter your password" />
-        <div *ngIf="
-            loginForm.controls['password'].invalid &&
-            loginForm.controls['password'].touched
-          "class="text-danger fw-medium">
-          <small *ngIf="loginForm.controls['password'].errors?.['required']" class="text-danger fw-medium">
-            Password is required.
-          </small>
-          <small *ngIf="loginForm.controls['password'].errors?.['minlength']"class="text-danger fw-medium">
-            Password must be at least 6 characters long.
-          </small>
+        <div class="form-group pt-2">
+          <label for="password" class="fs-5 fw-medium">Password:</label>
+          <input id="password" type="password" formControlName="password" placeholder="Enter your password" />
+          <div *ngIf="
+              loginForm.controls['password'].invalid &&
+              loginForm.controls['password'].touched
+            "class="text-danger fw-medium">
+            <small *ngIf="loginForm.controls['password'].errors?.['required']" class="text-danger fw-medium">
+              Password is required.
+            </small>
+            <small *ngIf="loginForm.controls['password'].errors?.['minlength']"class="text-danger fw-medium">
+              Password must be at least 6 characters long.
+            </small>
+          </div>
         </div>
-      </div>
-      <button type="submit" [disabled]="!loginForm.valid && isSubmitting" class="btn">Login</button>
-        </form>
-  </div>
+        <button type="submit" [disabled]="isSubmitting" class="btn mt-3">Login</button>
+          </form>
+    </div>
+  </div> 
+</div>
 </div>

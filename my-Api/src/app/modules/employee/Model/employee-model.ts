@@ -93,7 +93,9 @@ export interface EmployeePagenatorRequest{
   isAscending: boolean,
   pageNumber: number,
   pageSize: number,
-  additionalSearch:string
+  additionalSearch:string,
+  // startDate:string,
+  // endDate:string,
 }
 export interface EmployeePagenatorResponse{
   success:boolean,

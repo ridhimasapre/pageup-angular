@@ -17,31 +17,50 @@ export class AuthService {
   public Login(data: LoginRequest ): Observable<LoginResponse<LoginUser>>{
     return this.httpclinet.post<LoginResponse<LoginUser>>(this.url, data);
   }
-  public setUserRole(role: number): void {
-    localStorage.setItem('userRole', role.toString()); 
-    this.userRole = role as Role; 
+   // Set the token and role in localStorage after successful login
+   public setLoginData(token: string, role: Role): void {
+    localStorage.setItem('token', token);
+    this.setUserRole(role);
   }
+
+  // Method to set user role in localStorage
+  public setUserRole(role: Role): void {
+    localStorage.setItem('userRole', role.toString());
+    this.userRole = role;
+  }
+
   // Method to get the token from localStorage
-  static getToken(): string | null {
+  public getToken(): string | null {
     return localStorage.getItem('token');
   }
-  static isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
+
+  // Check if the user is authenticated
+  public isAuthenticated(): boolean {
     return !!this.getToken();
   }
-   // Role-based checks
-   static isSuperAdmin(): boolean {
+
+  // Role-based checks
+  public isSuperAdmin(): boolean {
     return this.getUserRole() === 'SuperAdmin';
   }
 
-  static  isAdmin(): boolean {
+  public isAdmin(): boolean {
     return this.getUserRole() === 'Admin';
   }
 
-  static isEmployee(): boolean {
+  public isEmployee(): boolean {
     return this.getUserRole() === 'Employee';
   }
-  static getUserRole(): string | null {
+
+  // Get user role from localStorage
+  public getUserRole(): string | null {
     return localStorage.getItem('userRole');
+  }
+
+  // Logout and clear data from localStorage
+  public logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    this.router.navigate(['/login']);
   }
 }

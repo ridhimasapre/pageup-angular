@@ -15,7 +15,7 @@
     </div>
     <div class="col">
       <!-- TASK STATUS  -->
-      <mat-form-field style="width: 170px; margin: 2px">
+      <mat-form-field>
         <mat-label>Status</mat-label>
         <mat-select (selectionChange)="TaskStatus($event)" multiple>
           <mat-option [value]=0>Not Started</mat-option>
@@ -26,22 +26,35 @@
     </div>
     <div class="col">
       <!-- EMPLOYEES THAT ARE IN TASK  -->
-        <mat-form-field style="width: 200px; margin: 2px">
+        <mat-form-field >
           <mat-label>Assigned To</mat-label>
           <mat-select (selectionChange)="TaskAssigned($event)" multiple>
             <mat-option *ngFor="let employee of employeeList" [value]="employee.id">
-              {{ employee.name}}
+              {{employee.name ? 'Me' : employee.name }}
             </mat-option>
           </mat-select>
         </mat-form-field>
   </div>
   <div class="col">
     <!-- TASK IS ASSIGNED OR NOT -->
-    <mat-form-field style="width: 170px; margin: 2px">
+    <mat-form-field >
       <mat-label>Assign</mat-label>
-      <mat-select (selectionChange)="onAssignBoolChange($event)">
+      <mat-select (selectionChange)="onChangeAssign($event)">
         <mat-option [value]="true">Assigned</mat-option>
         <mat-option [value]="false">Unassigned</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="col">
+    <mat-form-field >
+      <mat-label>Select Sprint</mat-label>
+      <mat-select (selectionChange)="onSprintChange($event)">
+        <mat-option *ngFor="let sprint of sprintList" [value]="sprint.id">
+          {{ sprint.name }}
+          <mat-icon [routerLink]="['/tasks/sprint/tasks', sprint.id]">info</mat-icon> 
+        </mat-option>
+        <mat-option [value]="0">None</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -71,6 +84,7 @@
             <td class="text-start">{{task.createdOn | date:'dd/MM/yyyy , h:mm a'}}</td>
             <td class="text-center"><i class="mdi mdi-menu-down action-icon fs-4 pe-2" (click)="toggleChild(task.id)"></i> 
             <i class="mdi mdi-plus action-icon pe-2 text-success fw-bold fs-4"></i> 
+            <i class="mdi mdi-delete-empty action-icon pe-2 text-success fw-bold fs-4"  (click)="deleteTask(task.id)"></i> 
             <i class="mdi mdi-pencil action-icon fs-5 pe-2 text-primary" [routerLink]="['/task/edit',task.id]"></i> </td>
           </tr>
           <ng-container *ngFor="let task of taskItemList; let i=index">
@@ -82,12 +96,12 @@
                 <td colspan="1">{{ child.createdOn | date:'dd/MM/yyyy , h:mm a'}}</td>
                 <td class="text-center"><i class="mdi mdi-menu-down action-icon fs-4 pe-2" (click)="toggleChild(task.id)"></i> 
                   <i class="mdi mdi-plus action-icon pe-2 text-success fw-bold fs-4"></i> 
-                  <i class="mdi mdi-pencil action-icon fs-5 pe-2 text-primary" [routerLink]="['/task/edit',task.id]"></i> </td>
+                  <i class="mdi mdi-delete-empty action-icon pe-2 text-success fw-bold fs-4"  (click)="deleteTask(child.id)"></i> 
+                  <i class="mdi mdi-pencil action-icon fs-5 pe-2 text-primary" [routerLink]="['/edit',task.id]"></i> </td>
               </tr>
             </ng-container>
           </ng-container>
-          <!-- <app-task-list ></app-task-list> -->
-           
+          
         </tbody>
       </table>
     </div>
@@ -117,4 +131,4 @@
   </div>
   
   
-  
+ 

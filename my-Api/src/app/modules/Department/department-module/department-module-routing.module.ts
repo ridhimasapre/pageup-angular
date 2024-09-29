@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DepartmentlistComponent } from './Components/departmentlist/departmentlist.component';
 const routes: Routes = [
   {path:"",component:DepartmentlistComponent},
-  {path:"department",component:DepartmentlistComponent},
+  // {path:"department",component:DepartmentlistComponent},
 ];
 
 @NgModule({

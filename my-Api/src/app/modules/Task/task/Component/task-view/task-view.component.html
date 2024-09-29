@@ -1,7 +1,7 @@
 
 <div *ngIf="task" class="card shadow-sm details">
     <div class="card-header bg-primary text-white">
-      <h2 class="mb-0">Project Details</h2>
+      <h2 class="mb-0">Task Details</h2>
     </div>
     <div class="card-body">
       <div class="row mb-3">
@@ -19,15 +19,50 @@
       </div>
       <div class="row mb-3">
         <div class="col-md-4 font-weight-bold">Status</div>
-        <!-- <div class="col-md-8">{{ getStatus(task.status) }}</div> -->
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-4 font-weight-bold">createdOn</div>
-        <div class="col-md-8">{{ task.createdOn | date:'dd/MM/yyyy' }}</div>
+        <div class="col-md-8">{{ getStatus(task.status) }}</div>
       </div>
   </div>
   <div>
-    <h5>Task Review</h5>
-    
   </div>
 </div>
+<!-- <div class="container mt-3" [formGroup]="ReviewForm">
+  <div class="mb-2 d-flex"> 
+    <label for="name" class="fw-medium me-2 mt-2 fs-5">ReviewerName:</label>
+    <input id="name" type="text" placeholder="Name" formControlName="reviewerName">
+  </div>
+  <div class="mb-2 d-flex"> 
+    <label for="name" class="fw-medium me-2 mt-2 fs-5">Comments:</label>
+    <input id="name" type="text" placeholder="comment" formControlName="comments">
+  </div>
+  <button class="btn btnsm btn-primary" (click)="openAddTaskReviewModal()">Add Review</button>
+</div> -->
+
+<!-- task review section  -->
+<div *ngIf="Review" class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <h4 class="mb-0">Task Reviews & Comments</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 font-weight-bold">Reviewer:</div>
+          <div class="col-md-9">{{ Review.reviewerName }}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 font-weight-bold">Comment:</div>
+          <div class="col-md-9">{{Review.comments}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 font-weight-bold">Date:</div>
+          <div class="col-md-9">{{ Review.dataTime }}</div>
+        </div>
+        <hr/>
+      </div>
+    </div>
+  </div>
+  <div class="text-center pt-3">
+    <button mat-button (click)="openAddTaskReviewModal()" class="btn text-white bg-secondary">Add Task Review</button>
+    </div>
+    <div class="text-center pt-3">
+      <button mat-button (click)="openLogModal()" class="btn text-white bg-secondary">All Logs</button>
+      </div>

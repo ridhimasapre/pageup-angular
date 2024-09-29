@@ -1,43 +1,88 @@
-
-<div class="container mt-5">
-    <div class="row">
-      <div class="col-md-6">
-        <button mat-raised-button class="btn bg-primary text-white" (click)="addDepartment()">Add Department</button>
+<div class="whole-body ">
+  <div class="sticky-top">
+<app-header></app-header></div>
+<div class="sidebar-content d-flex">
+<div class="sidebar">
+<app-sidebar></app-sidebar>
+</div></div>
+<div class="container content-container mt-5" id="content-wrapper">
+    <div class="row searchbar">
+      <div class="col-md-2">
+        <!-- <button mat-raised-button class="btn bg-primary text-white" (click)="addDepartment()">Add Department</button> -->
+        <button class="button-expo" (click)="addDepartment()" >ADD DEPARTMENT</button>
       </div>
-      <div class="col-md-6 d-flex">
-        <input type="text" placeholder="Search" class="input-field" [(ngModel)]="filterObj.filterQuery" (keyup.enter)="onSearch()">
-        <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
-        <button class="btn btn-primary ms-2 btn-sm" (click)="onSearch()">SEARCH</button>
+      <div class="col-3">
+        <div class="date-range d-flex flex-row">
+        <mat-form-field  class="date-rangeField">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="filterObj.startDate" >
+            <input matEndDate placeholder="End date" [(ngModel)]="filterObj.endDate">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <button (click)="applyDateFilter()" class="h-50 ms-3 mt-3 button-expo">Enter</button>
+      </div>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end">
+        <div class="input-container">
+        <input type="text" placeholder="Search" class="input-box " [(ngModel)]="filterObj.filterQuery" (keyup.enter)="onSearch()">
+        <i class="mdi mdi-window-close cancel-icon " (click)="clearSearch()"></i>
+      </div>
+         <button class="btn searchBtn ms-2" (click)="onSearch()">SEARCH</button>
       </div>
     </div>
-  </div>
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-12">
-        <table   class="table table-bordered">
-          <thead class="bg-primary text-white fw-semibold">
+ 
+  <!-- <mat-form-field appearance="fill" class="me-2">
+    <mat-label>From Date</mat-label>
+    <input matInput [matDatepicker]="fromPicker" [(ngModel)]="filterObj.startDate" placeholder="Choose a date">
+    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+    <mat-datepicker #fromPicker></mat-datepicker>
+  </mat-form-field> -->
+  <div class="container mt-5 ps-0 pe-0">
+    <div class="row ">
+      <div class="col-md-12 ps-0 pe-0">
+        <table class="table table-dark align-start table-striped shadow-lg">
+          <thead>
             <tr>
-              <th class="col-md-1">S.NO</th>
-              <th class="col-md-4 "  (click)="sortDep('name')">NAME <i class="mdi mdi-menu-up hover-menu"></i></th>
-              <th class="col-md-2" (click)="sortDep('createdOn')">CREATED ON <i class=" mdi mdi-menu-up hover-menu"></i></th>
-              <th class="col-md-2" (click)="sortDep('createdBy_Name')">CREATED BY <i class=" mdi mdi-menu-up hover-menu"></i></th>
-              <th class="col-md-4">ACTION</th>
+              <th class="py-3 ps-3 bg-success ">S.NO</th>
+              <th class="py-3 ps-3 bg-success "(click)="sortDep('name')">NAME
+                 <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': filterObj.sortBy === 'name' && filterObj.isAscending, 
+                  'mdi-menu-down': filterObj.sortBy === 'name' && !filterObj.isAscending
+                }"> </i>
+              </th>
+              <th class="py-3 ps-3 bg-success " (click)="sortDep('createdOn')">CREATED ON
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': filterObj.sortBy === 'createdOn' && filterObj.isAscending, 
+                  'mdi-menu-down': filterObj.sortBy === 'createdOn' && !filterObj.isAscending
+                }"> </i>                </th>
+              <th class="py-3 ps-3 bg-success " (click)="sortDep('createdBy_Name')">CREATED BY
+                <i class="mdi" 
+                [ngClass]="{
+                  'mdi-menu-up': filterObj.sortBy === 'createdBY_Name' && filterObj.isAscending, 
+                  'mdi-menu-down': filterObj.sortBy === 'createdBy_Name' && !filterObj.isAscending
+                }"> </i>                 </th>
+              <th class="py-3 ps-3 bg-success ">ACTION</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of departmentList; let i = index">
               <td class="text-center">{{ getGlobalIndex(i) }}</td>
-              <td class="text-start ps-5">{{ item.name }}</td>
-              <td>{{ item.createdOn | date:'dd/MM/yyyy , h:mm a' }}</td>
-              <td>{{ item.createdBy_Name}}</td>
+              <td class="text-start ps-3">{{ item.name }}</td>
+              <td class="ps-3">{{ item.createdOn | date:'dd/MM/yyyy , h:mm a' }}</td>
+              <td class="ps-3">{{ item.createdBy_Name}}</td>
               <!-- <td class="text-center">
                 
                 <button class="btn btn-danger btn-sm" (click)="delete(item.id)">DELETE</button>
                 <button class="btn btn-primary btn-sm ms-2" [routerLink]="['/update', item.id]">UPDATE</button>
               </td> -->
-              <td class="text-center">
-                <button class="btn btn-danger btn-sm" (click)="delete(item.id)">DELETE</button>
-                <button class="btn btn-primary btn-sm ms-2" (click)="updateDepartment(item)">UPDATE</button>
+              <td class="text-start ps-3">
+                <button class="btn deleteBtn btn-sm" (click)="delete(item.id)">DELETE</button>
+                <button class="btn updateBtn btn-sm ms-2" (click)="updateDepartment(item)">UPDATE</button>
               </td>
             </tr>
           </tbody>
@@ -45,7 +90,7 @@
       </div>
     </div>
   </div>
-  <div class="container mt-5">
+  <!-- <div class="container mt-5">
     <div class="row">
       <div class="col-4 mb-5">
         <mat-paginator
@@ -59,7 +104,6 @@
         </mat-paginator>
       </div>
       <div class="col-md-6 ms-4 d-flex">
-        <!-- {{getMaxPage()}} -->
         <input
           type="number"
           [min]="1"
@@ -74,5 +118,7 @@
         </div>
       </div>
     </div>
+  </div> -->
   </div>
-  
+  <app-pagination [totalEntriesCount]="totalEntriesCount" [pageSize]="filterObj.pageSize" (pageChange)="onPageChange($event)"></app-pagination>
+  </div>

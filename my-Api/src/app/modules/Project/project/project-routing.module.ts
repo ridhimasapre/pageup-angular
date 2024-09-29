@@ -6,6 +6,7 @@ import { ProjectViewComponent } from './Component/project-view/project-view.comp
 import { TaskListComponent } from '../../Task/task/Component/task-list/task-list.component';
 
 const routes: Routes = [
+  {path:"",component:ProjectListComponent},
   {path:"project",component:ProjectListComponent},
   {path:"project/add",component:ProjectAddComponent},
   {path:"project/edit/:id",component:ProjectAddComponent},

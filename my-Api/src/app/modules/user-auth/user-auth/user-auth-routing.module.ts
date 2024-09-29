@@ -6,10 +6,10 @@ import { ProjectListComponent } from '../../Project/project/Component/project-li
 import { EmployeeListComponent } from '../../employee/Component/employee-list/employee-list.component';
 
 const routes: Routes = [
-  {path:"login",component:LoginComponent},
-  {path:"departmentlist",component:DepartmentlistComponent},
-  {path:"projectlist",component:ProjectListComponent},
-  {path:"employeelist",component:EmployeeListComponent},
+  {path:"",component:LoginComponent},
+  // {path:"department",component:DepartmentlistComponent},
+  // {path:"project",component:ProjectListComponent},
+  // {path:"employee",component:EmployeeListComponent},
 ];
 
 @NgModule({

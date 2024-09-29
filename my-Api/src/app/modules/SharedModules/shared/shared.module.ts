@@ -17,19 +17,26 @@ import { AppRoutingModule } from '../../../app-routing.module';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
+import { LoadingComponent } from './Loader/loading/loading.component';
+import { ToastrModule } from 'ngx-toastr';
+import { SidebarComponent } from './Sidebar/sidebar/sidebar.component';
+import { HeaderComponent } from './Header/header/header.component';
+import { PaginationComponent } from './Pagination/pagination/pagination.component';
 @NgModule({
   declarations: [
-    DeleteComponentComponent
+    DeleteComponentComponent,
+    LoadingComponent,
+    SidebarComponent,
+    HeaderComponent,
+    PaginationComponent
   ],
   imports: [
     CommonModule,
     HttpClientModule,
-    // BrowserModule,
     RouterModule,
     MatSlideToggle,
     MatButtonModule,
@@ -45,10 +52,15 @@ import { MatSelectModule } from '@angular/material/select';
     MatPaginatorModule,
     MatTableModule,
     MatSelectModule,
-    MatButton
+    MatButton,
   ],
   exports: [
-    DeleteComponentComponent
+    DeleteComponentComponent,
+    ToastrModule,
+    LoadingComponent,
+    SidebarComponent,
+    HeaderComponent,
+    PaginationComponent
   ]
 })
 export class SharedModule { }

@@ -6,17 +6,17 @@
       <input matInput formControlName="name" />
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="ps-3">
         <mat-label class="fw-medium text-black">Description</mat-label>
         <input matInput formControlName="description" />
       </mat-form-field>
 
-      <mat-form-field>
+      <mat-form-field class="ps-3">
         <mat-label class="fw-medium text-black">Estimation time</mat-label>
         <input matInput formControlName="estimateHours" />
       </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field class="ps-3">
       <mat-label class="text-black">Task Type</mat-label>
       <mat-select formControlName="type" class="text-black">
         <mat-option [value]="0">Epic</mat-option>
@@ -26,7 +26,7 @@
         <mat-option [value]="4">Bug</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="ps-3">
       <mat-label>Status</mat-label>
       <mat-select formControlName="status">
         <mat-option [value]="0">Not Started</mat-option>
@@ -37,6 +37,6 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button class="btn btn-primary btn-sm" (click)="onCancel()">Cancel</button>
-  <button mat-button class="btn btn-danger btn-sm ms-4" (click)="onSubmit()">Submit</button>
+  <button mat-button class="btn bg-danger text-white btn-sm" (click)="onCancel()">Cancel</button>
+  <button mat-button class="btn bg-primary text-white btn-sm ms-4" (click)="onSubmit()">Submit</button>
 </mat-dialog-actions>

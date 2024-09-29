@@ -50,12 +50,14 @@ export interface departmentForm{
       data: boolean,
     }
     export interface DepartmentPagenatorRequest{
-      filterOn:string,
-      filterQuery:string,
+        filterOn:string,
+        filterQuery:string,
         sortBy : string,
         isAscending: boolean,
         pageNumber: number,
         pageSize: number,
+        startDate:string | null,
+        endDate:string | null,
     }
     export interface DepartmentPagenatorResponse{
       success:boolean,

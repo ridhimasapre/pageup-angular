@@ -8,6 +8,10 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { SharedModule } from '../SharedModules/shared/shared.module';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldControl } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -21,6 +25,9 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
+    SharedModule,
+    MatInputModule,
+    MatButtonModule,
   ]
 })
 export class EmployeeModule { }

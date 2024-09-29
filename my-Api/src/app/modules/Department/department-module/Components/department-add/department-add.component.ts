@@ -8,12 +8,17 @@ import { addmodaldepartment } from '../../Model/department.model';
   styleUrl: './department-add.component.css'
 })
 export class DepartmentAddComponent {
-  // public departments: { name: string }[] = [{ name: "" }];
-  public departments:addmodaldepartment[]=[]
+  public departments: { name: string }[] = [{ name: "" }];
+  // public departments:addmodaldepartment[]=[]
   public errorMessage: string = '';
   constructor(private dialogRef: MatDialogRef<DepartmentAddComponent>,
     @Inject(MAT_DIALOG_DATA) public data: addmodaldepartment
-  ){}
+  ){
+    if (data) {
+      this.departments = [{ name: data.name }];
+    }
+  
+  }
   
   addDepartmentField(): void {
     this.departments.push({ name: "" });

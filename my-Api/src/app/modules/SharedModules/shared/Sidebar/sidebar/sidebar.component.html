@@ -1,0 +1,20 @@
+<!-- <button  class="toggle-button">Toggle Sidebar</button> -->
+<div id="sidebar" class="" [class.active]="!isSidebarActive">
+  <div class="sidebar "  >
+    <ul>
+      <li class="mt-4">
+        <a routerLink="/department">DEPARTMENT</a>
+      </li>
+      <li>
+        <a routerLink="/employee">EMPLOYEE</a>
+      </li>
+      <li>
+        <a routerLink="/project">PROJECT</a>
+      </li>
+      <li>
+        <a routerLink="/login">LOGOUT</a>
+      </li>
+    </ul>
+  </div>
+</div>
+<router-outlet></router-outlet>

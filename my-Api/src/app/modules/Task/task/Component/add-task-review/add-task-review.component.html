@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Add Task Review</h2>
+<form [formGroup]="ReviewForm" >
+  <mat-form-field appearance="fill">
+    <mat-label>Reviewer Name</mat-label>
+    <input matInput formControlName="reviewerName" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Comments</mat-label>
+    <textarea matInput formControlName="comments" required></textarea>
+  </mat-form-field>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close class="btn btn-danger">Cancel</button>
+    <button mat-button type="submit" class="btn btn-success">Submit</button>
+  </div>
+</form>

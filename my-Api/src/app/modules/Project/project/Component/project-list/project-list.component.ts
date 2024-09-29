@@ -11,7 +11,8 @@ import { TaskListComponent } from '../../../../Task/task/Component/task-list/tas
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrl: './project-list.component.css'
+  styleUrl: './project-list.component.css',
+  
 })
 export class ProjectListComponent {
   @ViewChild(MatPaginator) paginator!:MatPaginator;
@@ -113,6 +114,7 @@ this.filterObj.isAscending = true;
 this.getPagenation();
 }
 }
+
 //jump on the particular page
 public goToPage(): void {
 const maxPage=this.getMaxPage()
@@ -122,6 +124,7 @@ const event: PageEvent = {
   pageSize: this.filterObj.pageSize,
   length: this.totalEntriesCount
 };
+
 this.onPageEvent(event);
 // this.filterObj.pageNumber=this.pageInput
 this.getPagenation();
@@ -131,7 +134,7 @@ this.errorMsg=`page number ${this.pageInput} does not exist`;
 this.pageInput=1;
 // this.errorMsg='';
 }
-}
+ }
 getMaxPage(): number {
 return Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
 }

@@ -5,6 +5,8 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule,FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { AuthInterceptorService } from './service/auth-interceptor/auth-interceptor.service';
+import { AppRoutingModule } from '../../../app-routing.module';
 @NgModule({
   declarations: [
     LoginComponent
@@ -15,7 +17,7 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    RouterModule   
+    RouterModule,
   ]
 })
 export class UserAuthModule { }

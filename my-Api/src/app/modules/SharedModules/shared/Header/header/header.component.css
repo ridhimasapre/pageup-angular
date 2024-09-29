@@ -1,0 +1,36 @@
+/* header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #6200ea;
+    color: white;
+  }
+  
+  button {
+    margin-right: 10px;
+    background-color: #ffffff;
+    color: black;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #dddddd;
+  }
+   */
+   .right-col{
+    padding-left: 120px;
+   }
+    .left-col{
+      padding-left: 79px;
+    }
+   nav{
+    background: var(--header-bg-color);
+    color: var(--header-text-color);
+    font-family: sans-serif,system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+   }
+   ul li a{
+    color: var(--header-text-color);
+    font-weight:500;
+   }

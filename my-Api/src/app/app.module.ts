@@ -20,7 +20,15 @@ import { MatDatepickerModule}  from '@angular/material/datepicker';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ToastrModule } from 'ngx-toastr';
-import { AuthService } from './modules/user-auth/user-auth/service/auth.service';
+// import { loadingInterceptorInterceptor } from './modules/SharedModules/shared/Loader/Service/loading-interceptor.interceptor';
+// import { AuthService } from './modules/user-auth/user-auth/service/auth.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './modules/user-auth/user-auth/service/auth-interceptor/auth-interceptor.service';
+import { LoaderService } from './modules/SharedModules/shared/Loader/Service/loader.service';
+import { ToastrService } from 'ngx-toastr';
+// import { toastrInterceptorInterceptor } from './modules/SharedModules/shared/ToasterService/toastr-interceptor.interceptor';
+import { SharedModule } from './modules/SharedModules/shared/shared.module';
+import { TaskModule } from './modules/Task/task/task.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,10 +57,11 @@ import { AuthService } from './modules/user-auth/user-auth/service/auth.service'
     MatDatepickerModule,
     MatSelectModule,
     MatFormFieldModule,
-    NgxUiLoaderModule,
-    NgxUiLoaderHttpModule.forRoot({
-      showForeground:true
-    }),
+    SharedModule,
+    // NgxUiLoaderModule,
+    // NgxUiLoaderHttpModule.forRoot({
+    //   showForeground:true
+    // }),
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
@@ -62,7 +71,11 @@ import { AuthService } from './modules/user-auth/user-auth/service/auth.service'
   ],
   providers: [
     provideAnimationsAsync(),
-   [AuthService], 
+  //  [AuthService], 
+   { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
+  //  {provide:HTTP_INTERCEPTORS, useValue:loadingInterceptorInterceptor, multi:true},
+  //  { provide: HTTP_INTERCEPTORS, useValue: toastrInterceptorInterceptor, multi: true },
+   LoaderService, 
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent],

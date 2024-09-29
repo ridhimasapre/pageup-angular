@@ -9,13 +9,25 @@ export interface Task{
     assigned_To:string,
     createdOn:string,
     description:string,
-    status:TaskStatus,
+    status:Status,
     isActive:boolean
 }
 export interface TaskResponse<T>{
     success:boolean,
     message:string,
     data:T,
+}
+export interface TaskReview{
+  // id:number,
+  reviewerName:string,
+  comments:string,
+  dataTime:string
+}
+export interface ReviewForm{
+  id:FormControl<number | null>,
+  reviewerName:FormControl<string | null>,
+  comments:FormControl<string | null>,
+  dataTime:FormControl<string | null>,
 }
   export interface TaskByIdData{
   success:boolean,
@@ -55,7 +67,25 @@ export interface TaskByIdsTT{
   sprintId: number,
 }
 export interface TaskById{
-      childTasks: [{ id: number; name: string; assigned_From: string; assigned_To: string; assignedById: number; assignedToId: number; createdOn: string; description: string; status: number; isActive: boolean; parentId: number; projectId: number; sprintId: number; type: number; estimatedHours: number; remainingHours: number; }];
+      childTasks: [{
+         id: number; 
+         name: string; 
+         assigned_From: string;
+          assigned_To: string;
+           assignedById: number; 
+           assignedToId: number; 
+           createdOn: string; 
+           description: string; 
+           status: number; 
+           isActive: boolean;
+            parentId: number;
+             projectId: number;
+              sprintId: number;
+               type: number; 
+               estimatedHours: number; 
+               remainingHours: number; 
+             childShow:boolean;
+              }];
       id: number,
       name: string,
       assigned_From: string,
@@ -69,7 +99,7 @@ export interface TaskById{
       projectId: number,
       type:number,
       childShow:boolean;
-      // parentId: number,
+      parentId: number,
       // sprintId: number,
 }
 export interface ChildById{
@@ -87,11 +117,11 @@ export interface ChildById{
   parentId: number,
   // sprintId: number,
 }
-export enum TaskStatus{
-    pending=0,
-    Running=1,
-    Completed=2
-}
+// export enum TaskStatus{
+//     pending=0,
+//     Running=1,
+//     Completed=2
+// }
 export interface PagenatorRequest{
     filterOn:string,
     filterQuery:string,
@@ -164,7 +194,7 @@ export interface PagenatorRequest{
     export interface TaskAddRequest{
       success:boolean,
       message:string,
-      data:AddTaskResponse,
+      data:AddTaskResponse[],
   }
   export interface AddTaskResponse{
   name: FormControl<string|null>,
@@ -176,3 +206,20 @@ export interface PagenatorRequest{
   estimateHours:FormControl<number|null>,
     }
     
+    export interface Sprint{
+      id: number,
+      name: string,
+      startDate: string,
+      endDate: string
+    }
+  export interface logResponse{
+    id:number,
+    name:string,
+    message:string,
+    createdon:string
+  } 
+  export interface logRequest{
+    success:boolean,
+    message:string,
+    data:logResponse,
+  } 

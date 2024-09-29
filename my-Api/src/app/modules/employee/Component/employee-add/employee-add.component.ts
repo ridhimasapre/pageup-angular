@@ -25,7 +25,9 @@ export class EmployeeAddComponent implements OnInit{
     sortBy: "",
     isAscending: true,
     pageNumber: -1,
-    pageSize: -1
+    pageSize: -1,
+    startDate:"",
+    endDate:"",
   }
   private info ={
     timeOut: 10000, 
@@ -101,7 +103,7 @@ export class EmployeeAddComponent implements OnInit{
   }
   public getDepartment(): void {
     this.deparmentService.PaginationDepartment(this.EmployeeFilterObj).subscribe((res => {
-      this.departmentList = res.data
+      this.departmentList = res.data;
       console.log("department", res);
     }))
   }
@@ -164,11 +166,9 @@ public onAdminChange():void{
     });
   }
   public showSuccess() {
-    this.toastr.success('Data saved successfully!', 'Success');
+    this.toastr.success('employee Added', 'Success');
   }
-  // showError() {
-  //   this.toastr.error('An error occurred.', 'Error');
-  // }
+
   public showError(msg:string) {
     this.toastr.error(msg,"",this.info);
   }
@@ -177,6 +177,6 @@ public onAdminChange():void{
   }
 
   public showWarning() {
-    this.toastr.warning('Warning: Check this out!', 'Warning');
+    this.toastr.warning('Warning: something went wrong', 'Warning');
   }
 }

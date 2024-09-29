@@ -1,0 +1,22 @@
+<div *ngIf="logs" class="card shadow-sm details"></div>
+    <div class="card-header bg-secondary text-white">
+      <h2 class="py-3 text-center">Logs Details</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold ps-5">Name:</div>
+        <div class="col-md-8">{{ logs.name }}</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold ps-5">Description:</div>
+        <div class="col-md-8">{{ logs.createdon }}</div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-4 font-weight-bold ps-5">Status:</div>
+        <div class="col-md-8">{{ logs.message }}</div>
+      </div>
+      
+  </div>
+  <div>
+  </div>
