@@ -1,6 +1,5 @@
 import { CanActivateFn, Router, RouterStateSnapshot, ActivatedRouteSnapshot, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../service/auth.service';
 
 export const roleguardGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree => {

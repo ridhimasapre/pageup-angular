@@ -3,8 +3,6 @@
   import { AuthService } from '../service/auth.service';
   import { LoginForm, LoginRequest } from '../Model/login.model';
   import { Router } from '@angular/router';
-  import { Token } from '@angular/compiler';
-  // import { AuthInterceptorService } from '../service/auth-interceptor/auth-interceptor.service';
   @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',

@@ -28,7 +28,6 @@ constructor(private loader:LoaderService,
     // const modifiedReq = req.clone();
     return next.handle(modifiedReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        // this.toastr.error(error.message, 'Error'); 
         return throwError(error);  
       }),
       finalize(() => {

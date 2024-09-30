@@ -80,8 +80,10 @@ export class TaskListComponent implements OnInit{
   public totalEntriesCount: number = 0;
 
   constructor(private projectService:ProjectServiceService,
-    private taskService:TaskServiceService,private employeeservice:EmployeeServiceService,
+    private taskService:TaskServiceService,
+    private employeeservice:EmployeeServiceService,
     private router:Router,
+    private deleteService:DeleteServiceService,
     private activatedroute:ActivatedRoute,
     private dialog:MatDialog,
   ){}
@@ -326,18 +328,20 @@ public addTask(taskData: AddTaskResponse): void {
     estimateHours:taskData.estimateHours,
   });
 }
-
-public deleteTask(taskId: number): void {
-  if (confirm('Are you sure you want to delete this task?')) {
-    this.taskService.deleteTask(taskId).subscribe({
-      next: () => {
-        this.getTaskDetails();
-      },
-      error: (err) => {
-        console.error('Error deleting task', err);
+public deleteTask(id: number | null): void {
+  this.deleteService.openConfirmDialog('Are you sure to delete this Task').afterClosed().subscribe(data => {
+    if (data) {
+      if (id !== null && id !== undefined) {
+        this.taskService.deleteTask(id).subscribe(() => {
+          console.log("deleted");
+          this.totalEntriesCount--;
+          this.getTaskDetails();
+        });
+      } else {
+        console.error("Invalid ID");
       }
-    });
-  }
+    }
+  });
 }
 }
 

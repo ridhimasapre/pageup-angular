@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthService } from './modules/user-auth/user-auth/service/auth.service';
-import { LoginComponent } from './modules/user-auth/user-auth/login/login.component';
 import { roleguardGuard } from './modules/user-auth/user-auth/RoleGuard/roleguard.guard';
 const routes: Routes = [
   {

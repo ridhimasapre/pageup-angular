@@ -107,7 +107,7 @@ export class EmployeeListComponent implements OnInit {
     this.getRoleCount(EmployeeRole.Employee);
   }
   public delete(id: number | null): void {
-    this.deleteservice.openConfirmDialog('Are you sure to delete this Name?').afterClosed().subscribe(data => {
+    this.deleteservice.openConfirmDialog('Are you sure to delete this Employee?').afterClosed().subscribe(data => {
       if (data) {
         if (id !== null && id !== undefined) {
           this.employeeservice.deleteEmployee(id).subscribe(() => {
