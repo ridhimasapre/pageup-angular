@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Task,PagenatorRequest,TaskResponse, TaskById ,AllTaskByIdRequest, TaskByIdData, ParentTaskRequest, ParentTaskResponse, TaskAddRequest, AddTaskResponse, TaskReview, logRequest, logResponse} from '../model/task-model';
+import { Task,PagenatorRequest,TaskResponse, TaskByIdRequest,TaskById ,AllTaskByIdRequest, TaskByIdData, ParentTaskRequest, ParentTaskResponse, TaskAddRequest, AddTaskResponse, TaskReview, logRequest, logResponse, childById} from '../model/task-model';
 import { environment } from '../../../../../environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,8 @@ public addurl = `${environment.apiUrl}/api/Tasks`;
 public reviewUrl = `${environment.apiUrl}/api/TasksReview`;
 public deleteReviewUrl = `${environment.apiUrl}/api/TasksReview`;
 public logUrl = `${environment.apiUrl}/api/Log`;
+public childByIdUrl = `${environment.apiUrl}/api/Tasks/GetChildrenTask`;
+
 constructor(private httpClient:HttpClient) { }
 
   public PaginationTask(data:PagenatorRequest):Observable<TaskResponse<Task[]>>{
@@ -29,7 +31,7 @@ constructor(private httpClient:HttpClient) { }
   public deleteTask(taskid: number): Observable<TaskResponse<boolean>> {
   return this.httpClient.delete<TaskResponse<boolean>>(`${this.Deleteurl}/${taskid}`, { headers: this.headers });
   }
-  public getTaskById(body:AllTaskByIdRequest):Observable<TaskByIdData>{
+  public getTaskById(body:childById):Observable<TaskByIdData>{
     return this.httpClient.post<TaskByIdData>(this.TaskById,body,{headers:this.headers})
   }
   public getTaskByParent(body:ParentTaskRequest):Observable<ParentTaskResponse>{
@@ -59,4 +61,7 @@ constructor(private httpClient:HttpClient) { }
   public getLogs(id:number): Observable<logResponse> {
   return this.httpClient.get<logResponse>(`${this.reviewUrl}/${id}`,{ headers: this.headers })
   }
+  public getChildById(id:number): Observable<TaskResponse<childById>> {
+    return this.httpClient.get<TaskResponse<childById>>(`${this.reviewUrl}/${id}`,{ headers: this.headers })
+    }
 }

@@ -62,6 +62,8 @@ export interface AddRequest{
     pageNumber: number,
     pageSize: number,
     additionalSearch:string,
+    startDate:string | null,
+    endDate:string | null,
   }
   export interface SprintById<T>{
     success:string,

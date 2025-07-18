@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,9 +15,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NgxUiLoaderHttpModule, NgxUiLoaderModule } from 'ngx-ui-loader';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import {  MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -25,8 +24,7 @@ import { AuthInterceptorService } from './modules/user-auth/user-auth/service/au
 import { LoaderService } from './modules/SharedModules/shared/Loader/Service/loader.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedModule } from './modules/SharedModules/shared/shared.module';
-import { TaskModule } from './modules/Task/task/task.module';
-import { toastrInterceptorInterceptor } from './modules/SharedModules/shared/ToasterService/toastr-interceptor.interceptor';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,6 +54,7 @@ import { toastrInterceptorInterceptor } from './modules/SharedModules/shared/Toa
     MatSelectModule,
     MatFormFieldModule,
     SharedModule,
+    MatIconModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-center',

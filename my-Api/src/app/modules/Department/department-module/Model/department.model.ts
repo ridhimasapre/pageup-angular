@@ -1,7 +1,7 @@
 import { FormControl } from "@angular/forms";
 
 export interface department{
-    id:number | null,
+    id:string | null,
     name:string | null,
     createdBy_Name:string | null,
     createdOn:string,
@@ -20,6 +20,7 @@ export interface generic<T>{
   data:T
 }
 export interface addmodaldepartment{
+  id:string
 name:string;
 }
 export interface departmentForm{

@@ -34,6 +34,8 @@ export class ProjectListComponent {
     pageNumber: 1,
     pageSize: 10,
     additionalSearch:"",
+    startDate:null,
+    endDate:null
   }
   public  totalEntriesCount:number=0;
   public displayedEntriesCount: number = 0; 
@@ -96,11 +98,14 @@ public onSearch(): void {
   this.filterObj.pageNumber = 1;
   this.getPagenation();
 }
- public onPageEvent(event: PageEvent): void {
+public onPageEvent(event: PageEvent): void {
+  if (event.pageSize != this.filterObj.pageSize) {
+    this.filterObj.pageNumber = 1;
+  } else {
+    this.filterObj.pageNumber = event.pageIndex + 1;
+  }
   this.filterObj.pageSize = event.pageSize;
-  this.filterObj.pageNumber = event.pageIndex+1;
   this.getPagenation();
-  console.log("pages",event)
 }
 
 public sortDep(sortBy: string): void {
@@ -175,5 +180,22 @@ public removeMember(memberId: number, projectId: number): void {
       console.error(err);
     }
   });
+}
+public applyDateFilter(): void {
+  if (this.filterObj.startDate && this.filterObj.endDate) {
+    this.filterObj.pageNumber=1;
+    // this.getPagination();
+  } else {
+    this.filterObj.startDate = null;
+    this.filterObj.endDate = null;
+  }
+  this.getPagenation();
+}
+public clearDateFilter(): void {
+  // Clear the date range filter
+  this.filterObj.startDate = null;
+  this.filterObj.endDate = null;
+  this.filterObj.pageNumber = 1;
+  this.getPagenation();
 }
 }

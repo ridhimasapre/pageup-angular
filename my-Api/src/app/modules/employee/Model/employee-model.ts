@@ -1,8 +1,8 @@
 import { FormControl } from "@angular/forms";
 export interface Employee {
-  userName:string,
+  UserName:string,
   password:string,
-  createdBy: number,
+  createdBy_Name: string,
   updatedBy: number | null, 
   createdOn: string ,
   updatedOn: string | null,
@@ -11,10 +11,9 @@ export interface Employee {
   departmentName: string , 
   role: EmployeeRole,
   salary: number,
-  adminName:string,
-  adminId:number,
-  departmentId: number | null,
-    // isActive:boolean
+  // adminName:string,
+  // adminId:number,
+  departmentId: string | null,
 }
 export interface EmployeeResponse {
   success: boolean;
@@ -29,12 +28,12 @@ export interface EmployeeResponseById {
   data: Employee;
 }
 export interface EmployeeForm{
-  userName:FormControl<string|null>,
+  UserName:FormControl<string|null>,
   password: FormControl<string |null>;
   name: FormControl<string |null>;
   salary: FormControl<number |null>;
-  departmentId: FormControl<number |null>;
-  adminId: FormControl<number |null>;
+  departmentId: FormControl<string |null>;
+  // adminId: FormControl<number |null>;
   role: FormControl<EmployeeRole |null>;
 }
 export enum EmployeeRole {
@@ -43,15 +42,14 @@ export enum EmployeeRole {
   SuperAdmin=2,
 }
 export interface AddEmployeeRequest{
-  userName: string | null | undefined,
+  UserName: string | null | undefined,
   password: string | null | undefined,
   name: string | null | undefined ,
   salary: number | null ,
-  departmentId: number | null | undefined,
-  adminId: number | null | undefined,
+  departmentId: string | null | undefined,
+  // adminId: number | null | undefined,
   role: number | null | undefined,
 }
-
 export interface AddEmployeeResponse{
   success: boolean,
   message: string,
@@ -69,21 +67,19 @@ export interface EmployeeDeleteResponse {
   message: string;
   data: boolean;
 }
-
 export interface UpdatedEmployeeResponse{
   success: boolean,
   status: number,
   message: string,
   data: number;
 }
-
 export interface UpdateEmployeeRequest{
-  userName: string,
+  UserName: string,
   password: string,
   name: string,
   salary: number,
-  departmentId: number|null,
-  adminId: number|null,
+  departmentId: string |null,
+  // adminId: number|null,
   role: number
 }
 export interface EmployeePagenatorRequest{
@@ -94,8 +90,8 @@ export interface EmployeePagenatorRequest{
   pageNumber: number,
   pageSize: number,
   additionalSearch:string,
-  // startDate:string,
-  // endDate:string,
+  startDate:string | null,
+  endDate:string | null,
 }
 export interface EmployeePagenatorResponse{
   success:boolean,

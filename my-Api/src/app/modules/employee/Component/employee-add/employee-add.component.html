@@ -2,7 +2,7 @@
     <div  class="username mt-3">
       <div class="mb-2 d-flex"> 
         <label for="username" class="fw-medium me-2 fs-5 mt-2">Username:</label>
-        <input id="username" type="text" placeholder="employee username" formControlName="userName">
+        <input id="username" type="text" placeholder="employee username" formControlName="UserName">
       </div>
   
       <div class="mb-2 d-flex">
@@ -27,12 +27,12 @@
         <option *ngFor="let item of departmentList" [value]="item.id">{{item.name}}</option>
       </select>
     </div>
-    <div *ngIf="myEmployeeForm.get('departmentId')?.value" class="mb-2 d-flex"> 
+    <!-- <div *ngIf="myEmployeeForm.get('departmentId')?.value" class="mb-2 d-flex"> 
       <label for="admin" class="fw-medium me-2 fs-5 mt-2">Admin:</label>
       <select id="admin" formControlName="adminId" (change)="onAdminChange()">
         <option *ngFor="let item of SelectedEmployeeList" [value]="item.id">{{ item.name }}</option>
       </select>
-    </div>
+    </div> -->
     
     <div class="mb-2 d-flex"> 
       <label for="role" class="fw-medium me-2 mt-2 fs-5">Role:</label>

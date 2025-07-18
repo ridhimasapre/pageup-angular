@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput } from '@an
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerToggle,
+    MatIconModule
   ]
 })
 export class DepartmentModuleModule { }

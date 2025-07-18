@@ -93,20 +93,24 @@ li{
   
   li {
     display: flex;
+    justify-content: space-between; /* Ensures text is on the left, and buttons go to the right */
+    align-items: center;
     padding: 9px;
     margin-left: 15px;
     width: 90%;
-    /* background: transparent; */
     border-radius: 12px;
     background: rgba(194, 180, 180, 0.3);
     margin-bottom: 4px;
+   
   }
+  
   .add{
     margin-left: 8px;
     background-color: skyblue;
     width: 4rem;
     height: 2rem;
     border-radius: 5px;
+    font-size: 15px;
   }
  .btn{
     background-color: skyblue;
@@ -114,6 +118,7 @@ li{
     height: 25px;
     border-radius: 5px;
     margin-left: 10px;
+    font-size: 15px;
  }
 
  .btn-2{
@@ -122,6 +127,7 @@ li{
     height: 25px;
     border-radius: 5px;
     margin-left: 9px;
+    font-size: 15px;
  }
 
   input{
@@ -129,4 +135,15 @@ li{
     border: none;
     width: 19rem;
     height: 2rem;
+    padding-left: 10px;
+    font-size: 16px;
+    font-weight: 500;
   }
+  .todo-text {
+    flex-grow: 1; /* Ensures the text grows to fill available space, pushing the buttons to the right */
+    text-align: left;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  
+  

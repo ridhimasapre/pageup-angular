@@ -10,7 +10,8 @@ export interface Task{
     createdOn:string,
     description:string,
     status:Status,
-    isActive:boolean
+    isActive:boolean,
+    type:Type
 }
 export interface TaskResponse<T>{
     success:boolean,
@@ -42,12 +43,28 @@ export interface AllTaskByIdRequest{
   pageNumber: number,
   pageSize: number,
   // startDate: string,
-  // endDate: string,
+  endDate: string,
   status:  [] | null,
   type:  [] | null,
   assigned: boolean,
   assignedTo: [] | null,
   // sprintId: number,
+  projectId: number,
+  // parentId: number
+}
+export interface TaskByIdRequest{
+  filterQuery: string,
+  sortBy: string,
+  isAscending: boolean,
+  pageNumber: number,
+  pageSize: number,
+  startDate: string | null,
+  endDate: string | null,
+  status:  [] | null,
+  type:  [] | null,
+  assigned: boolean,
+  assignedTo:  null ,
+  sprintId: number | null,
   projectId: number,
   // parentId: number
 }
@@ -100,6 +117,9 @@ export interface TaskById{
       type:number,
       childShow:boolean;
       parentId: number,
+      isExpanded?: boolean; // Defaults to false if not set
+      childrenLoaded?: boolean; // Defaults to false if not set
+      children?: TaskById[];
       // sprintId: number,
 }
 export interface ChildById{
@@ -223,3 +243,23 @@ export interface PagenatorRequest{
     message:string,
     data:logResponse,
   } 
+  export interface childById{
+    id:number |null,
+    name:string,
+    type:Type | null,
+    createdOn:string
+  }
+  export interface taskpaginationData {
+    id: number;
+    name: string;
+    status: Status;
+    assigneeName: string;
+    taskType: Type;
+    createdOn: Date;
+  }
+  export interface items extends taskpaginationData {
+    parentId?: number;
+    children?: items[];
+    childrenLoaded?: boolean;
+    isExpanded?: boolean;
+  }

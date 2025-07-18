@@ -43,8 +43,8 @@ export class EmployeeListComponent implements OnInit {
     pageNumber: 1,
     pageSize: 10,
     additionalSearch: "",
-    // startDate:"",
-    // endDate:""
+    startDate: null,
+    endDate: null
   }
   public totalEntriesCount: number = 0;
   public displayedEntriesCount: number = 0;
@@ -54,7 +54,6 @@ export class EmployeeListComponent implements OnInit {
     private httpclient: HttpClient,
     private dialog: MatDialog,
     private authService: AuthService,
-    // private ref:MatDialogRef<EmployeeComponent>,
     private deleteservice: DeleteServiceService) { }
   ngOnInit(): void {
     this.getEmployeePagenation();
@@ -80,7 +79,7 @@ export class EmployeeListComponent implements OnInit {
           this.displayedEntriesCount = this.totalEntriesCount;
         }
         console.log("pagination count", res);
-        this.updateMaxPage();
+        // this.updateMaxPage();
         if (this.paginator) {
           // this.paginator.length = this.totalEntriesCount;
           this.paginator.length = this.displayedEntriesCount;
@@ -157,10 +156,13 @@ export class EmployeeListComponent implements OnInit {
   }
 
   public onPageEvent(event: PageEvent): void {
+    if (event.pageSize != this.EmployeeFilterObj.pageSize) {
+      this.EmployeeFilterObj.pageNumber = 1;
+    } else {
+      this.EmployeeFilterObj.pageNumber = event.pageIndex + 1;
+    }
     this.EmployeeFilterObj.pageSize = event.pageSize;
-    this.EmployeeFilterObj.pageNumber = event.pageIndex + 1;
     this.getEmployeePagenation();
-    console.log("pages", event);
   }
   public sortDep(sortBy: string): void {
     if (this.EmployeeFilterObj.sortBy === sortBy) {
@@ -173,24 +175,24 @@ export class EmployeeListComponent implements OnInit {
     }
     this.getEmployeePagenation();
   }
-  public goToPage(): void {
-    if (this.pageInput && this.pageInput > 0 && this.pageInput <= this.maxPage) {
-      const event: PageEvent = {
-        pageIndex: this.pageInput - 1,
-        pageSize: this.EmployeeFilterObj.pageSize,
-        length: this.totalEntriesCount
-      };
-      this.onPageEvent(event);
-      this.getEmployeePagenation();
-      this.errorMsg = ""
-    } else {
-      this.errorMsg = `page number ${this.pageInput} does not exist`
-      this.pageInput = 1;
-    }
-  }
-  public updateMaxPage(): void {
-    this.maxPage = Math.ceil(this.totalEntriesCount / this.EmployeeFilterObj.pageSize);
-  }
+  // public goToPage(): void {
+  //   if (this.pageInput && this.pageInput > 0 && this.pageInput <= this.maxPage) {
+  //     const event: PageEvent = {
+  //       pageIndex: this.pageInput - 1,
+  //       pageSize: this.EmployeeFilterObj.pageSize,
+  //       length: this.totalEntriesCount
+  //     };
+  //     this.onPageEvent(event);
+  //     this.getEmployeePagenation();
+  //     this.errorMsg = ""
+  //   } else {
+  //     this.errorMsg = `page number ${this.pageInput} does not exist`
+  //     this.pageInput = 1;
+  //   }
+  // }
+  // public updateMaxPage(): void {
+  //   this.maxPage = Math.ceil(this.totalEntriesCount / this.EmployeeFilterObj.pageSize);
+  // }
   //index no in continuous manner
   public getGlobalIndex(index: number): number {
     return (this.EmployeeFilterObj.pageNumber - 1) * this.EmployeeFilterObj.pageSize + index + 1;
@@ -235,9 +237,23 @@ export class EmployeeListComponent implements OnInit {
       this.addMemberFun(id, name);
     }
   }
-  
+
   removeMemberFun(id: number): void {
     this.projectMembers = this.projectMembers.filter(member => member.id !== id);
   }
-  
+  public applyDateFilter(): void {
+    if (this.EmployeeFilterObj.startDate && this.EmployeeFilterObj.endDate) {
+      this.EmployeeFilterObj.pageNumber = 1;
+    } else {
+      this.EmployeeFilterObj.startDate = null;
+      this.EmployeeFilterObj.endDate = null;
+    }
+    this.getEmployeePagenation();
+  }
+  public clearDateFilter(): void {
+    this.EmployeeFilterObj.startDate = null;
+    this.EmployeeFilterObj.endDate = null;
+    this.EmployeeFilterObj.pageNumber = 1;
+    this.getEmployeePagenation();
+  }
 }

@@ -60,7 +60,7 @@
   </div>
    <!-- TASK LIST  -->
   <div class="fs-4 fw-medium pb-2">Task List</div>
-  <button class="col-1 my-5 btn btn-primary btn-sm" (click)="openAddTaskModal()">Add Task</button>
+  <!-- <button class="col my-5 btn btn-primary btn-sm" (click)="openAddTaskModal()">Add Task</button> -->
     <div *ngIf="taskItemList">
       <table class="table table-bordered table-striped">
         <thead>
@@ -88,7 +88,7 @@
             <i class="mdi mdi-pencil action-icon fs-5 pe-2 text-primary" [routerLink]="['/task/edit',task.id]"></i> </td>
           </tr>
           <ng-container *ngFor="let task of taskItemList; let i=index">
-            <ng-container *ngIf="task.childShow">
+            <!-- <ng-container *ngIf="task.childShow"> -->
               <tr *ngFor="let child of task.childTasks">
                 <td colspan="1">{{ i }}</td>
                 <td colspan="1">{{ child.name }}</td>
@@ -100,8 +100,19 @@
                   <i class="mdi mdi-pencil action-icon fs-5 pe-2 text-primary" [routerLink]="['/edit',task.id]"></i> </td>
               </tr>
             </ng-container>
-          </ng-container>
+          <!-- </ng-container> -->
           
+          <!-- <tr *ngIf="task.childShow">
+    <td colspan="5">
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let childTask of task.childTasks">
+            <app-task-child-tree [task]="childTask"></app-task-child-tree>
+          </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr> -->
         </tbody>
       </table>
     </div>
@@ -129,6 +140,5 @@
       </div>
     </div>
   </div>
-  
   
  

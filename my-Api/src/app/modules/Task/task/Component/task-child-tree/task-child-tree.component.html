@@ -1,0 +1,42 @@
+<div *ngFor="let item of items; let i = index" class="work-item pl-4 py-2">
+    <div
+      class=" flex justify-between z-10 items-center  cursor-pointer p-2 rounded-lg shadow-sm"
+      (click)="toggle(item)"
+    >
+      <span class="font-medium ">
+        {{ i + 1 }}. 
+        <span *ngIf="item.taskType === 0">Epic</span>
+        <span *ngIf="item.taskType === 1">Feature</span>
+        <span *ngIf="item.taskType === 2">UserStory</span>
+        <span *ngIf="item.taskType === 3">Task</span>
+        <span *ngIf="item.taskType === 4">Bug</span>
+        : {{ item.name }}
+      </span>
+      <div class="flex items-center gap-2">
+        <div *ngIf="item.taskType === 0 || item.taskType === 1 || item.taskType === 2">
+          <i (click)="addTask(item.id, item.taskType, item.name); $event.stopPropagation()">add</i>
+        </div>
+        <i (click)="viewTask(item.id); $event.stopPropagation()">remove_red_eye</i>
+        <div (click)="editTask(item.id)">
+          <!-- <mat-icon>edit</mat-icon> -->
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="item.isExpanded" class=" ms-4 mt-2">
+      <div *ngIf="!item.childrenLoaded && !item.children" class="fs-5 italic">
+        Loading...
+      </div>
+      <div *ngIf="item.childrenLoaded && (!item.children || item.children.length === 0)" class="fs-5 italic">
+        No children exist.
+      </div>
+  
+      <app-task-child-tree *ngIf="item.children" 
+                     [items]="item.children"
+                     [projectId]="projectId"
+                     (taskUpdated)="taskUpdated.emit()">
+      </app-task-child-tree>
+    </div>
+  </div>
+  
+  

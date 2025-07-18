@@ -39,5 +39,82 @@
     </div>
   </div>
 </div>
-<div class="my-5"></div>
- <app-task-list></app-task-list>
+<div>
+  <div class="container ps-5 mt-5">
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>TaskType</mat-label>
+          <mat-select (selectionChange)="TaskType($event)" multiple>
+            <mat-option [value]=0>Epic</mat-option>
+            <mat-option [value]=1>Feature</mat-option>
+            <mat-option [value]=2>Userstory</mat-option>
+            <mat-option [value]=3>Task</mat-option>
+            <mat-option [value]=4>Bug</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+        <!-- TASK STATUS  -->
+         <div class="col">
+        <mat-form-field>
+          <mat-label>Status</mat-label>
+          <mat-select (selectionChange)="TaskStatus($event)" multiple>
+            <mat-option [value]=0>Not Started</mat-option>
+            <mat-option [value]=1>Active</mat-option>
+            <mat-option [value]=2>Completed</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <!-- EMPLOYEES THAT ARE IN TASK  -->
+        <mat-form-field>
+          <mat-label>Assigned To</mat-label>
+          <mat-select (selectionChange)="TaskAssigned($event)" multiple>
+            <mat-option [value]="loginId" >me</mat-option>
+         <div *ngFor="let assignedTo of project.projectEmployee">
+            <mat-option
+              *ngIf="assignedTo.id !== loginId"
+              [value]="assignedTo.id"
+              >{{ assignedTo.name }}</mat-option
+            >
+          </div>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col">
+      <!-- TASK IS ASSIGNED OR NOT -->
+      <mat-form-field >
+        <mat-label>Assign</mat-label>
+        <mat-select (selectionChange)="onChangeAssign($event)">
+          <mat-option [value]="true">Assigned</mat-option>
+          <mat-option [value]="false">Unassigned</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  
+    <!-- <div class="col">
+      <mat-form-field >
+        <mat-label>Select Sprint</mat-label>
+        <mat-select (selectionChange)="onSprintChange($event)">
+          <mat-option *ngFor="let sprint of sprintList" [value]="sprint.id">
+            {{ sprint.name }}
+            <mat-icon [routerLink]="['/tasks/sprint/tasks', sprint.id]">info</mat-icon> 
+          </mat-option>
+          <mat-option [value]="0">None</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+    </div>
+  
+</div>
+<!-- </div> -->
+<app-task-child-tree
+[items]="epicTaskList"
+[projectId]="projectId"
+(taskUpdated)="taskchidData()"
+></app-task-child-tree>
+ <!-- <app-task-list [parentTaskId] = "projectId"></app-task-list> -->
+
+          <!-- <app-task-child-tree ></app-task-child-tree> -->
+ <!-- <app-task-list [parentTaskId] = "projectId"></app-task-list> -->
+  <!-- <app-task-child-tree></app-task-child-tree> -->

@@ -7,8 +7,23 @@
       </div></div>
   <div class="container content-container mt-5 " id="content-wrapper">
     <div class="row searchbar">
-      <div class="col-md-6">
+      <div class="col-md-2">
         <button class="button-expo" routerLink="project/add">Add PROJECT</button>
+      </div>
+      <div class="col-4">
+        <div class="date-range d-flex flex-row">
+        <mat-form-field  class="date-rangeField">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="filterObj.startDate" >
+            <input matEndDate placeholder="End date" [(ngModel)]="filterObj.endDate">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <button (click)="applyDateFilter()" class="h-50 ms-3 mt-3 button-expo">Enter</button>
+        <button (click)="clearDateFilter()" class="h-50 ms-3 mt-3 button-expo">Cancel</button>
+      </div>
       </div>
       <div class="col-md-6 d-flex justify-centent-end">
         <div class="input-container">
@@ -89,7 +104,7 @@
       </div>
     </div>
   </div>
-  <div class="container mt-5 ">
+  <!-- <div class="container mt-5 ">
     <div class="row ">
       <div class="col-4 mb-5 paginator-parent">
         <mat-paginator class="pagination shadow"
@@ -107,6 +122,8 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+  
+  <app-pagination [totalEntriesCount]="totalEntriesCount" [pageSize]="filterObj.pageSize" (pageChange)="onPageEvent($event)"></app-pagination>
 </div>
 </div>

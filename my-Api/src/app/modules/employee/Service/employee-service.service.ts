@@ -37,13 +37,12 @@ export class EmployeeServiceService {
       return this.httpClient.get<EmployeeResponseById>(`${this.IdUrl}/${id}`, {headers:this.headers});
     }
     public updatedEmployee(data: unknown, id: number): Observable<UpdatedEmployeeResponse>{
-      
       return this.httpClient.put<UpdatedEmployeeResponse>(`${this.updateUrl}/${id}`, data, {headers:this.headers});
     }
     public PaginationEmployee(data:EmployeePagenatorRequest):Observable<EmployeePagenatorResponse>{
       return this.httpClient.post<EmployeePagenatorResponse>(this.pagenationUrl,data,{headers:this.headers})
     }
-    public getEmployeesByDepartment(departmentId: number): Observable<EmployeeResponse> {
+    public getEmployeesByDepartment(departmentId: string): Observable<EmployeeResponse> {
       return this.httpClient.get<EmployeeResponse>(`${this.adminUrl}/${departmentId}`,{headers:this.headers});
     }
     public getRoleCount(role: EmployeeRole): Observable<RoleCountResponse> {

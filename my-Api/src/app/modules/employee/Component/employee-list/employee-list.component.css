@@ -14,37 +14,6 @@ table {
   color: var(--text-color);
   font-size: 15px;
 }
-
-.pagination {
-  width: 28rem;
-  height: 4rem;
-  border-radius: 40px;
-  padding-left: 0px !important;
-  color: #004861;
-  font-weight: 500;
-  padding-top: 5px;
-}
-.go-input {
-  margin-left: 7rem;
-  margin-top: 1rem;
-  width: 4rem;
-  height: 3rem;
-  border-radius: 20px;
-}
-
-.go-btn {
-  margin-top: 20px;
-  margin-bottom: 1rem;
-  font-weight: 500;
-  height: 38px;
-}
-
-.error-message {
-  margin-left: -8rem;
-  font-size: 14px;
-  margin-top: 4rem;
-  font-weight: 500;
-}
 .whole-body {
   display: flex;
   flex-direction: column;

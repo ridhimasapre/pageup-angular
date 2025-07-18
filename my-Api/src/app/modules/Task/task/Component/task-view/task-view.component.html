@@ -14,8 +14,8 @@
         <div class="col-md-8">{{ task.description }}</div>
       </div>
       <div class="row mb-3">
-        <div class="col-md-4 font-weight-bold">Status:</div>
-        <div class="col-md-8">{{ task.status }}</div>
+        <div class="col-md-4 font-weight-bold">Type:</div>
+        <div class="col-md-8">{{getType(task.type)}}</div>
       </div>
       <div class="row mb-3">
         <div class="col-md-4 font-weight-bold">Status</div>
@@ -59,6 +59,9 @@
         <hr/>
       </div>
     </div>
+  </div>
+  <div class="text-center pt-3">
+  <button class="col my-5 btn btn-primary btn-sm" (click)="openAddTaskModal()">Add Task</button>
   </div>
   <div class="text-center pt-3">
     <button mat-button (click)="openAddTaskReviewModal()" class="btn text-white bg-secondary">Add Task Review</button>

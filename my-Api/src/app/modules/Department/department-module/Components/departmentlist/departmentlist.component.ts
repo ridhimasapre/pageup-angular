@@ -23,7 +23,7 @@ export class DepartmentlistComponent implements OnInit {
   public errorMsg: string = "";
   public maxPage: number = 1;
   public filterObj = {
-    filterOn: "",
+    filterOn: "name",
     filterQuery: "",
     sortBy: "",
     isAscending: true,
@@ -43,32 +43,6 @@ export class DepartmentlistComponent implements OnInit {
   ngOnInit(): void {
     this.getPagination();
   }
-  // public addDepartment(): void {
-  //   const dialogRef = this.dialog.open(DepartmentAddComponent, {
-  //     width: '400px'
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result && result.length > 0) {
-  //       result.forEach((dept: { name: string }) => {
-  //         this.departmentservice.AddDepartment(dept).subscribe({
-  //           next: () => {
-  //             console.log("Department added");
-  //             this.getPagination();
-  //           },
-  //           error: (error) => {
-  //             if (error.status === 409) {
-  //               console.error('Department already exists');
-  //               alert(`Department "${dept.name}" already exists`);
-  //             } else {
-  //               console.error('Error adding department', error);
-  //               alert('An error occurred while adding the department');
-  //             }
-  //           }
-  //         });
-  //       });
-  //     }
-  //   });
-  // }
   public openDepartmentModal(department?: department): void {
     const dialogRef = this.dialog.open(DepartmentAddComponent, {
       width: '400px',
@@ -76,11 +50,13 @@ export class DepartmentlistComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result && result.length > 0) {
+      if (result) {
         if (department) {
           // Update existing department
+          
           this.departmentservice.updateDepartment(result).subscribe({
             next: () => {
+              console.log(result,"my");
               console.log("Department updated");
               this.getPagination();
             },
@@ -100,7 +76,7 @@ export class DepartmentlistComponent implements OnInit {
               error: (error) => {
                 if (error.status === 409) {
                   console.error('Department already exists');
-                  alert(`Department "${result.name}" already exists`);
+                  alert(`Department "${dept.name}" already exists`);
                 } else {
                   console.error('Error adding department', error);
                   alert('An error occurred while adding the department');
@@ -119,9 +95,10 @@ export class DepartmentlistComponent implements OnInit {
   public updateDepartment(department: department): void {
     this.openDepartmentModal(department);
   }
-  public delete(id: number | null): void {
+  public delete(id: string | null): void {
     this.deleteservice.openConfirmDialog('Are you sure to delete this Name?').afterClosed().subscribe(data => {
       if (data) {
+        console.log('Trying to delete department with ID:', id);
         if (id !== null && id !== undefined) {
           this.departmentservice.deleteDepartment(id).subscribe(() => {
             console.log("deleted");
@@ -129,7 +106,7 @@ export class DepartmentlistComponent implements OnInit {
             this.getPagination();
           });
         } else {
-          console.error("Invalid ID");
+          console.error("Invalid id");
         }
       }
     });
@@ -139,6 +116,7 @@ export class DepartmentlistComponent implements OnInit {
       next: (res: DepartmentPagenatorResponse) => {
         this.departmentList = res.data;
         this.totalEntriesCount = res.totalEntriesCount;
+        this.maxPage = Math.ceil(this.totalEntriesCount / this.filterObj.pageSize);
         // this.updateMaxPage();
         if (this.paginator) {
           this.paginator.length = this.totalEntriesCount;
@@ -206,15 +184,11 @@ export class DepartmentlistComponent implements OnInit {
     this.pageInput = 1;
     this.getPagination();
   }
-  onPageChange(page: number) {
-    this.filterObj.pageNumber = page;
-    this.getPagination()
-  }
-  public onPageSizeChange(newPageSize: number): void {
-    this.filterObj.pageSize = newPageSize; // Update page size
-    this.filterObj.pageNumber = 1; // Reset to first page on page size change
-    this.getPagination(); // Fetch new data with updated page size
-  }
+  // onPageChange(page: number) {
+  //   this.filterObj.pageNumber = page;
+  //   this.filterObj.pageNumber = 1; 
+  //   this.getPagination()
+  // }
     public applyDateFilter(): void {
     if (this.filterObj.startDate && this.filterObj.endDate) {
       this.filterObj.pageNumber=1;
@@ -223,7 +197,22 @@ export class DepartmentlistComponent implements OnInit {
       this.filterObj.startDate = null;
       this.filterObj.endDate = null;
     }
-
+    this.getPagination();
+  }
+  public clearDateFilter(): void {
+    // Clear the date range filter
+    this.filterObj.startDate = null;
+    this.filterObj.endDate = null;
+    this.filterObj.pageNumber = 1;
+      this.getPagination();
+  }
+  public onPageEvent(event: PageEvent): void {
+    if (event.pageSize != this.filterObj.pageSize) {
+      this.filterObj.pageNumber = 1;
+    } else {
+      this.filterObj.pageNumber = event.pageIndex + 1;
+    }
+    this.filterObj.pageSize = event.pageSize;
     this.getPagination();
   }
 }

@@ -11,35 +11,24 @@
     <button class="btn btn-danger mb-5 close-btn" mat-dialog-close="true">Close</button>
   </div>  
     <div class="container content-container mt-5" id="content-wrapper"    [ngClass]="{ 'employee-view': isActive }">
-    <!-- <div class="row">
-      <div class="col-md-6">
-        <button class="btn btn-primary" routerLink="employee/add">
-          Add Employee
-        </button>
-      </div>
-      <div class="col-6 d-flex">
-        <input
-          type="text"
-          class="input-field"
-          placeholder="Search "
-          [(ngModel)]="search"
-          (keyup.enter)="onSearch()"
-        >
-        <i class="mdi mdi-window-close cancel-icon" (click)="clearSearch()"></i>
-        <button
-          class="btn search-btn btn-primary ms-2 btn-sm"
-          (click)="onSearch()" >
-          SEARCH
-        </button>
-        <div  *ngIf="isActive">
-          <button class="btn ms-3 btn-danger" mat-dialog-close="true">Close</button>
-        </div>
-      </div>
-    </div> -->
- 
     <div class="row searchbar">
-      <div class="col-md-6 ">
+      <div class="col-md-2 ">
         <button class="button-expo" routerLink="employee/add">ADD EMPLOYEE</button>
+      </div>
+      <div class="col-4">
+        <div class="date-range d-flex flex-row">
+        <mat-form-field  class="date-rangeField">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start " [(ngModel)]="EmployeeFilterObj.startDate" >
+            <input matEndDate placeholder="End " [(ngModel)]="EmployeeFilterObj.endDate">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <button (click)="applyDateFilter()" class="h-50 ms-3 mt-3 button-expo">Enter</button>
+        <button (click)="clearDateFilter()" class="h-50 ms-3 mt-3 button-expo">Cancel</button>
+      </div>
       </div>
       <div class="col-md-6 d-flex justify-content-end">
         <div class="input-container">
@@ -149,14 +138,14 @@
                 }" >
              </i>
               </th>
-              <th class="py-3 ps-3 bg-success" (click)="sortDep('adminName')">
+              <!-- <th class="py-3 ps-3 bg-success" (click)="sortDep('adminName')">
                 MANAGER 
                 <i class="mdi" 
                 [ngClass]="{
                   'mdi-menu-up': EmployeeFilterObj.sortBy === 'adminName' && EmployeeFilterObj.isAscending, 
                   'mdi-menu-down': EmployeeFilterObj.sortBy === 'adminName' && !EmployeeFilterObj.isAscending
                 }" >
-             </i>              </th>
+             </i>              </th> -->
               <th class="py-3 ps-3 bg-success">ACTION</th>
             </tr>
           </thead>
@@ -166,14 +155,14 @@
               <td class="text-start ps-2">{{ item.name }}</td>
               <td class="text-start ps-2">{{ item.departmentName }}</td>
               <td class="text-start ps-2">{{ item.createdOn | date:'dd/MM/yyyy , h:mm a' }}</td>
-              <td class="text-start ps-2">{{ item.createdBy }}</td>
+              <td class="text-start ps-2">{{ item.createdBy_Name }}</td>
               <td class="text-start ps-2">{{ item.salary }}</td>
               <td class="text-start ps-2" *ngIf="selectedRole === ''">  
                 <div *ngIf="item.role === 0" >Employee</div> 
                 <div *ngIf="item.role === 1" >Admin</div>
                 <div *ngIf="item.role === 2" > SuperAdmin</div> 
               </td>
-              <td class="text-start ps-2">{{ item.adminName }}</td>
+              <!-- <td class="text-start ps-2">{{ item.adminName }}</td> -->
               <td class="text-center d-flex">
                 <div *ngIf="!isActive">
                 <button class="btn deleteBtn btn-sm" (click)="delete(item.id)">
@@ -222,7 +211,7 @@
       <button mat-dialog-close="true">Cancel</button>
     </div>
   </div> -->
-  <div class="container mt-5">
+  <!-- <div class="container mt-5">
     <div class="row">
       <div class="col-6 mb-5 paginator-parent">
         <mat-paginator
@@ -236,7 +225,6 @@
         </mat-paginator>
       </div>
       <div class="col-6">
-        <!-- {{getMaxPage()}} -->
         <input
           type="number"
           [min]="1"
@@ -251,7 +239,9 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
+  <app-pagination [totalEntriesCount]="totalEntriesCount" [pageSize]="EmployeeFilterObj.pageSize" (pageChange)="onPageEvent($event)"></app-pagination>
+
   <div class="d-flex cancelAddBtn ">
     <div  *ngIf="isActive">
       <button class="btn btn-success" [mat-dialog-close]="projectMembers">Save</button>

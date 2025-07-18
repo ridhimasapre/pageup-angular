@@ -12,12 +12,15 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { SharedModule } from '../../SharedModules/shared/shared.module';
-import { MatOption, MatOptionModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOption, MatOptionModule } from '@angular/material/core';
 import { MatFormField, MatSelectModule } from '@angular/material/select';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TaskRoutingModule } from '../../Task/task/task-routing.module';
 import { TaskModule } from '../../Task/task/task.module';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule, MatDatepickerToggle, MatDateRangeInput } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -43,9 +46,14 @@ import { TaskModule } from '../../Task/task/task.module';
     SharedModule,
     MatOptionModule,
     MatSelectModule,
-    MatFormField,
+    MatFormFieldModule,
     TaskModule,
-    SharedModule
+    MatDatepickerModule,
+    MatInputModule,
+    MatDatepickerToggle,
+    MatNativeDateModule,
+    MatDateRangeInput,
+    MatButtonModule,
   ],
 })
 export class ProjectModule { }

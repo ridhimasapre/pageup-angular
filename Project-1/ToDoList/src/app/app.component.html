@@ -18,7 +18,8 @@
     <h3>To Do </h3>
     <ul>
       <li  *ngFor="let todo of todos; let i=index">
-        {{ todo.text }}
+        <span class="todo-text">
+        {{ todo.text }}</span>
         <div class="btn-1">
         <button class="btn"  (click)="Done(i)">Done</button>
         <button class="btn"  (click)="deleteTodo(i)">Delete</button>
@@ -29,7 +30,8 @@
     <h3>Finished List</h3>
     <ul>
       <li *ngFor="let doneTodo of doneTodos; let i=index">
-        {{ doneTodo.text }}
+        <span class="todo-text">
+        {{ doneTodo.text }}</span>
         <button class="btn-2" (click)="movebackTodo(i)" >Not Done</button>
       </li>
     </ul>

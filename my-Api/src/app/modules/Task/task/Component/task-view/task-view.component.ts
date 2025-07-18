@@ -9,6 +9,8 @@ import { FormGroup,FormControl } from '@angular/forms';
 import { AddTaskReviewComponent } from '../add-task-review/add-task-review.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LogsComponent } from '../logs/logs.component';
+import { AddTaskResponse } from '../../model/task-model';
+import { TaskAddComponent } from '../task-add/task-add.component';
 @Component({
   selector: 'app-task-view',
   templateUrl: './task-view.component.html',
@@ -22,6 +24,8 @@ export class TaskViewComponent implements OnInit{
  public taskType=Type;
  public projectId:number | null=null;
  public Review!:TaskReview;
+ public addTaskData:AddTaskResponse[]=[];
+
  public TaskReviewList:TaskReview[]=[];
  public ReviewForm: FormGroup<ReviewForm> = this.createForm();
 public ReviewObj={
@@ -42,7 +46,7 @@ ngOnInit(): void {
 public getTaskDetail():void{
   this.activatedRoute.paramMap.subscribe(data=>{
     this.taskid=Number(data.get("id"));
-    console.log("task id",this.taskid);
+    console.log("task id ",this.taskid);
     this.getTaskById(this.taskid);
     this.getTaskReview(this.taskid);
   })
@@ -153,6 +157,38 @@ public openLogModal(): void {
 
   logRef.afterClosed().subscribe((result) => {
     console.log('Modal closed', result);
+  });
+}
+public openAddTaskModal(): void {
+  const dialogRef = this.dialog.open(TaskAddComponent,{
+    data: {projectId :this.projectId},
+});
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      this.taskservice.addTask(result).subscribe({
+        next:()=>{
+          console.log("data is coming");
+          // this.addTask(result) 
+          this.getTaskDetail(); 
+        },
+        error: (error) => {
+          console.error('Error updating department', error);
+          alert('An error occurred while updating the department');
+        }
+      })
+    }
+  });
+}
+public addTask(taskData: AddTaskResponse): void {
+  this.addTaskData.push({
+    name:taskData.name,
+    type: taskData.type ,
+    assignedToId:taskData.assignedToId,
+    description: taskData.description,
+    status:taskData.status,
+    projectId:taskData.projectId,
+    estimateHours:taskData.estimateHours,
   });
 }
 }
